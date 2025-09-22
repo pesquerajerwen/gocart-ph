@@ -38,7 +38,7 @@ export default function RegisterPage() {
     <FormProvider {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-1 justify-center items-center"
+        className="flex flex-1 justify-center items-center px-1"
       >
         <div className="w-full max-w-md space-y-6 bg-white p-8 rounded-lg">
           <div>
@@ -64,7 +64,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="space-y-8">
-            <div className="flex justify-between">
+            <div className="flex justify-between gap-4">
               <FirstNameField />
               <LastNameField />
             </div>

@@ -44,7 +44,7 @@ export default function RegisterPage() {
     <FormProvider {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-1 justify-center items-center"
+        className="flex flex-1 justify-center items-center px-1"
       >
         {steps === "sign in" && <SigninForm />}
         {steps === "enter password" && <EnterPasswordForm />}
