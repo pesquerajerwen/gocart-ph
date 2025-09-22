@@ -40,7 +40,9 @@ const Navbar: React.FC = () => {
         </div>
 
         <div>
-          <Button className="rounded-full w-24 bg-green-500">Login</Button>
+          <Link href="/login">
+            <Button className="rounded-full w-24 bg-green-500">Login</Button>
+          </Link>
         </div>
       </div>
     </nav>

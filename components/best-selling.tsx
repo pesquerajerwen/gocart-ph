@@ -83,8 +83,8 @@ export default function LatestProducts() {
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-12 w-full">
         {products.map((product) => (
-          <div className="col-span-1">
-            <ProductCard key={product.id} {...product} />
+          <div key={product.id} className="col-span-1">
+            <ProductCard {...product} />
           </div>
         ))}
       </div>

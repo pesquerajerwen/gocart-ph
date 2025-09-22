@@ -197,8 +197,9 @@ const Footer: React.FC = () => {
             <div className="col-span-1">
               <h3 className="text-sm">PRODUCTS</h3>
               <div className="flex flex-col gap-2 mt-4">
-                {categories.map((category) => (
+                {categories.map((category, index) => (
                   <Link
+                    key={index}
                     href={category.link}
                     className="text-slate-500 text-sm hover:underline"
                   >
@@ -211,8 +212,9 @@ const Footer: React.FC = () => {
             <div className="col-span-1">
               <h3 className="text-sm">WEBSITE?</h3>
               <div className="flex flex-col gap-2 mt-4">
-                {websites.map((website) => (
+                {websites.map((website, index) => (
                   <Link
+                    key={index}
                     href={website.link}
                     className="text-slate-500 text-sm hover:underline"
                   >
@@ -225,8 +227,9 @@ const Footer: React.FC = () => {
             <div className="col-span-1">
               <h3 className="text-sm">CONTACT</h3>
               <div className="flex flex-col gap-2 mt-4">
-                {contact.map((contact) => (
+                {contact.map((contact, index) => (
                   <Link
+                    key={index}
                     href={contact.link}
                     className="text-slate-500 text-sm gap-2 flex items-center hover:underline"
                   >
