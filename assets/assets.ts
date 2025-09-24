@@ -1,4 +1,5 @@
 import gs_logo from "./gs_logo.jpg";
+import user_icon from "./user_icon.png";
 import upload_area from "./upload_area.svg";
 import hero_model_img from "./hero_model_img.png";
 import hero_product_img1 from "./hero_product_img1.png";
@@ -22,6 +23,7 @@ export const assets = {
   hero_product_img1,
   hero_product_img2,
   gs_logo,
+  user_icon,
   product_img1,
   product_img2,
   product_img3,

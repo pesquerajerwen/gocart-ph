@@ -2,6 +2,7 @@ import { Search, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
+import AccountMenu from "./account-menu";
 
 const Navbar: React.FC = () => {
   return (
@@ -39,11 +40,13 @@ const Navbar: React.FC = () => {
           <p>Cart</p>
         </div>
 
-        <div>
+        {/* <div>
           <Link href="/login">
             <Button className="rounded-full w-24 bg-green-500">Login</Button>
           </Link>
-        </div>
+        </div> */}
+
+        <AccountMenu />
       </div>
     </nav>
   );
