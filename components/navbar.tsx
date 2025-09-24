@@ -3,8 +3,13 @@ import Link from "next/link";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import AccountMenu from "./account-menu";
+import { createClient } from "@/utils/supabase-server";
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC = async () => {
+  const supabase = await createClient();
+
+  const user = await supabase.auth.getUser();
+
   return (
     <nav className="border-b">
       <div className="px-6 max-w-7xl m-auto py-3 flex flex-row gap-6 items-center ">
@@ -40,13 +45,15 @@ const Navbar: React.FC = () => {
           <p>Cart</p>
         </div>
 
-        {/* <div>
-          <Link href="/login">
-            <Button className="rounded-full w-24 bg-green-500">Login</Button>
-          </Link>
-        </div> */}
-
-        <AccountMenu />
+        {user.data.user ? (
+          <AccountMenu user={user.data.user} />
+        ) : (
+          <div>
+            <Link href="/login">
+              <Button className="rounded-full w-24 bg-green-500">Login</Button>
+            </Link>
+          </div>
+        )}
       </div>
     </nav>
   );

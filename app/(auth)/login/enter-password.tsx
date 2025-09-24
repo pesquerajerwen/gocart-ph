@@ -8,13 +8,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { PasswordInput } from "@/components/ui/password-input";
-import { PencilLine } from "lucide-react";
+import { LoaderCircle, PencilLine } from "lucide-react";
 import Link from "next/link";
 import { useFormContext } from "react-hook-form";
 import { LoginFormValues } from "./page";
 
 export default function EnterPasswordForm() {
-  const { control, setValue } = useFormContext<LoginFormValues>();
+  const {
+    control,
+    formState: { isSubmitting },
+    setValue,
+  } = useFormContext<LoginFormValues>();
 
   return (
     <div className="w-full max-w-md space-y-6 bg-white p-8 rounded-lg">
@@ -54,7 +58,13 @@ export default function EnterPasswordForm() {
           )}
         />
 
-        <Button className="w-full">Continue</Button>
+        <Button className="w-full">
+          {isSubmitting ? (
+            <LoaderCircle className="size-4 animate-spin" />
+          ) : (
+            "Continue"
+          )}
+        </Button>
       </div>
     </div>
   );

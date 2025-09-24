@@ -5,6 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import EnterPasswordForm from "./enter-password";
 import SigninForm from "./signin";
+import { createClient } from "@/utils/supabase-client";
+import { redirect } from "next/navigation";
 
 const loginSchema = z
   .object({
@@ -12,17 +14,16 @@ const loginSchema = z
     password: z.string().optional(),
     steps: z.enum(["sign in", "enter password"]),
   })
-  .refine(
-    (data) => data.steps === "sign in" || data?.password?.length || 0 >= 6,
-    {
-      message: "Password must be at least 6 characters",
-      path: ["password"],
-    }
-  );
+  .refine((data) => data.steps === "sign in" || !!data.password, {
+    message: "Password is required",
+    path: ["password"],
+  });
 
 export type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function RegisterPage() {
+  const supabase = createClient();
+
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -34,21 +35,41 @@ export default function RegisterPage() {
 
   const { steps } = form.watch();
 
-  function onSubmit(data: LoginFormValues) {
+  async function onSubmit(data: LoginFormValues) {
     if (data.steps === "sign in") {
       form.setValue("steps", "enter password");
+    }
+
+    if (data.steps === "enter password" && data.password) {
+      const { data: response, error } = await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password,
+      });
+
+      if (error) {
+        return form.setError("password", {
+          message: "Password is incorrect. Try again.",
+        });
+      }
+
+      return redirect("/");
     }
   }
 
   return (
     <FormProvider {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-1 justify-center items-center px-1"
+      <fieldset
+        disabled={form.formState.isSubmitting}
+        className="flex flex-1 justify-center"
       >
-        {steps === "sign in" && <SigninForm />}
-        {steps === "enter password" && <EnterPasswordForm />}
-      </form>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-1 justify-center items-center px-1"
+        >
+          {steps === "sign in" && <SigninForm />}
+          {steps === "enter password" && <EnterPasswordForm />}
+        </form>
+      </fieldset>
     </FormProvider>
   );
 }

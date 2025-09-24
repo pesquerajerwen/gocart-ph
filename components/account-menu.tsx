@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { User } from "@supabase/supabase-js";
 
 const MenuItems = [
   {
@@ -27,7 +28,11 @@ const MenuItems = [
   },
 ];
 
-export default function AccountMenu() {
+type Props = {
+  user: User;
+};
+
+export default function AccountMenu({ user }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -53,8 +58,8 @@ export default function AccountMenu() {
               className="rounded-full cursor-pointer"
             />
             <div>
-              <p className="text-slate-800 text-sm">Jerwen Pesquera</p>
-              <p className="text-slate-500 text-xs">pesquerajerwen@gmail.com</p>
+              <p className="text-slate-800 text-sm">John Doe</p>
+              <p className="text-slate-500 text-xs">{user.email}</p>
             </div>
           </div>
         </DropdownMenuLabel>

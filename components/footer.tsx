@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 
@@ -91,18 +90,22 @@ const LinkedinIcon = () => (
 
 const socials = [
   {
+    id: 1,
     icon: FacebookIcon,
     link: "#",
   },
   {
+    id: 2,
     icon: InstagramIcon,
     link: "#",
   },
   {
+    id: 3,
     icon: TwitterIcon,
     link: "#",
   },
   {
+    id: 4,
     icon: LinkedinIcon,
     link: "#",
   },
@@ -172,7 +175,7 @@ const Footer: React.FC = () => {
           <div>
             <Link href="/" className="text-4xl font-semibold text-slate-700">
               <span className="text-green-600">go</span>cart
-              <span className="text-green-600 text-5xl leading-0">.</span>
+              <span className="text-green-600 text-5xl">.</span>
             </Link>
           </div>
           <p className="text-sm max-w-md text-slate-500">
@@ -183,7 +186,7 @@ const Footer: React.FC = () => {
           <div className="flex gap-3">
             {socials.map((social, index) => (
               <Link
-                key={index}
+                key={social.id}
                 href={social.link}
                 className="rounded-full size-10 bg-slate-100 flex items-center justify-center hover:scale-105 transition hover:border hover:border-slate-300"
               >
@@ -199,7 +202,7 @@ const Footer: React.FC = () => {
               <div className="flex flex-col gap-2 mt-4">
                 {categories.map((category, index) => (
                   <Link
-                    key={index}
+                    key={category.name}
                     href={category.link}
                     className="text-slate-500 text-sm hover:underline"
                   >
@@ -214,7 +217,7 @@ const Footer: React.FC = () => {
               <div className="flex flex-col gap-2 mt-4">
                 {websites.map((website, index) => (
                   <Link
-                    key={index}
+                    key={website.name}
                     href={website.link}
                     className="text-slate-500 text-sm hover:underline"
                   >
@@ -229,7 +232,7 @@ const Footer: React.FC = () => {
               <div className="flex flex-col gap-2 mt-4">
                 {contact.map((contact, index) => (
                   <Link
-                    key={index}
+                    key={contact.name}
                     href={contact.link}
                     className="text-slate-500 text-sm gap-2 flex items-center hover:underline"
                   >
@@ -243,7 +246,7 @@ const Footer: React.FC = () => {
         </div>
       </div>
       <p className="text-sm text-slate-500 py-5 border-t">
-        Copyright {dayjs().format("YYYY")} © gocart All Right Reserved.
+        Copyright 2025 © gocart All Right Reserved.
       </p>
     </div>
   );
