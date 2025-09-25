@@ -10,6 +10,7 @@ CREATE TYPE "public"."PaymentStatus" AS ENUM ('succeeded', 'failed');
 -- CreateTable
 CREATE TABLE "public"."User" (
     "id" TEXT NOT NULL,
+    "supabaseId" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "passwordHash" TEXT NOT NULL,
     "googleId" TEXT,
@@ -133,6 +134,9 @@ CREATE TABLE "public"."Payment" (
 
     CONSTRAINT "Payment_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_supabaseId_key" ON "public"."User"("supabaseId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "public"."User"("email");
