@@ -1,14 +1,12 @@
+import { getCurrentUserAction } from "@/lib/actions/get-user";
 import { Search, ShoppingCart } from "lucide-react";
 import Link from "next/link";
+import AccountMenu from "./account-menu";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import AccountMenu from "./account-menu";
-import { createClient } from "@/utils/supabase-server";
 
 const Navbar: React.FC = async () => {
-  const supabase = await createClient();
-
-  const user = await supabase.auth.getUser();
+  const user = await getCurrentUserAction();
 
   return (
     <nav className="border-b">
@@ -45,8 +43,8 @@ const Navbar: React.FC = async () => {
           <p>Cart</p>
         </div>
 
-        {user.data.user ? (
-          <AccountMenu user={user.data.user} />
+        {user ? (
+          <AccountMenu user={user} />
         ) : (
           <div>
             <Link href="/login">

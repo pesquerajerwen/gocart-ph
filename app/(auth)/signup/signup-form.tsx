@@ -3,23 +3,38 @@
 import { GoogleIcon } from "@/assets/icons";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { signupAction } from "@/lib/actions/signup";
+import { SignupSchema } from "@/lib/schema/user";
 import { createClient } from "@/utils/supabase-client";
 import Link from "next/link";
 import { useFormContext } from "react-hook-form";
+import { toast } from "sonner";
 import EmailField from "./email-field";
 import FirstNameField from "./first-name-field";
 import LastNameField from "./last-name-field";
-import { SignupFormValues } from "./page";
 import PasswordField from "./password-field";
 
 export default function SignupForm() {
-  const { handleSubmit, setValue, watch } = useFormContext<SignupFormValues>();
+  const {
+    handleSubmit,
+    setValue,
+    formState: { isSubmitting },
+  } = useFormContext<SignupSchema>();
 
-  const { isSubmitting } = watch();
-
-  async function onSubmit(data: SignupFormValues) {
-    setValue("isSubmitting", true);
+  async function onSubmit(data: SignupSchema) {
     const supabase = createClient();
+
+    const { success, message } = await signupAction({
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+    });
+
+    if (!success) {
+      console.log(message);
+
+      return toast.error(message);
+    }
 
     const { data: response, error } = await supabase.auth.signUp({
       email: data.email,
@@ -30,11 +45,13 @@ export default function SignupForm() {
     });
 
     if (error) {
-      console.error("Signup error", error);
-      return;
+      console.log(response);
+
+      console.log(error);
+
+      return toast.error(error.message);
     }
 
-    setValue("isSubmitting", false);
     setValue("emailSent", true);
   }
 

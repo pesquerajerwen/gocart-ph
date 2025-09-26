@@ -1,6 +1,7 @@
 "use client";
 
 import { assets } from "@/assets/assets";
+import { User } from "@prisma/client";
 import { LogOut, Package, PlusIcon, Settings } from "lucide-react";
 import Image from "next/image";
 import {
@@ -11,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { User } from "@supabase/supabase-js";
+import { upperFirst } from "lodash";
 
 const MenuItems = [
   {
@@ -58,7 +59,9 @@ export default function AccountMenu({ user }: Props) {
               className="rounded-full cursor-pointer"
             />
             <div>
-              <p className="text-slate-800 text-sm">John Doe</p>
+              <p className="text-slate-800 text-sm">
+                {upperFirst(user.firstName!)} {upperFirst(user.lastName!)}
+              </p>
               <p className="text-slate-500 text-xs">{user.email}</p>
             </div>
           </div>

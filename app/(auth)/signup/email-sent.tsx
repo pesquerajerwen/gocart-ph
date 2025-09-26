@@ -3,10 +3,10 @@
 import { MailCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useFormContext } from "react-hook-form";
-import { SignupFormValues } from "./page";
+import { SignupSchema } from "@/lib/schema/user";
 
 export default function EmailSentNotice() {
-  const { watch } = useFormContext<SignupFormValues>();
+  const { watch } = useFormContext<SignupSchema>();
 
   const { email } = watch();
 

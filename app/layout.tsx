@@ -1,4 +1,5 @@
 import "@/app/globals.css";
+import { Toaster } from "@/components/ui/sonner";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 
@@ -16,7 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.className} antialiased`}>{children}</body>
+      <body className={`${outfit.className} antialiased`}>
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }
