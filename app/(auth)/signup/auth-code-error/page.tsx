@@ -9,7 +9,7 @@ export default function AuthErrorPage() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 via-white to-white p-4">
+    <div className="flex items-center justify-center bg-gradient-to-br from-red-50 via-white to-white rounded-md m-auto">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -22,24 +22,24 @@ export default function AuthErrorPage() {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
-            className="bg-red-100 p-4 rounded-full"
+            className="bg-yellow-100 p-4 rounded-full"
           >
-            <AlertTriangle className="h-10 w-10 text-red-600" />
+            <AlertTriangle className="h-10 w-10 text-yellow-600" />
           </motion.div>
         </div>
 
-        <h1 className="text-2xl font-bold text-gray-900 mt-6">
+        <h1 className="text-2xl font-bold text-yellow-900 mt-6">
           Verification Failed
         </h1>
 
         <p className="text-gray-600 mt-2 leading-relaxed">
-          We couldn’t verify your email. The verification link may have expired
-          or is invalid. Please try signing up again.
+          This verification link is either invalid, expired, or has already been
+          used. Please request a new verification email and try again.
         </p>
 
         <div className="mt-6">
           <Button
-            className="w-full rounded-xl bg-red-600 hover:bg-red-700"
+            className="w-full rounded-xl"
             onClick={() => router.push("/signup")}
           >
             Go Back to Sign Up
