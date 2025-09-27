@@ -13,32 +13,43 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { upperFirst } from "lodash";
-
-const MenuItems = [
-  {
-    icon: Settings,
-    label: "Manage Account",
-  },
-  {
-    icon: Package,
-    label: "My Orders",
-  },
-  {
-    icon: LogOut,
-    label: "Sign out",
-  },
-];
+import { createClient } from "@/utils/supabase-client";
+import { useRouter } from "next/navigation";
 
 type Props = {
   user: User;
 };
 
 export default function AccountMenu({ user }: Props) {
+  const supabase = createClient();
+  const router = useRouter();
+
+  const MenuItems = [
+    {
+      icon: Settings,
+      label: "Manage Account",
+      onClick: () => null,
+    },
+    {
+      icon: Package,
+      label: "My Orders",
+      onClick: () => null,
+    },
+    {
+      icon: LogOut,
+      label: "Sign out",
+      onClick: () => {
+        supabase.auth.signOut();
+        router.refresh();
+      },
+    },
+  ];
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Image
-          src={assets.user_icon}
+          src={user.avatar_url || assets.user_icon}
           alt={"user_icon"}
           height={30}
           width={30}
@@ -52,7 +63,7 @@ export default function AccountMenu({ user }: Props) {
         <DropdownMenuLabel>
           <div className="flex gap-3 p-3">
             <Image
-              src={assets.user_icon}
+              src={user.avatar_url || assets.user_icon}
               alt={"user_icon"}
               height={35}
               width={35}
@@ -66,26 +77,30 @@ export default function AccountMenu({ user }: Props) {
             </div>
           </div>
         </DropdownMenuLabel>
-        {MenuItems.map((item) => (
-          <DropdownMenuItem className="cursor-pointer py-2">
-            <p className="text-slate-600 flex items-center gap-3">
+        {MenuItems.map((item, index) => (
+          <DropdownMenuItem
+            key={index}
+            className="cursor-pointer py-2"
+            onClick={item.onClick}
+          >
+            <div key={index} className="text-slate-600 flex items-center gap-3">
               <div className="w-[35px] flex justify-center">
                 <item.icon className="size-4" />
               </div>
               <span className="text-sm">{item.label}</span>
-            </p>
+            </div>
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer py-2">
-          <p className="text-slate-600 flex items-center gap-3">
+          <div className="text-slate-600 flex items-center gap-3">
             <div className="w-[35px] flex justify-center">
               <div className="size-[25px] rounded-full flex items-center justify-center bg-slate-100 border border-dashed border-slate-300">
                 <PlusIcon className="size-4" />
               </div>
             </div>
             <span className="text-sm">Add account</span>
-          </p>
+          </div>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

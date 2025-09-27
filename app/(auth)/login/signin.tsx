@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { useFormContext } from "react-hook-form";
+import GoogleButton from "./google-button";
 
 export default function SigninForm() {
   const { control } = useFormContext();
@@ -26,10 +27,7 @@ export default function SigninForm() {
       </div>
 
       <div>
-        <Button variant="outline" className="w-full">
-          <GoogleIcon className="size-5" />
-          Continue with Google
-        </Button>
+        <GoogleButton />
       </div>
 
       <div className="flex flex-row items-center gap-4 text-sm text-slate-500">
