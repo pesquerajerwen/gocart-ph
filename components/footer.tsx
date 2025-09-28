@@ -133,11 +133,11 @@ const categories = [
 const websites = [
   {
     name: "Home",
-    link: "#",
+    link: "/",
   },
   {
     name: "Privacy Policy",
-    link: "#",
+    link: "/privacy-policy",
   },
   {
     name: "Become Plus Member",

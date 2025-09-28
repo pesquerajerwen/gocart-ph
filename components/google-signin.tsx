@@ -3,9 +3,8 @@
 import { GoogleIcon } from "@/assets/icons";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase-client";
-import { access } from "fs";
 
-export default function GoogleButton() {
+export default function GoogleSignin() {
   const supabase = createClient();
 
   const handleOnClick = async () => {
@@ -15,7 +14,6 @@ export default function GoogleButton() {
         redirectTo: `${window.location.origin}/google/confirm`,
         queryParams: {
           access: "offline",
-          prompt: "consent",
         },
       },
     });

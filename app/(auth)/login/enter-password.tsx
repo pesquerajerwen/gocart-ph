@@ -17,8 +17,11 @@ export default function EnterPasswordForm() {
   const {
     control,
     formState: { isSubmitting },
+    watch,
     setValue,
   } = useFormContext<LoginFormValues>();
+
+  const { email } = watch();
 
   return (
     <div className="w-full max-w-md space-y-6 bg-white p-8 rounded-lg">
@@ -28,9 +31,7 @@ export default function EnterPasswordForm() {
           Enter the password associated with your account
         </p>
         <div className="flex items-center justify-center gap-2">
-          <p className="text-sm text-slate-600 text-center">
-            pesquerajerwen@gmail.com
-          </p>
+          <p className="text-sm text-slate-600 text-center">{email}</p>
           <PencilLine
             className="size-3 cursor-pointer text-slate-900"
             onClick={() => setValue("steps", "sign in")}

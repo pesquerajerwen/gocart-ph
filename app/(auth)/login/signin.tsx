@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { useFormContext } from "react-hook-form";
-import GoogleButton from "./google-button";
+import GoogleSignin from "../../../components/google-signin";
 
 export default function SigninForm() {
   const { control } = useFormContext();
@@ -27,7 +27,7 @@ export default function SigninForm() {
       </div>
 
       <div>
-        <GoogleButton />
+        <GoogleSignin />
       </div>
 
       <div className="flex flex-row items-center gap-4 text-sm text-slate-500">

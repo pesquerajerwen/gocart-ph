@@ -1,6 +1,6 @@
 "use client";
 
-import { GoogleIcon } from "@/assets/icons";
+import GoogleSignin from "@/components/google-signin";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { signupAction } from "@/lib/actions/signup";
@@ -31,8 +31,6 @@ export default function SignupForm() {
     });
 
     if (!success) {
-      console.log(message);
-
       return toast.error(message);
     }
 
@@ -45,10 +43,6 @@ export default function SignupForm() {
     });
 
     if (error) {
-      console.log(response);
-
-      console.log(error);
-
       return toast.error(error.message);
     }
 
@@ -74,10 +68,7 @@ export default function SignupForm() {
         </div>
 
         <div>
-          <Button variant="outline" className="w-full">
-            <GoogleIcon className="size-5" />
-            Continue with Google
-          </Button>
+          <GoogleSignin />
         </div>
 
         <div className="flex flex-row items-center gap-4 text-sm text-slate-500">

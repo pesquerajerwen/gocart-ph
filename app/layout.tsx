@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${outfit.className} antialiased`}>
         {children}
-        <Toaster />
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );

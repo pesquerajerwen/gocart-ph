@@ -24,7 +24,15 @@ export async function getUserBySupabaseId(id: string) {
 export async function createUser(data: CreateUserProp) {
   const role = await prisma.role.findFirst({ where: { name: "customer" } });
 
-  if (!role) throw new Error("Customer role not found");
+  if (!role) throw new Error("Customer role not found.");
+
+  const existing = await prisma.user.findFirst({
+    where: { email: data.email },
+  });
+
+  console.log("existing", existing);
+
+  if (existing) throw new Error("An account with this email already exists.");
 
   return prisma.user.create({
     data: {
