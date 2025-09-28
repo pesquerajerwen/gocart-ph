@@ -1,6 +1,7 @@
 import { assets } from "@/assets/assets";
 import ProductCard, { Product } from "@/components/product-card";
 import { ArrowRightIcon } from "lucide-react";
+import Link from "next/link";
 
 const products: Product[] = [
   {
@@ -56,7 +57,9 @@ export default function LatestProducts() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-12 w-full">
         {products.map((product) => (
           <div key={product.id} className="col-span-1">
-            <ProductCard {...product} />
+            <Link href={`/product/${product.id}`}>
+              <ProductCard {...product} />
+            </Link>
           </div>
         ))}
       </div>
