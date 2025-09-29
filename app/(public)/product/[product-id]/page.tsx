@@ -1,4 +1,5 @@
 import { assets } from "@/assets/assets";
+import { ProductDescription } from "@/components/product-description";
 import ProductDetails from "@/components/product-details";
 
 export default function ProductPage() {
@@ -17,10 +18,11 @@ export default function ProductPage() {
   };
 
   return (
-    <div className="px-6 max-w-7xl mx-auto my-10">
+    <div className="px-6 max-w-7xl mx-auto my-10 space-y-5">
       <p className="text-sm text-slate-600">Home / Products / Home & Kitchen</p>
 
       <ProductDetails {...dummyProduct} />
+      <ProductDescription />
     </div>
   );
 }

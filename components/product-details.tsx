@@ -28,7 +28,7 @@ export default function ProductDetails({
   const [selectedImage, setSelectedImage] = useState(images[0]);
 
   return (
-    <section className="flex flex-wrap gap-12 mt-5">
+    <section className="flex flex-wrap gap-12">
       {/* Left Section - Images */}
       <div className="flex max-sm:flex-col-reverse gap-3">
         {/* Thumbnails */}
@@ -100,7 +100,7 @@ export default function ProductDetails({
         <div className="mt-20 flex flex-col gap-3">
           <p className="text-xl font-bold text-slate-900">Quantity</p>
           <div className="flex items-center gap-3">
-            <CounterInput defaultValue={1} min={1} />
+            <CounterInput defaultValue={0} min={0} />
             <Button className="rounded">Add To Cart</Button>
           </div>
         </div>
@@ -109,13 +109,13 @@ export default function ProductDetails({
 
         {/* Selling Points */}
         <div className="flex flex-col gap-3">
-          <p className="flex items-center text-slate-500 gap-3">
+          <p className="flex items-center text-slate-500 gap-3 text-sm">
             <Earth className="size-4" /> Free shipping worldwide
           </p>
-          <p className="flex items-center text-slate-500 gap-3">
+          <p className="flex items-center text-slate-500 gap-3 text-sm">
             <CreditCard className="size-4" /> 100% Secured Payment
           </p>
-          <p className="flex items-center text-slate-500 gap-3">
+          <p className="flex items-center text-slate-500 gap-3 text-sm">
             <User className="size-4" /> Trusted by top brands
           </p>
         </div>
