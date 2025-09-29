@@ -1,5 +1,6 @@
 import Image, { StaticImageData } from "next/image";
 import StarRating from "./star-rating";
+import { cn } from "@/lib/utils";
 
 export type Product = {
   id: string;
@@ -7,16 +8,26 @@ export type Product = {
   name: string;
   price: number;
   rating: number;
+  imageClass?: string;
 };
 
-const ProductCard: React.FC<Product> = ({ image, name, price, rating }) => {
+const ProductCard: React.FC<Product> = ({
+  image,
+  name,
+  price,
+  rating,
+  imageClass,
+}) => {
   return (
-    <div className="flex flex-col gap-2 group cursor-pointer ">
+    <div className="flex flex-col gap-2 group cursor-pointer">
       <div className="relative bg-slate-100 p-4 rounded-lg flex justify-center items-center ">
         <Image
           src={image}
           alt="Product 1"
-          className="max-h-30 sm:max-h-40 w-auto group-hover:scale-110 transition-all"
+          className={cn(
+            "max-h-40 w-auto group-hover:scale-110 transition-all",
+            imageClass
+          )}
         />
       </div>
       <div>
