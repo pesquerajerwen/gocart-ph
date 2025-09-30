@@ -12,9 +12,14 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import Link from "next/link";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 // Menu items.
 const items = [
@@ -41,20 +46,30 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const { isMobile } = useSidebar();
+
   return (
-    <Sidebar collapsible="none" className="border-r bg-white">
+    <Sidebar
+      collapsible="none"
+      className={cn(
+        "sticky top-[65px] h-[calc(100vh-65px)] border-r bg-white",
+        isMobile && "w-16"
+      )}
+    >
       <SidebarContent>
         <SidebarGroup className="px-0">
-          <SidebarHeader>
-            <div className="flex flex-col justify-center items-center gap-3 my-4">
-              <Image
-                src={assets.gs_logo}
-                alt="store_logo"
-                className="size-14 shadow-md rounded-full"
-              />
-              <p>GreatStack</p>
-            </div>
-          </SidebarHeader>
+          {!isMobile && (
+            <SidebarHeader className="data-[state=collapsed]:hidden">
+              <div className="flex flex-col justify-center items-center gap-3 my-4">
+                <Image
+                  src={assets.gs_logo}
+                  alt="store_logo"
+                  className="size-14 shadow-md rounded-full"
+                />
+                <p>GreatStack</p>
+              </div>
+            </SidebarHeader>
+          )}
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -65,7 +80,7 @@ export function AppSidebar() {
                   >
                     <Link href={item.url} className="px-6 gap-3">
                       <item.icon />
-                      <span>{item.title}</span>
+                      {!isMobile && <span>{item.title}</span>}
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

@@ -11,14 +11,14 @@ export default function Layout({
 }>) {
   return (
     <React.Fragment>
-      <div className="min-h-screen max-h-screen flex flex-col">
-        <header className="flex flex-row items-center px-6 sm:px-12 py-3">
+      <div className="min-h-screen flex flex-col">
+        <header className="flex flex-row items-center px-6 sm:px-12 py-3 sticky top-0 bg-white border-b z-1">
           <Link href="/" className="text-4xl font-semibold text-slate-700">
             <span className="text-green-600">go</span>cart
             <span className="text-green-600 text-5xl leading-0">.</span>
           </Link>
         </header>
-        <div className="flex flex-1 border">
+        <div className="flex flex-1 ">
           <SidebarProvider className="min-h-0 flex flex-1">
             <AppSidebar />
             <main className="flex-1 overflow-y-auto px-12 py-8">
