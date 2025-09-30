@@ -1,25 +1,27 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { Star } from "lucide-react";
 import React from "react";
-import clsx from "clsx";
 
 type StarRatingProps = {
-  rating: number; // current rating (0 - maxStars)
-  maxStars?: number; // default = 5
-  onChange?: (newRating: number) => void; // optional click handler
-  className?: string; // custom className for active stars
-  inactiveClassName?: string; // custom className for inactive stars
-  disabled?: boolean; // disables interaction
+  rating: number;
+  maxStars?: number;
+  className?: string;
+  inactiveClassName?: string;
+  size?: number;
+  disabled?: boolean;
+  onChange?: (newRating: number) => void;
 };
 
 const StarRating: React.FC<StarRatingProps> = ({
   rating,
   maxStars = 5,
-  onChange,
   className,
   inactiveClassName,
+  size = 12,
   disabled = false,
+  onChange,
 }) => {
   return (
     <div className="flex items-center space-x-1">
@@ -30,8 +32,8 @@ const StarRating: React.FC<StarRatingProps> = ({
         return (
           <Star
             key={i}
-            size={12}
-            className={clsx(
+            size={size}
+            className={cn(
               "fill-current transition-colors",
               isActive
                 ? className ?? "text-green-500"

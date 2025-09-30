@@ -21,8 +21,12 @@ const Navbar: React.FC = async () => {
         <div className="hidden sm:flex flex-row gap-6">
           <Link href={"home"}>Home</Link>
           <Link href={"shop"}>Shop</Link>
-          <Link href={"about"}>About</Link>
-          <Link href={"contact"}>Contact</Link>
+          <Link href={"store"} className="border-b-2 border-green-600">
+            Seller
+          </Link>
+          <Link href={"admin"} className="border-b-2 border-green-600">
+            Admin
+          </Link>
         </div>
 
         <form className="hidden xl:flex items-center w-xs text-sm gap-2 bg-slate-100 px-4 py-3 rounded-full">
