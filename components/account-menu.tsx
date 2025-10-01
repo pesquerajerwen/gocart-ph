@@ -17,10 +17,11 @@ import { createClient } from "@/utils/supabase-client";
 import { useRouter } from "next/navigation";
 
 type Props = {
+  variant?: "buyer" | "seller" | "admin";
   user: User;
 };
 
-export default function AccountMenu({ user }: Props) {
+export default function AccountMenu({ variant = "buyer", user }: Props) {
   const supabase = createClient();
   const router = useRouter();
 
@@ -28,11 +29,13 @@ export default function AccountMenu({ user }: Props) {
     {
       icon: Settings,
       label: "Manage Account",
+      hidden: false,
       onClick: () => null,
     },
     {
       icon: Package,
       label: "My Orders",
+      hidden: ["seller", "admin"].includes(variant),
       onClick: () => null,
     },
     {
@@ -57,7 +60,9 @@ export default function AccountMenu({ user }: Props) {
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="w-80"
+        className="w-64"
+        side="bottom"
+        align="end"
         onCloseAutoFocus={(e) => e.preventDefault()}
       >
         <DropdownMenuLabel>
@@ -77,20 +82,27 @@ export default function AccountMenu({ user }: Props) {
             </div>
           </div>
         </DropdownMenuLabel>
-        {MenuItems.map((item, index) => (
-          <DropdownMenuItem
-            key={index}
-            className="cursor-pointer py-2"
-            onClick={item.onClick}
-          >
-            <div key={index} className="text-slate-600 flex items-center gap-3">
-              <div className="w-[35px] flex justify-center">
-                <item.icon className="size-4" />
+        {MenuItems.map((item, index) => {
+          if (item.hidden) return null;
+
+          return (
+            <DropdownMenuItem
+              key={index}
+              className="cursor-pointer py-2"
+              onClick={item.onClick}
+            >
+              <div
+                key={index}
+                className="text-slate-600 flex items-center gap-3"
+              >
+                <div className="w-[35px] flex justify-center">
+                  <item.icon className="size-4" />
+                </div>
+                <span className="text-sm">{item.label}</span>
               </div>
-              <span className="text-sm">{item.label}</span>
-            </div>
-          </DropdownMenuItem>
-        ))}
+            </DropdownMenuItem>
+          );
+        })}
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer py-2">
           <div className="text-slate-600 flex items-center gap-3">
