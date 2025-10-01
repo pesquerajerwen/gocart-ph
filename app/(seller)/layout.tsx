@@ -21,7 +21,7 @@ export default function Layout({
         <div className="flex flex-1 ">
           <SidebarProvider className="min-h-0 flex flex-1">
             <AppSidebar />
-            <main className="flex-1 overflow-y-auto px-12 py-8">
+            <main className="flex-1 overflow-y-auto px-6 sm:px-12 py-8">
               {children}
             </main>
           </SidebarProvider>

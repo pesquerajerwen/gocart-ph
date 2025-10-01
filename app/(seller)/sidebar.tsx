@@ -12,40 +12,38 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useEffect } from "react";
-import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
-// Menu items.
 const items = [
   {
     title: "Dashboard",
-    url: "#",
+    url: "/store",
     icon: Home,
   },
   {
     title: "Add Product",
-    url: "#",
+    url: "/store/add-product",
     icon: PlusSquare,
   },
   {
     title: "Manage Product",
-    url: "#",
+    url: "/store/manage-product",
     icon: SquarePen,
   },
   {
     title: "Orders",
-    url: "#",
+    url: "/store/orders",
     icon: LayoutList,
   },
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
   const { isMobile } = useSidebar();
 
   return (
@@ -76,11 +74,20 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    className="rounded-none transition-all hover:bg-slate-100 h-10 text-base text-slate-600"
+                    isActive={pathname === item.url}
+                    className="px-0 rounded-none transition-all hover:bg-slate-50 h-10 data-[active=true]:bg-slate-100"
                   >
-                    <Link href={item.url} className="px-6 gap-3">
-                      <item.icon />
-                      {!isMobile && <span>{item.title}</span>}
+                    <Link
+                      href={item.url}
+                      className="pl-6 flex justify-between gap-3"
+                    >
+                      <div className="flex items-center gap-2 text-slate-500">
+                        <item.icon className="size-5" />
+                        {!isMobile && <span>{item.title}</span>}
+                      </div>
+                      {pathname === item.url && (
+                        <span className="h-full w-1 rounded-tl-md rounded-bl-md bg-green-600" />
+                      )}
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
