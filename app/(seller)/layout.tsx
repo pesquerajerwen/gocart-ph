@@ -24,8 +24,8 @@ export default async function Layout({
             <span className="text-green-600 text-5xl leading-0">.</span>
           </Link>
           <div className="flex items-center gap-3">
-            {user.firstName && <p>Hi, {capitalize(user.firstName)}</p>}
-            <AccountMenu user={user} variant="seller" />
+            {user?.firstName && <p>Hi, {capitalize(user?.firstName)}</p>}
+            {user && <AccountMenu user={user} variant="seller" />}
           </div>
         </header>
         <div className="flex flex-1 ">

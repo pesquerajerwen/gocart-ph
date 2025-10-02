@@ -52,7 +52,10 @@ export default function RegisterPage() {
         });
       }
 
-      return redirect("/");
+      const searchParams = new URLSearchParams(window.location.search);
+      const next = searchParams.get("next");
+
+      return redirect(next || "/");
     }
   }
 

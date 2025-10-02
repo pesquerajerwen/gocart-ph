@@ -31,8 +31,8 @@ const items = [
     icon: PlusSquare,
   },
   {
-    title: "Manage Product",
-    url: "/store/manage-product",
+    title: "Manage Products",
+    url: "/store/manage-products",
     icon: SquarePen,
   },
   {
