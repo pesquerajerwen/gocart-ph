@@ -1,4 +1,3 @@
-// src/actions/get-current-user.ts
 "use server";
 
 import { getUserBySupabaseId } from "@/lib/dal/user";

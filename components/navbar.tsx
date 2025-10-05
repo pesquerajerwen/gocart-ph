@@ -21,7 +21,7 @@ const Navbar: React.FC = async () => {
         <div className="hidden sm:flex flex-row gap-6">
           <Link href={"home"}>Home</Link>
           <Link href={"shop"}>Shop</Link>
-          <Link href={"store"} className="border-b-2 border-green-600">
+          <Link href={"store/storeId"} className="border-b-2 border-green-600">
             Seller
           </Link>
           <Link href={"admin"} className="border-b-2 border-green-600">

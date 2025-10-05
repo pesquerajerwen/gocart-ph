@@ -22,22 +22,22 @@ import { usePathname } from "next/navigation";
 const items = [
   {
     title: "Dashboard",
-    url: "/store",
+    url: "/store/storeId",
     icon: Home,
   },
   {
     title: "Add Product",
-    url: "/store/add-product",
+    url: "/store/storeId/add-product",
     icon: PlusSquare,
   },
   {
     title: "Manage Products",
-    url: "/store/manage-products",
+    url: "/store/storeId/manage-products",
     icon: SquarePen,
   },
   {
     title: "Orders",
-    url: "/store/orders",
+    url: "/store/storeId/orders",
     icon: LayoutList,
   },
 ];

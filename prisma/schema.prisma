@@ -33,6 +33,12 @@ enum PaymentStatus {
   failed
 }
 
+enum StoreStatus {
+  pending
+  verified
+  deactivated
+}
+
 model User {
   id           String    @id @default(cuid())
   supabaseId   String?    @unique
@@ -87,18 +93,36 @@ model Category {
   products    Product[]
 }
 
+model Store {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  description String
+  avatar_url  String
+  address     String
+  email       String
+  contact     String
+  status      StoreStatus
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  products    Product[]
+}
+
 model Product {
   id          String     @id @default(cuid())
-  name        String
+  name        String     
   description String?
   imageUrl    String?
   price       Decimal
   stock       Int
   categoryId  String
+  storeId     String
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
   category    Category   @relation(fields: [categoryId], references: [id])
+  product    Store   @relation(fields: [storeId], references: [id])
+
   cartItems   CartItem[]
   orderItems  OrderItem[]
 }

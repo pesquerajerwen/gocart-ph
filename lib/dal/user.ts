@@ -1,4 +1,4 @@
-import { prisma } from "../db/client"; // your Prisma client
+import { prisma } from "../db/client";
 import { faker } from "@faker-js/faker";
 
 export type CreateUserProp = {
