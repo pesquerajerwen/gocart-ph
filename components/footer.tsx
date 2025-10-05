@@ -145,7 +145,7 @@ const websites = [
   },
   {
     name: "Create Your Store",
-    link: "#",
+    link: "/create-store",
   },
 ];
 
