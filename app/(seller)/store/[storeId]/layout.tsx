@@ -1,19 +1,22 @@
-import "@/app/globals.css";
 import AccountMenu from "@/components/account-menu";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { getCurrentUserAction } from "@/lib/actions/get-user";
+import { capitalize } from "lodash";
 import Link from "next/link";
 import React from "react";
 import { AppSidebar } from "./sidebar";
-import { capitalize } from "lodash";
-import { User } from "@prisma/client";
+import "@/app/globals.css";
 
 export default async function Layout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: { storeId: string };
 }>) {
-  const user = (await getCurrentUserAction()) as User;
+  const user = await getCurrentUserAction();
+
+  const { storeId } = await params;
 
   return (
     <React.Fragment>
@@ -30,7 +33,7 @@ export default async function Layout({
         </header>
         <div className="flex flex-1 ">
           <SidebarProvider className="min-h-0 flex flex-1">
-            <AppSidebar />
+            <AppSidebar storeId={storeId} />
             <main className="flex-1 overflow-y-auto px-6 sm:px-12 py-8">
               {children}
             </main>

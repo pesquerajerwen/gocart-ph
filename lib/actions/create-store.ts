@@ -1,6 +1,7 @@
 "use server";
 
 import { createStore } from "../dal/store";
+import { getUserBySupabaseId } from "../dal/user";
 import { createStoreServerSchema } from "../schema/store";
 
 export async function createStoreAction(rawData: unknown) {
@@ -15,10 +16,24 @@ export async function createStoreAction(rawData: unknown) {
     };
   }
 
+  const user = await getUserBySupabaseId(parsed.data.userId);
+
+  if (!user) {
+    return {
+      success: false,
+      error: {
+        message: "User not found",
+      },
+    };
+  }
+
   let storeId = null;
 
   try {
-    const { id } = await createStore(parsed.data);
+    const { id } = await createStore({
+      ...parsed.data,
+      userId: user.id,
+    });
 
     storeId = id;
   } catch (error) {

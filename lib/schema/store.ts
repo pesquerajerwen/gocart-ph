@@ -25,7 +25,8 @@ export type CreateStoreClientValues = z.infer<typeof createStoreClientSchema>;
 
 export const createStoreServerSchema = z.object({
   ...BASE_STORE_FIELDS,
-  avatar_url: z.url("Image URL is required"),
+  userId: z.string().nonempty("User ID is required"),
+  avatarUrl: z.url("Image URL is required"),
 });
 
 export type CreateStoreServerValues = z.infer<typeof createStoreServerSchema>;

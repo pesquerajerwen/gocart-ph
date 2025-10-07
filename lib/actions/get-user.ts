@@ -14,5 +14,7 @@ export async function getCurrentUserAction() {
 
   const user = await getUserBySupabaseId(data.user.id);
 
+  if (!user) return null;
+
   return user;
 }

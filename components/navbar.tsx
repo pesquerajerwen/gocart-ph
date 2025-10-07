@@ -1,3 +1,4 @@
+import { getStoreByUserIdAction } from "@/lib/actions/get-store";
 import { getCurrentUserAction } from "@/lib/actions/get-user";
 import { Search, ShoppingCart } from "lucide-react";
 import Link from "next/link";
@@ -5,8 +6,10 @@ import AccountMenu from "./account-menu";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 
-const Navbar: React.FC = async () => {
+export default async function Navbar() {
   const user = await getCurrentUserAction();
+
+  const store = await getStoreByUserIdAction(user?.id || "");
 
   return (
     <nav className="border-b">
@@ -21,9 +24,14 @@ const Navbar: React.FC = async () => {
         <div className="hidden sm:flex flex-row gap-6">
           <Link href={"home"}>Home</Link>
           <Link href={"shop"}>Shop</Link>
-          <Link href={"store/storeId"} className="border-b-2 border-green-600">
-            Seller
-          </Link>
+          {store && (
+            <Link
+              href={`store/${store?.id}`}
+              className="border-b-2 border-green-600"
+            >
+              Seller
+            </Link>
+          )}
           <Link href={"admin"} className="border-b-2 border-green-600">
             Admin
           </Link>
@@ -59,6 +67,4 @@ const Navbar: React.FC = async () => {
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+}

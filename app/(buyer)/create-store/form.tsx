@@ -17,8 +17,11 @@ import { toast } from "sonner";
 import { redirect } from "next/navigation";
 import EmailField from "./email-field";
 import { LoaderCircle } from "lucide-react";
+import { createClient } from "@/utils/supabase-client";
 
 export default function CreateStoreForm() {
+  const supabase = createClient();
+
   const form = useForm<CreateStoreClientValues>({
     defaultValues: {
       name: "",
@@ -32,13 +35,18 @@ export default function CreateStoreForm() {
 
   const {
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
   } = form;
 
   const onSubmit = async (data: CreateStoreClientValues) => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     const { success, error, storeId } = await createStoreAction({
       ...data,
-      avatar_url: data.imageUrl,
+      userId: user?.id,
+      avatarUrl: data.imageUrl,
     });
 
     if (!success) {
