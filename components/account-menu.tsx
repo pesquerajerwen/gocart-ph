@@ -52,7 +52,7 @@ export default function AccountMenu({ variant = "buyer", user }: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Image
-          src={user.avatar_url || assets.user_icon}
+          src={user.avatarUrl || assets.user_icon}
           alt={"user_icon"}
           height={30}
           width={30}
@@ -68,7 +68,7 @@ export default function AccountMenu({ variant = "buyer", user }: Props) {
         <DropdownMenuLabel>
           <div className="flex gap-3 p-3">
             <Image
-              src={user.avatar_url || assets.user_icon}
+              src={user.avatarUrl || assets.user_icon}
               alt={"user_icon"}
               height={35}
               width={35}

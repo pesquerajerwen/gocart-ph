@@ -21,7 +21,7 @@ import { useState } from "react";
 import { columns, Order } from "./columns";
 import Pagination from "./pagination";
 import { cn } from "@/lib/utils";
-import useProductDialogStore from "@/zustand/productDialogStore";
+import useProductDialogStore from "@/zustand/product-dialog-store";
 
 export const dummyData: Order[] = [
   {

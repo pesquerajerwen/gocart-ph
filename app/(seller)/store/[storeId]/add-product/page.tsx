@@ -1,14 +1,19 @@
+import { getCategoriesAction } from "@/lib/actions/get-categories";
+import CategoryHydrator from "./categories-hydrator";
 import ProductForm from "./product-form";
-import ProductImages from "./product-upload-images";
 
-export default function AddProduct() {
+export default async function AddProductPage() {
+  const categories = await getCategoriesAction();
+
   return (
     <div>
       <h1 className="text-2xl text-slate-500">
         Add New <span className="text-slate-800">Products</span>
       </h1>
-      <ProductImages />
-      <ProductForm />
+
+      <CategoryHydrator categories={categories}>
+        <ProductForm />
+      </CategoryHydrator>
     </div>
   );
 }

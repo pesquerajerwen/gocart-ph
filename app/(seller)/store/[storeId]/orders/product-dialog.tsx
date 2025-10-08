@@ -3,7 +3,7 @@
 import { assets } from "@/assets/assets";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import useProductDialogStore from "@/zustand/productDialogStore";
+import useProductDialogStore from "@/zustand/product-dialog-store";
 import Image from "next/image";
 
 export default function ProductDialog() {

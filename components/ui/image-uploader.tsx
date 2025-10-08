@@ -2,22 +2,25 @@
 
 import { cn } from "@/lib/utils";
 import { Image as ImageIcon, Trash } from "lucide-react";
-import { useCallback, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
 import { Button } from "./button";
+import Image from "next/image";
 
 interface ImageUploaderProps {
-  onFileSelect: (file: File | File[]) => void;
-  onFileRemove?: () => void;
+  previewUrl?: string;
   className?: string;
   dropzoneOptions?: DropzoneOptions;
+  onFileSelect: (file: File | File[]) => void;
+  onFileRemove?: () => void;
 }
 
 export default function ImageUploader({
-  onFileSelect,
-  onFileRemove,
+  previewUrl,
   className,
   dropzoneOptions,
+  onFileSelect,
+  onFileRemove,
 }: ImageUploaderProps) {
   const [previews, setPreviews] = useState<string[]>([]);
 
@@ -35,8 +38,16 @@ export default function ImageUploader({
     accept: { "image/*": [] },
     maxFiles: 1,
     onDrop,
-    ...dropzoneOptions, // ✅ merge user options
+    ...dropzoneOptions,
   });
+
+  useEffect(() => {
+    return () => {
+      previews.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [previews]);
+
+  const hasPreview = !!previewUrl;
 
   return (
     <div
@@ -46,17 +57,18 @@ export default function ImageUploader({
         isDragActive
           ? "border-blue-500 bg-blue-50"
           : "border-gray-300 bg-gray-50",
-        className // ✅ user overrides
+        className
       )}
     >
       <input {...getInputProps()} />
 
-      {previews.length > 0 ? (
-        <div className="rounded-md">
-          <img
+      {hasPreview ? (
+        <Fragment>
+          <Image
             src={previews[0]}
             alt="Preview"
-            className="h-full object-contain rounded-md"
+            fill
+            className="object-cover rounded-md "
           />
           <div className="absolute flex top-1 right-1">
             <Button
@@ -75,7 +87,7 @@ export default function ImageUploader({
               <Trash className="w-4 h-4 text-slate-800" />
             </Button>
           </div>
-        </div>
+        </Fragment>
       ) : (
         <div className={cn("flex flex-col items-center gap-2 text-gray-500 ")}>
           <ImageIcon className="w-10 h-10" />
