@@ -1,5 +1,5 @@
-import { getStoreByUserIdAction } from "@/lib/actions/get-store";
 import { getCurrentUserAction } from "@/lib/actions/get-user";
+import { getStore } from "@/lib/dal/store";
 import { Search, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import AccountMenu from "./account-menu";
@@ -9,7 +9,7 @@ import { Button } from "./ui/button";
 export default async function Navbar() {
   const user = await getCurrentUserAction();
 
-  const store = await getStoreByUserIdAction(user?.id || "");
+  const store = await getStore({ userId: user?.id || "" });
 
   return (
     <nav className="border-b">
@@ -26,7 +26,7 @@ export default async function Navbar() {
           <Link href={"shop"}>Shop</Link>
           {store && (
             <Link
-              href={`store/${store?.id}`}
+              href={`/store/${store?.id}`}
               className="border-b-2 border-green-600"
             >
               Seller

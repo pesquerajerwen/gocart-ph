@@ -25,9 +25,9 @@ export default function ImageField({ index }: Props) {
   const { control, watch, setValue, getFieldState, getValues } =
     useFormContext<CreateProductClientValues>();
 
-  const { images } = watch();
+  const { productImages } = watch();
 
-  const { error } = getFieldState(`images.${index}.image`);
+  const { error } = getFieldState(`productImages.${index}.image`);
 
   function handleOnChange(file: File) {
     const result = createStoreClientSchema.shape.image.safeParse(file);
@@ -55,7 +55,7 @@ export default function ImageField({ index }: Props) {
         .from(bucketName)
         .getPublicUrl(fileName);
 
-      setValue(`images.${index}.url`, urlData.publicUrl);
+      setValue(`productImages.${index}.url`, urlData.publicUrl);
     };
 
     upload();
@@ -64,7 +64,7 @@ export default function ImageField({ index }: Props) {
   return (
     <FormField
       control={control}
-      name={`images.${index}.image`}
+      name={`productImages.${index}.image`}
       render={({ field }) => (
         <FormItem className="space-y-1">
           <FormLabel className="flex justify-center text-slate-400">
@@ -72,7 +72,7 @@ export default function ImageField({ index }: Props) {
           </FormLabel>
           <FormControl>
             <ImageUploader
-              previewUrl={images[index]?.url}
+              previewUrl={productImages[index]?.url}
               onFileSelect={(file: File | File[]) => {
                 field.onChange(file);
 

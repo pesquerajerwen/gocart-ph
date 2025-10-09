@@ -1,9 +1,9 @@
-import { getCategoriesAction } from "@/lib/actions/get-categories";
+import { getCategories } from "@/lib/dal/categories";
 import CategoryHydrator from "./categories-hydrator";
 import ProductForm from "./product-form";
 
 export default async function AddProductPage() {
-  const categories = await getCategoriesAction();
+  const categories = await getCategories();
 
   return (
     <div>

@@ -1,11 +1,11 @@
 "use server";
 
-import { Decimal } from "@prisma/client/runtime/library";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "../dal/current-user";
 import { createProduct } from "../dal/product";
 import { getStore } from "../dal/store";
 import { createProductServerSchema } from "../schema/product";
+import { ProductStatus } from "@prisma/client";
 
 export async function createProductAction(rawData: unknown) {
   const parsed = createProductServerSchema.safeParse(rawData);
@@ -38,11 +38,20 @@ export async function createProductAction(rawData: unknown) {
 
   let productId = null;
 
+  const { productImages, ...rest } = parsed.data;
+
+  const mappedProductImages = productImages
+    .filter((i) => i?.url)
+    .map((i) => ({
+      isPrimary: i?.isPrimary || false,
+      url: i?.url || "",
+    }));
+
   try {
     const { id } = await createProduct({
-      ...parsed.data,
-      actualPrice: new Decimal(parsed.data.actualPrice),
-      offerPrice: new Decimal(parsed.data.offerPrice),
+      ...rest,
+      productImages: mappedProductImages,
+      status: ProductStatus.active,
       storeId: store.id,
     });
 

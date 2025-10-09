@@ -28,20 +28,21 @@ export default function CategoryField() {
       render={({ field }) => (
         <FormItem>
           <FormLabel className="text-slate-500">Category</FormLabel>
-          <Select onValueChange={field.onChange} value={field.value}>
-            <FormControl>
+          <FormControl>
+            <Select onValueChange={field.onChange} value={field.value}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
-            </FormControl>
-            <SelectContent>
-              {categories.map((category) => (
-                <SelectItem key={category.id} value={category.id}>
-                  {category.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+
+              <SelectContent>
+                {categories.map((category) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </FormControl>
           <FormMessage />
         </FormItem>
       )}

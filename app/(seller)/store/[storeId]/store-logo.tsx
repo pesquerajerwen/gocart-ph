@@ -1,5 +1,5 @@
 import { SidebarHeader } from "@/components/ui/sidebar";
-import { getStoreAction } from "@/lib/actions/get-store";
+import { getStore } from "@/lib/dal/store";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
@@ -8,7 +8,7 @@ type Props = {
 };
 
 export default async function StoreLogo({ storeId }: Props) {
-  const store = await getStoreAction(storeId);
+  const store = await getStore({ storeId });
 
   if (!store) return redirect("/not-found");
 

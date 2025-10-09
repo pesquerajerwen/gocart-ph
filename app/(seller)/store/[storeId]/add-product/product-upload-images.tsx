@@ -20,10 +20,10 @@ export default function ProductImages() {
   return (
     <FormField
       control={control}
-      name="images"
+      name="productImages"
       render={() => (
         <FormItem>
-          <FormLabel className="text-slate-500 mt-10 text-sm">
+          <FormLabel className="text-slate-500 text-sm">
             Product Images
           </FormLabel>
           <FormControl>

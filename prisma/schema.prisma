@@ -33,6 +33,11 @@ enum PaymentStatus {
   failed
 }
 
+enum ProductStatus {
+  active
+  deactivated
+}
+
 enum StoreStatus {
   pending
   verified
@@ -113,13 +118,14 @@ model Store {
 
 model Product {
   id          String     @id @default(cuid())
+  categoryId  String
+  storeId     String
   name        String     
   description String?
   actualPrice Decimal
   offerPrice  Decimal
   stock       Int
-  categoryId  String
-  storeId     String
+  status      ProductStatus  @default(active)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 

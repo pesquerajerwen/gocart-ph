@@ -1,27 +1,25 @@
 import { Switch } from "@/components/ui/switch";
+import { ClientSideProduct } from "@/lib/types/product";
 import { ColumnDef } from "@tanstack/react-table";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
+import StatusSwitch from "./switch";
 
-export type Product = {
-  name: string;
-  image: string | StaticImageData;
-  description: string;
-  mrp: number;
-  price: number;
-  actions: boolean;
-};
-
-export const columns: ColumnDef<Product>[] = [
+export const columns: ColumnDef<ClientSideProduct>[] = [
   {
     accessorKey: "name",
     header: "Name",
+    size: 20,
     cell: ({ row }) => (
       <div className="flex items-center gap-2">
-        <Image
-          src={row.original.image}
-          alt={row.original.name}
-          className="size-12"
-        />
+        <div className="relative w-12 h-12 rounded-md">
+          <Image
+            src={row.original.productImages[0].url}
+            alt={row.original.name}
+            fill
+            className="object-cover"
+            sizes="48px"
+          />
+        </div>
         <span className="text-wrap">{row.original.name}</span>
       </div>
     ),
@@ -29,25 +27,26 @@ export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "description",
     header: "Description",
+    size: 50,
+    cell: ({ row }) => <p className="truncate">{row.original.description}</p>,
   },
   {
-    accessorKey: "mrp",
+    accessorKey: "actualPrice",
     header: "MRP",
-    cell: ({ row }) => <span>${row.original.mrp.toFixed(2)}</span>,
+    size: 10,
+    cell: ({ row }) => <span>${row.original.actualPrice.toFixed(2)}</span>,
   },
   {
-    accessorKey: "price",
+    accessorKey: "offerPrice",
     header: "Price",
-    cell: ({ row }) => <span>${row.original.price.toFixed(2)}</span>,
+    size: 10,
+    cell: ({ row }) => <span>${row.original.offerPrice.toFixed(2)}</span>,
   },
   {
     accessorKey: "actions",
     header: "Actions",
-
-    cell: ({ row }) => (
-      <div className="flex justify-center">
-        <Switch checked={row.original.actions} />
-      </div>
-    ),
+    enableSorting: false,
+    size: 10,
+    cell: ({ row }) => <StatusSwitch row={row.original} />,
   },
 ];

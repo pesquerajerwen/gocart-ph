@@ -18,17 +18,19 @@ import OfferPriceField from "./offer-price-field";
 import ProductImages from "./product-upload-images";
 import StockField from "./stock-field";
 
+const defaultValues = {
+  productImages: [],
+  name: "",
+  description: "",
+  actualPrice: 0,
+  offerPrice: 0,
+  stock: 0,
+  categoryId: "",
+};
+
 export default function ProductForm() {
   const form = useForm({
-    defaultValues: {
-      images: [],
-      name: "",
-      description: "",
-      actualPrice: 0,
-      offerPrice: 0,
-      stock: 0,
-      categoryId: "asd",
-    },
+    defaultValues,
     resolver: zodResolver(createProductClientSchema),
   });
 
@@ -39,7 +41,7 @@ export default function ProductForm() {
   async function onSubmit(values: CreateProductClientValues) {
     const { success, error } = await createProductAction({
       ...values,
-      images: values.images.map((image, index) => {
+      productImages: values.productImages.map((image, index) => {
         if (index === 0) return { ...image, isPrimary: true };
 
         return image;
@@ -52,7 +54,7 @@ export default function ProductForm() {
 
     toast.success("Product has been added.");
 
-    form.reset();
+    form.reset(defaultValues);
   }
 
   return (

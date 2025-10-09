@@ -1,13 +1,30 @@
+import "@/app/globals.css";
 import AccountMenu from "@/components/account-menu";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { getCurrentUserAction } from "@/lib/actions/get-user";
 import { capitalize } from "lodash";
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
+import Loading from "./loading";
 import { AppSidebar } from "./sidebar";
-import "@/app/globals.css";
+
+export const dynamic = "force-dynamic";
 
 export default async function Layout({
+  children,
+  params,
+}: Readonly<{
+  children: React.ReactNode;
+  params: { storeId: string };
+}>) {
+  return (
+    <Suspense fallback={<Loading />}>
+      <LayoutWrapper params={params}>{children}</LayoutWrapper>
+    </Suspense>
+  );
+}
+
+async function LayoutWrapper({
   children,
   params,
 }: Readonly<{

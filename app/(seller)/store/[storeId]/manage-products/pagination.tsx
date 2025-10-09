@@ -1,6 +1,15 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Pagination } from "@/lib/types/global";
+import { ClientSideProduct } from "@/lib/types/product";
 import { Table } from "@tanstack/react-table";
 import {
   ChevronLeft,
@@ -8,57 +17,91 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
-import { Product } from "./columns";
+import { useRouter } from "next/navigation";
+import { parseAsInteger, useQueryState } from "nuqs";
 
-export default function Pagination({ table }: { table: Table<Product> }) {
+type Props = {
+  pagination: Pagination;
+};
+
+export default function TablePagination({ pagination }: Props) {
+  const router = useRouter();
+
+  const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
+  const [size, setSize] = useQueryState("size", parseAsInteger.withDefault(5));
+
   return (
     <div className="flex max-sm:flex-col items-center justify-end mt-6 gap-6">
       <div className="flex items-center">
         <span className="text-sm text-slate-600">Rows per page:</span>
-        <select
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => table.setPageSize(Number(e.target.value))}
-          className="ml-2 border rounded p-1 text-slate-600 text-sm"
+        <Select
+          onValueChange={async (value) => {
+            await setSize(Number(value));
+
+            router.refresh();
+          }}
+          value={String(size)}
         >
-          {[5, 10, 20].map((size) => (
-            <option key={size} value={size}>
-              {size}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger className="w-18 ml-2">
+            <SelectValue placeholder="Select size" />
+          </SelectTrigger>
+
+          <SelectContent>
+            {[5, 10, 20].map((size) => (
+              <SelectItem key={size} value={String(size)}>
+                {size}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       <div>
         <p className="text-sm text-slate-600">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
+          Page {page} of {pagination.totalPage}
         </p>
       </div>
       <div className="flex items-center gap-2">
         <Button
           variant="outline"
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
+          onClick={async () => {
+            await setPage(0);
+
+            router.refresh();
+          }}
+          disabled={page <= 1}
         >
           <ChevronsLeft />
         </Button>
         <Button
           variant="outline"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
+          onClick={async () => {
+            await setPage(page - 1);
+
+            router.refresh();
+          }}
+          disabled={page <= 1}
         >
           <ChevronLeft />
         </Button>
         <Button
           variant="outline"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
+          onClick={async () => {
+            await setPage(page + 1);
+
+            router.refresh();
+          }}
+          disabled={page >= pagination.totalPage}
         >
           <ChevronRight />
         </Button>
         <Button
           variant="outline"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
+          onClick={async () => {
+            await setPage(pagination.totalPage);
+
+            router.refresh();
+          }}
+          disabled={page >= pagination.totalPage}
         >
           <ChevronsRight />
         </Button>

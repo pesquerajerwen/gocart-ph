@@ -1,5 +1,6 @@
 import "@/app/globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 
@@ -18,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${outfit.className} antialiased`}>
-        {children}
+        <NuqsAdapter>{children}</NuqsAdapter>
         <Toaster richColors position="top-right" />
       </body>
     </html>

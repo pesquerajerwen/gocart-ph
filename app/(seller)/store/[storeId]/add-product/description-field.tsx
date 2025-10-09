@@ -20,6 +20,7 @@ export default function DescriptionField() {
           <FormLabel className="text-slate-500">Description</FormLabel>
           <FormControl>
             <Textarea
+              className="resize-none h-36"
               placeholder="Enter product description"
               rows={4}
               {...field}
