@@ -15,7 +15,7 @@ export default async function Layout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { storeId: string };
+  params: Promise<{ storeId: string }>;
 }>) {
   return (
     <Suspense fallback={<Loading />}>
@@ -29,7 +29,7 @@ async function LayoutWrapper({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { storeId: string };
+  params: Promise<{ storeId: string }>;
 }>) {
   const user = await getCurrentUserAction();
 
