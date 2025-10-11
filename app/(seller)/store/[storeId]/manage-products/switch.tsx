@@ -3,7 +3,9 @@
 import { Switch } from "@/components/ui/switch";
 import { updateProductStatusAction } from "@/lib/actions/update-product";
 import { ClientSideProduct } from "@/lib/types/product";
+import { ProductStatus } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { useOptimistic, useTransition } from "react";
 import { toast } from "sonner";
 
 type Props = {
@@ -13,23 +15,39 @@ type Props = {
 export default function StatusSwitch({ row }: Props) {
   const router = useRouter();
 
-  async function onCheckedChange(checked: boolean) {
-    const { success, message } = await updateProductStatusAction({
-      id: row.id,
-      status: checked ? "active" : "deactivated",
-    });
+  const [optimisticStatus, setOptimisticStatus] = useOptimistic(
+    row.status,
+    (currentState, status: ProductStatus) => status
+  );
 
-    if (success) {
+  const [isPending, startTransition] = useTransition();
+
+  async function onCheckedChange(checked: boolean) {
+    const prevValue = optimisticStatus;
+
+    startTransition(async () => {
+      setOptimisticStatus(checked ? "active" : "deactivated");
+
+      const { success, message } = await updateProductStatusAction({
+        id: row.id,
+        status: checked ? "active" : "deactivated",
+      });
+
+      if (!success) {
+        return setOptimisticStatus(prevValue);
+      }
+
       toast.success(message);
 
       router.refresh();
-    }
+    });
   }
 
   return (
     <div className="flex justify-center">
       <Switch
-        checked={row.status === "active"}
+        checked={optimisticStatus === "active"}
+        disabled={isPending}
         onCheckedChange={onCheckedChange}
       />
     </div>
