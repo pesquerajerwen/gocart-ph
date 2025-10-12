@@ -1,4 +1,4 @@
-export type SortOder = "asc" | "desc";
+export type SortOrder = "asc" | "desc";
 
 export type Pagination = {
   page: number;

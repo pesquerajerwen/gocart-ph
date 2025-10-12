@@ -5,6 +5,7 @@ import Link from "next/link";
 import AccountMenu from "./account-menu";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
+import NavbarSearch from "./navbar-search";
 
 export default async function Navbar() {
   const user = await getCurrentUserAction();
@@ -37,15 +38,7 @@ export default async function Navbar() {
           </Link>
         </div>
 
-        <form className="hidden xl:flex items-center w-xs text-sm gap-2 bg-slate-100 px-4 py-3 rounded-full">
-          <Search size={18} className="text-slate-600" />
-          <input
-            className="w-full bg-transparent outline-none placeholder-slate-600"
-            type="text"
-            placeholder="Search products"
-            required
-          />
-        </form>
+        <NavbarSearch />
 
         <div className="flex items-center gap-3 relative">
           <ShoppingCart size={18} />

@@ -32,7 +32,7 @@ export type GetProductsParams = {
   sortOrder?: string;
   size?: number;
   page?: number;
-  name?: string;
+  search?: string;
 };
 
 export type GetStoreProductsParams = GetProductsParams & {

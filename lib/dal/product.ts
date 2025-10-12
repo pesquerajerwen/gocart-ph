@@ -9,8 +9,8 @@ import {
 import z from "zod";
 
 const sortSchema = z.object({
-  sortKey: z.enum(["totalSales", "totalPrice", "createdAt"]),
-  sortOder: z.enum(["asc", "desc"]),
+  sortKey: z.enum(["totalSales", "offerPrice", "createdAt"]),
+  sortOrder: z.enum(["asc", "desc"]),
 });
 
 export async function getProductsWithRating({
@@ -18,7 +18,7 @@ export async function getProductsWithRating({
   sortOrder = "asc",
   size = 10,
   page = 1,
-  name,
+  search,
   minPrice,
   maxPrice,
   rating,
@@ -29,9 +29,13 @@ export async function getProductsWithRating({
   const parsedSort = sortSchema.safeParse({ sortKey, sortOrder });
 
   const where = {
-    ...(name && {
+    ...(search && {
       name: {
-        contains: name,
+        contains: search,
+        mode: "insensitive" as const,
+      },
+      description: {
+        contains: search,
         mode: "insensitive" as const,
       },
     }),
@@ -102,16 +106,16 @@ export async function getStoreProducts({
   sortOrder = "asc",
   size = 10,
   page = 1,
-  name,
+  search,
   storeId,
 }: GetStoreProductsParams) {
   const skip = (page - 1) * size;
 
   const where = {
     storeId,
-    ...(name && {
+    ...(search && {
       name: {
-        contains: name,
+        contains: search,
         mode: "insensitive" as const,
       },
     }),

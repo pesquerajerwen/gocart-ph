@@ -1,5 +1,5 @@
 import { getStoreProducts } from "@/lib/dal/product";
-import { SortOder } from "@/lib/types/global";
+import { SortOrder } from "@/lib/types/global";
 import { Product } from "@prisma/client";
 import DataTable from "./data-table";
 
@@ -23,7 +23,7 @@ export default async function ManageProductPage({
   const name = resolvedParams.name ?? "";
 
   const sortKey = sort.split(",")[0] as keyof Product;
-  const sortOrder = sort.split(",")[1] as SortOder;
+  const sortOrder = sort.split(",")[1] as SortOrder;
 
   const products = await getStoreProducts({
     storeId,
