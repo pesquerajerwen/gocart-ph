@@ -6,7 +6,7 @@ export default function HeaderSection() {
   return (
     <section className="bg-slate-50 flex max-sm:flex-col justify-between p-3 rounded-sm gap-3">
       <SortFields />
-      <div className="flex flex-1 justify-between">
+      <div className="flex flex-1 justify-between lg:justify-end">
         <FilterSwitcher />
         <Pagination />
       </div>

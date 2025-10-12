@@ -6,6 +6,7 @@ import { createProduct } from "../dal/product";
 import { getStore } from "../dal/store";
 import { createProductServerSchema } from "../schema/product";
 import { ProductStatus } from "@prisma/client";
+import slugify from "slugify";
 
 export async function createProductAction(rawData: unknown) {
   const parsed = createProductServerSchema.safeParse(rawData);
@@ -53,6 +54,9 @@ export async function createProductAction(rawData: unknown) {
       productImages: mappedProductImages,
       status: ProductStatus.active,
       storeId: store.id,
+      categorySlug: slugify(rest.categoryId), // TODO: Replace with category slug
+      totalRating: 0,
+      totalSales: 0,
     });
 
     productId = id;

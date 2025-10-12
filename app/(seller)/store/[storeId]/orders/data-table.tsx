@@ -39,7 +39,7 @@ export const dummyData: Order[] = [
     total: 89.99,
     payment: "PayPal",
     coupon: "SUMMER20",
-    status: "delivered",
+    status: "pending",
     date: "2025-09-19",
   },
   {
@@ -48,7 +48,7 @@ export const dummyData: Order[] = [
     total: 200,
     payment: "Bank Transfer",
     coupon: "WELCOME5",
-    status: "shipped",
+    status: "paid",
     date: "2025-09-18",
   },
   {
@@ -57,7 +57,7 @@ export const dummyData: Order[] = [
     total: 49.5,
     payment: "Credit Card",
     coupon: "DISCOUNT15",
-    status: "cancelled",
+    status: "pending",
     date: "2025-09-17",
   },
   {
@@ -66,7 +66,7 @@ export const dummyData: Order[] = [
     total: 150.75,
     payment: "Cash on Delivery",
     coupon: "",
-    status: "delivered",
+    status: "paid",
     date: "2025-09-16",
   },
   {
@@ -75,7 +75,7 @@ export const dummyData: Order[] = [
     total: 75,
     payment: "PayPal",
     coupon: "FALL30",
-    status: "delivered",
+    status: "pending",
     date: "2025-09-15",
   },
   {
@@ -93,7 +93,7 @@ export const dummyData: Order[] = [
     total: 20,
     payment: "Cash on Delivery",
     coupon: "NEW10",
-    status: "shipped",
+    status: "pending",
     date: "2025-09-13",
   },
   {
@@ -102,7 +102,7 @@ export const dummyData: Order[] = [
     total: 450,
     payment: "Bank Transfer",
     coupon: "",
-    status: "delivered",
+    status: "pending",
     date: "2025-09-12",
   },
   {
@@ -111,7 +111,7 @@ export const dummyData: Order[] = [
     total: 99.95,
     payment: "Credit Card",
     coupon: "FLASH50",
-    status: "delivered",
+    status: "pending",
     date: "2025-09-11",
   },
 ];
