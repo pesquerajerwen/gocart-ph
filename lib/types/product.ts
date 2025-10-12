@@ -1,32 +1,53 @@
 import { Prisma, Product, ProductImage, ProductStatus } from "@prisma/client";
-import { SortOder } from "./global";
+import { StaticImageData } from "next/image";
 
-export type ProductWithImages = Prisma.ProductGetPayload<{
-  include: {
-    productImages: {
-      select: { id: true; url: true; isPrimary: true };
-    };
-  };
-}>;
-
-export type ClientSideProduct = Omit<
-  ProductWithImages,
-  "actualPrice" | "offerPrice"
-> & {
+type ProductPrices = {
   actualPrice: number;
   offerPrice: number;
 };
 
+export type ProductWithImages = Omit<
+  Prisma.ProductGetPayload<{
+    include: {
+      productImages: {
+        select: { id: true; url: true; isPrimary: true };
+      };
+    };
+  }>,
+  "actualPrice" | "offerPrice"
+> &
+  ProductPrices;
+
+export type ProductWithRating = ProductPrices &
+  Omit<
+    Product, // TODO: include the review table
+    "actualPrice" | "offerPrice"
+  > & {
+    rating: number;
+    primaryImageUrl: string | StaticImageData; // TODO: Remove static image when the homepage is not using dummy data anymore
+  };
+
 export type GetProductsParams = {
-  sortKey?: keyof Product;
-  sortOrder?: SortOder;
+  sortKey?: string;
+  sortOrder?: string;
   size?: number;
   page?: number;
   name?: string;
 };
 
+export type GetStoreProductsParams = GetProductsParams & {
+  storeId: string;
+};
+
+export type GetProductsWithRatingParams = GetProductsParams & {
+  minPrice?: number;
+  maxPrice?: number;
+  rating?: number;
+  categorySlugs?: string;
+};
+
 export type CreateProductParams = Omit<
-  ClientSideProduct,
+  ProductWithImages,
   "id" | "createdAt" | "updatedAt" | "productImages"
 > & {
   productImages: Omit<ProductImage, "id" | "productId">[];

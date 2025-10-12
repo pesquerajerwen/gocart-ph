@@ -1,10 +1,10 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { ClientSideProduct } from "@/lib/types/product";
+import { ProductWithImages } from "@/lib/types/product";
 import { cn } from "@/lib/utils";
 import { flexRender, Table } from "@tanstack/react-table";
 
 type Props = {
-  table: Table<ClientSideProduct>;
+  table: Table<ProductWithImages>;
 };
 
 export default function DataTableBody({ table }: Props) {

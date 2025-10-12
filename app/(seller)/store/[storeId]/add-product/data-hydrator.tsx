@@ -9,7 +9,7 @@ type Props = {
   children: ReactNode;
 };
 
-export default function CategoryHydrator({ categories, children }: Props) {
+export default function DataHydrator({ categories, children }: Props) {
   const { setCategories } = useCategoryStore();
 
   useEffect(() => {

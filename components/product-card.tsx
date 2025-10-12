@@ -1,44 +1,41 @@
-import Image, { StaticImageData } from "next/image";
-import StarRating from "./star-rating";
+import { ProductWithRating } from "@/lib/types/product";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+import StarRating from "./star-rating";
 
-export type Product = {
-  id: string;
-  image: StaticImageData;
-  name: string;
-  price: number;
-  rating: number;
+type Props = {
+  product: ProductWithRating;
   imageClass?: string;
 };
 
-const ProductCard: React.FC<Product> = ({
-  image,
-  name,
-  price,
-  rating,
-  imageClass,
-}) => {
+function ProductCard({ product, imageClass }: Props) {
   return (
     <div className="flex flex-col gap-2 group cursor-pointer">
-      <div className="relative bg-slate-100 p-4 rounded-lg flex justify-center items-center ">
-        <Image
-          src={image}
-          alt="Product 1"
-          className={cn(
-            "max-h-40 w-auto group-hover:scale-110 transition-all",
-            imageClass
-          )}
-        />
+      <div
+        className={cn(
+          "bg-slate-100 p-4 rounded-sm flex justify-center items-center"
+        )}
+      >
+        <div className={cn("relative size-32 max-h-40", imageClass)}>
+          <Image
+            src={product.primaryImageUrl}
+            alt="Product Image"
+            className={cn(
+              "object-contain group-hover:scale-110 transition-all"
+            )}
+            fill
+          />
+        </div>
       </div>
       <div>
         <div className="flex justify-between text-sm">
-          <p>{name}</p>
-          <p>${price}</p>
+          <p>{product.name}</p>
+          <p>${product.offerPrice}</p>
         </div>
-        <StarRating rating={rating} />
+        <StarRating rating={product.rating} />
       </div>
     </div>
   );
-};
+}
 
 export default ProductCard;

@@ -2,14 +2,14 @@
 
 import { Switch } from "@/components/ui/switch";
 import { updateProductStatusAction } from "@/lib/actions/update-product";
-import { ClientSideProduct } from "@/lib/types/product";
+import { ProductWithImages } from "@/lib/types/product";
 import { ProductStatus } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useOptimistic, useTransition } from "react";
 import { toast } from "sonner";
 
 type Props = {
-  row: ClientSideProduct;
+  row: ProductWithImages;
 };
 
 export default function StatusSwitch({ row }: Props) {

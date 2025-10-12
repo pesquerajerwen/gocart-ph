@@ -9,8 +9,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Pagination } from "@/lib/types/global";
-import { ClientSideProduct } from "@/lib/types/product";
-import { Table } from "@tanstack/react-table";
 import {
   ChevronLeft,
   ChevronRight,

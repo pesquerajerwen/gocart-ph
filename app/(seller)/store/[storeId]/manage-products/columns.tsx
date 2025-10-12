@@ -1,10 +1,10 @@
 import { Switch } from "@/components/ui/switch";
-import { ClientSideProduct } from "@/lib/types/product";
+import { ProductWithImages } from "@/lib/types/product";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import StatusSwitch from "./switch";
 
-export const columns: ColumnDef<ClientSideProduct>[] = [
+export const columns: ColumnDef<ProductWithImages>[] = [
   {
     accessorKey: "name",
     header: "Name",

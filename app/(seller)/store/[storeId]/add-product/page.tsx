@@ -1,6 +1,6 @@
 import { getCategories } from "@/lib/dal/categories";
-import CategoryHydrator from "./categories-hydrator";
-import ProductForm from "./product-form";
+import DataHydrator from "./data-hydrator";
+import ProductForm from "./_form/product-form";
 
 export default async function AddProductPage() {
   const categories = await getCategories();
@@ -11,9 +11,9 @@ export default async function AddProductPage() {
         Add New <span className="text-slate-800">Products</span>
       </h1>
 
-      <CategoryHydrator categories={categories}>
+      <DataHydrator categories={categories}>
         <ProductForm />
-      </CategoryHydrator>
+      </DataHydrator>
     </div>
   );
 }

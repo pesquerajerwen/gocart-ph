@@ -1,58 +1,72 @@
 import { PrismaClient } from "@prisma/client";
+import slugify from "slugify";
 
 const prisma = new PrismaClient();
 
 export default async function SeedCategories() {
   const categories = [
     {
-      name: "Fruits & Vegetables",
-      description: "Fresh and organic produce sourced from local farms.",
+      name: "Smartphones",
+      description:
+        "Latest smartphones from top brands with cutting-edge technology.",
     },
     {
-      name: "Dairy & Eggs",
-      description: "Milk, cheese, butter, and farm-fresh eggs.",
+      name: "Laptops & Computers",
+      description:
+        "High-performance laptops, desktops, and accessories for work or gaming.",
     },
     {
-      name: "Bakery & Snacks",
-      description: "Breads, pastries, and a variety of tasty snacks.",
+      name: "Tablets & eReaders",
+      description:
+        "Portable devices for reading, browsing, and entertainment on the go.",
     },
     {
-      name: "Beverages",
-      description: "Juices, coffee, tea, and refreshing drinks.",
+      name: "Wearables",
+      description:
+        "Smartwatches, fitness trackers, and other connected wearables.",
     },
     {
-      name: "Pantry Essentials",
-      description: "Rice, pasta, canned goods, and cooking oils.",
+      name: "Audio & Headphones",
+      description: "Headphones, speakers, and audio gear for music lovers.",
     },
     {
-      name: "Meat & Seafood",
-      description: "Quality meat and sustainably sourced seafood.",
+      name: "Cameras & Drones",
+      description:
+        "DSLRs, action cams, and drones for photography and videography enthusiasts.",
     },
     {
-      name: "Frozen Foods",
-      description: "Convenient and ready-to-cook frozen meals.",
+      name: "Gaming",
+      description:
+        "Consoles, gaming accessories, and high-end peripherals for gamers.",
     },
     {
-      name: "Health & Wellness",
-      description: "Supplements, vitamins, and personal care items.",
+      name: "Smart Home",
+      description:
+        "IoT devices and home automation solutions for a connected lifestyle.",
     },
     {
-      name: "Home & Cleaning",
-      description: "Eco-friendly cleaning supplies and home essentials.",
+      name: "Accessories",
+      description:
+        "Chargers, cables, cases, and other essential gadget accessories.",
     },
     {
-      name: "Pet Supplies",
-      description: "Food, treats, and accessories for your pets.",
+      name: "Networking & Storage",
+      description: "Routers, drives, and cloud-connected storage devices.",
     },
   ];
 
   console.log("🌱 Seeding categories...");
 
   for (const category of categories) {
+    const slug = slugify(category.name, { lower: true });
+
     await prisma.category.upsert({
       where: { name: category.name },
       update: {},
-      create: category,
+      create: {
+        ...category,
+        slug,
+      },
     });
   }
 

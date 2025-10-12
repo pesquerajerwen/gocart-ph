@@ -2,7 +2,7 @@
 
 import { Table } from "@/components/ui/table";
 import { Pagination } from "@/lib/types/global";
-import { ClientSideProduct } from "@/lib/types/product";
+import { ProductWithImages } from "@/lib/types/product";
 import {
   getCoreRowModel,
   getSortedRowModel,
@@ -14,7 +14,7 @@ import DataTableHeader from "./data-table-header";
 import TablePagination from "./pagination";
 
 type Props = {
-  products: ClientSideProduct[];
+  products: ProductWithImages[];
   pagination: Pagination;
 };
 

@@ -23,6 +23,10 @@ enum RoleName {
 enum OrderStatus {
   pending
   paid
+}
+
+enum OrderItemStatus {
+  processing
   shipped
   delivered
   cancelled
@@ -92,6 +96,7 @@ model Address {
 model Category {
   id          String     @id @default(cuid())
   name        String     @unique
+  slug        String     @unique @default("")
   description String?
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
@@ -101,40 +106,43 @@ model Category {
 
 model Store {
   id          String     @id @default(cuid())
-  userId     String      @unique
+  userId      String     @unique
   name        String     @unique
   description String
-  avatarUrl  String
+  avatarUrl   String
   address     String
   email       String
   contact     String
   status      StoreStatus
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 
-  user        User      @relation(fields: [userId], references: [id])
+  user        User         @relation(fields: [userId], references: [id])
   products    Product[]
 }
 
 model Product {
-  id          String     @id @default(cuid())
-  categoryId  String
-  storeId     String
-  name        String     
-  description String?
-  actualPrice Decimal
-  offerPrice  Decimal
-  stock       Int
-  status      ProductStatus  @default(active)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  id            String         @id @default(cuid())
+  categorySlug  String         @default("")
+  storeId       String
+  name          String     
+  description   String?
+  actualPrice   Decimal
+  offerPrice    Decimal
+  stock         Int
+  status        ProductStatus  @default(active)
+  totalRating   Int            @default(0)
+  totalSales    Int            @default(0)
 
-  category    Category   @relation(fields: [categoryId], references: [id])
-  store       Store   @relation(fields: [storeId], references: [id])
-  
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  category      Category       @relation(fields: [categorySlug], references: [slug])
+  store         Store          @relation(fields: [storeId], references: [id])
   productImages ProductImage[]
-  cartItems   CartItem[]
-  orderItems  OrderItem[]
+  cartItems     CartItem[]
+  orderItems    OrderItem[]
+  reviews       Review[]
 }
 
 model ProductImage {
@@ -192,8 +200,23 @@ model OrderItem {
   quantity     Int
   subtotal     Decimal
 
+  status       OrderItemStatus @default(processing)
+  review       Review?    
   order        Order    @relation(fields: [orderId], references: [id])
   product      Product  @relation(fields: [productId], references: [id])
+}
+
+model Review {
+  id           String   @id @default(cuid())
+  orderItemId  String   @unique
+  productId    String   
+  rating       Int
+  comment      String 
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  orderItem    OrderItem? @relation(fields: [orderItemId], references: [id])
+  product      Product    @relation(fields: [productId], references: [id])
 }
 
 model Payment {

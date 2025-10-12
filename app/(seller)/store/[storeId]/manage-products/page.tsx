@@ -1,14 +1,21 @@
-import { getProducts } from "@/lib/dal/product";
+import { getStoreProducts } from "@/lib/dal/product";
 import { SortOder } from "@/lib/types/global";
 import { Product } from "@prisma/client";
 import DataTable from "./data-table";
 
 interface Props {
+  params: Promise<{ storeId: string }>;
   searchParams: { [key: string]: string | undefined };
 }
 
-export default async function ManageProductPage({ searchParams }: Props) {
-  const resolvedParams = await searchParams;
+export default async function ManageProductPage({
+  params,
+  searchParams,
+}: Props) {
+  const [{ storeId }, resolvedParams] = await Promise.all([
+    params,
+    searchParams,
+  ]);
 
   const sort = resolvedParams.sort ?? "name,asc";
   const size = resolvedParams.size ? Number(resolvedParams.size) : 5;
@@ -18,7 +25,8 @@ export default async function ManageProductPage({ searchParams }: Props) {
   const sortKey = sort.split(",")[0] as keyof Product;
   const sortOrder = sort.split(",")[1] as SortOder;
 
-  const products = await getProducts({
+  const products = await getStoreProducts({
+    storeId,
     sortKey,
     sortOrder,
     size,

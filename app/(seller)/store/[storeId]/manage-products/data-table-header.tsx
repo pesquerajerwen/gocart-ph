@@ -1,7 +1,7 @@
 "use client";
 
 import { TableHeader, TableRow, TableHead } from "@/components/ui/table";
-import { ClientSideProduct } from "@/lib/types/product";
+import { ProductWithImages } from "@/lib/types/product";
 import { cn } from "@/lib/utils";
 import { flexRender, Table } from "@tanstack/react-table";
 import { ArrowUpDown, MoveUp, MoveDown } from "lucide-react";
@@ -9,7 +9,7 @@ import { useQueryState } from "nuqs";
 import { useRouter } from "next/navigation";
 
 type Props = {
-  table: Table<ClientSideProduct>;
+  table: Table<ProductWithImages>;
 };
 
 export default function DataTableHeader({ table }: Props) {

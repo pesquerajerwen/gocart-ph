@@ -19,7 +19,10 @@ import { toast } from "sonner";
 export default function ImageField() {
   const supabase = createClient();
 
-  const { control, setValue } = useFormContext<CreateStoreClientValues>();
+  const { control, watch, setValue } =
+    useFormContext<CreateStoreClientValues>();
+
+  const { imageUrl } = watch();
 
   function handleOnChange(file: File) {
     const result = createStoreClientSchema.shape.image.safeParse(file);
@@ -61,6 +64,7 @@ export default function ImageField() {
           <FormLabel className="text-slate-500">Store Logo</FormLabel>
           <FormControl>
             <ImageUploader
+              previewUrl={imageUrl}
               onFileSelect={(file: File | File[]) => {
                 field.onChange(file);
 
