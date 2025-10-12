@@ -20,7 +20,7 @@ export default async function ManageProductPage({
   const sort = resolvedParams.sort ?? "name,asc";
   const size = resolvedParams.size ? Number(resolvedParams.size) : 5;
   const page = resolvedParams.page ? Number(resolvedParams.page) : 1;
-  const name = resolvedParams.name ?? "";
+  const search = resolvedParams.search ?? "";
 
   const sortKey = sort.split(",")[0] as keyof Product;
   const sortOrder = sort.split(",")[1] as SortOrder;
@@ -31,7 +31,7 @@ export default async function ManageProductPage({
     sortOrder,
     size,
     page,
-    name,
+    search,
   });
 
   return (
