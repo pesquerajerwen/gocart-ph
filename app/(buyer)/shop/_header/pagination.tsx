@@ -17,7 +17,7 @@ export default function Pagination() {
   if (!pagination.totalPage) return null;
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex justify-end items-center gap-3">
       <p className="text-slate-600">
         <span className="text-green-600">{pagination.page}</span>/
         {pagination.totalPage}

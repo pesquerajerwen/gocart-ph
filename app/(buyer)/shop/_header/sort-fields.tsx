@@ -19,7 +19,7 @@ export default function SortFields() {
   const [sortBy, setSortBy] = useQueryState("sortBy", { defaultValue: "" });
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex max-sm:flex-col items-center gap-3">
       <p className="text-slate-600">Sort By</p>
       <Toggle
         pressed={sortBy === "totalSales"}
@@ -31,7 +31,7 @@ export default function SortFields() {
           router.refresh();
         }}
         variant="outline"
-        className="text-slate-600 w-24 bg-white"
+        className="text-slate-600 w-full sm:w-24 bg-white"
       >
         Top Sales
       </Toggle>
@@ -45,7 +45,7 @@ export default function SortFields() {
           router.refresh();
         }}
         variant="outline"
-        className="text-slate-600 w-24 bg-white"
+        className="text-slate-600 w-full sm:w-24 bg-white"
       >
         Latest
       </Toggle>
@@ -59,7 +59,7 @@ export default function SortFields() {
       >
         <SelectTrigger
           className={cn(
-            "w-[180px] bg-white data-[placeholder]:text-slate-600",
+            "w-full sm:w-[180px] bg-white data-[placeholder]:text-slate-600",
             sortBy === "offerPrice" && "text-green-600"
           )}
         >

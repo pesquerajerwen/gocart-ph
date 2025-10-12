@@ -26,7 +26,7 @@ export default async function ProductList() {
               href={`/product/${product.id}`}
               className="col-span-1"
             >
-              <div key={product.id} className="w-40 sm:w-full transition-all">
+              <div key={product.id} className="w-full transition-all">
                 <ProductCard product={product} imageClass="w-32" />
               </div>
             </Link>
