@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useShopStore } from "@/zustand/shop-store";
 import { useRouter } from "next/navigation";
 import { parseAsInteger, useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
@@ -23,6 +24,8 @@ export default function PriceRangeFilter() {
 
   const [page, setPage] = useQueryState("page");
 
+  const { isFilterOpen, showFilter } = useShopStore();
+
   const [minPrice, setMinPrice] = useQueryState(
     "minPrice",
     parseAsInteger.withDefault(0)
@@ -32,8 +35,8 @@ export default function PriceRangeFilter() {
     parseAsInteger.withDefault(0)
   );
 
-  const [min, setMin] = useState<string | number>("");
-  const [max, setMax] = useState<string | number>("");
+  const [min, setMin] = useState<string | number>(minPrice);
+  const [max, setMax] = useState<string | number>(maxPrice);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -56,6 +59,8 @@ export default function PriceRangeFilter() {
       setMaxPrice(max as number),
       setPage(null),
     ]);
+
+    isFilterOpen && showFilter(false);
 
     router.refresh();
   };

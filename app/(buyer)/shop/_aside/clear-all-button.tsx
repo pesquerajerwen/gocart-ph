@@ -1,11 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useShopStore } from "@/zustand/shop-store";
 import { useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 
 export default function ClearAllButton() {
   const router = useRouter();
+
+  const { isFilterOpen, showFilter } = useShopStore();
 
   const [, setMinPrice] = useQueryState("minPrice");
   const [, setMaxPrice] = useQueryState("maxPrice");
@@ -21,6 +24,8 @@ export default function ClearAllButton() {
       setCategory(null),
       setPage(null),
     ]);
+
+    isFilterOpen && showFilter(false);
 
     router.refresh();
   }

@@ -2,6 +2,7 @@
 
 import StarRating from "@/components/star-rating";
 import { cn } from "@/lib/utils";
+import { useShopStore } from "@/zustand/shop-store";
 import { useRouter } from "next/navigation";
 import { parseAsInteger, useQueryState } from "nuqs";
 
@@ -15,8 +16,15 @@ export default function RatingsFilter() {
 
   const [page, setPage] = useQueryState("page");
 
+  const { isFilterOpen, showFilter } = useShopStore();
+
   async function handleClick(value: number) {
-    await Promise.all([setRating(value), setPage(null)]);
+    await Promise.all([
+      setRating(rating === value ? null : value),
+      setPage(null),
+    ]);
+
+    isFilterOpen && showFilter(false);
 
     router.refresh();
   }

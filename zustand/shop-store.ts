@@ -1,33 +1,20 @@
 "use client";
 
-import { Pagination, SortOrder } from "@/lib/types/global";
+import { Pagination } from "@/lib/types/global";
 import { ProductWithRating } from "@/lib/types/product";
-import { Product } from "@prisma/client";
 import { create } from "zustand";
 
-export type ShopPageSearchParams = {
-  sortKey?: keyof Product;
-  sortOrder?: SortOrder;
-  size?: number;
-  page?: number;
-  search?: string;
-  minPrice?: number;
-  maxPrice?: number;
-  rating?: number;
-  categorySlugs?: string;
-};
-
 type ShopState = {
-  searchParams: ShopPageSearchParams;
+  isFilterOpen: boolean;
   products: ProductWithRating[];
   pagination: Pagination;
-  setSearchParams: (searchParams: ShopPageSearchParams) => void;
+  showFilter: (show: boolean) => void;
   setProducts: (products: ProductWithRating[]) => void;
   setPagination: (pagination: Pagination) => void;
 };
 
 export const useShopStore = create<ShopState>((set) => ({
-  searchParams: {},
+  isFilterOpen: false,
   products: [],
   pagination: {
     size: 0,
@@ -35,8 +22,7 @@ export const useShopStore = create<ShopState>((set) => ({
     totalCount: 0,
     totalPage: 0,
   },
+  showFilter: (show: boolean) => set({ isFilterOpen: show }),
   setProducts: (products: ProductWithRating[]) => set({ products }),
   setPagination: (pagination: Pagination) => set({ pagination }),
-  setSearchParams: (searchParams: ShopPageSearchParams) =>
-    set({ searchParams }),
 }));
