@@ -39,6 +39,10 @@ export type GetStoreProductsParams = GetProductsParams & {
   storeId: string;
 };
 
+export type GetProductParams = {
+  id: string;
+};
+
 export type GetProductsWithRatingParams = GetProductsParams & {
   minPrice?: number;
   maxPrice?: number;

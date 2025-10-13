@@ -23,8 +23,8 @@ export default async function Navbar() {
         </div>
 
         <div className="hidden sm:flex flex-row gap-6">
-          <Link href={"home"}>Home</Link>
-          <Link href={"shop"}>Shop</Link>
+          <Link href={"/home"}>Home</Link>
+          <Link href={"/shop"}>Shop</Link>
           {store && (
             <Link
               href={`/store/${store?.id}`}
@@ -33,7 +33,7 @@ export default async function Navbar() {
               Seller
             </Link>
           )}
-          <Link href={"admin"} className="border-b-2 border-green-600">
+          <Link href={"/admin"} className="border-b-2 border-green-600">
             Admin
           </Link>
         </div>

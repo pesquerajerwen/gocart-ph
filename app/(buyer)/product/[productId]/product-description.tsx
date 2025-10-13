@@ -1,8 +1,10 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import UserReviewComponent, { UserReview } from "./user-review";
+import UserReviewComponent, {
+  UserReview,
+} from "../../../../components/user-review";
 import dayjs from "dayjs";
 import React from "react";
-import { Separator } from "./ui/separator";
+import { Separator } from "../../../../components/ui/separator";
 
 type Props = {
   description: string;

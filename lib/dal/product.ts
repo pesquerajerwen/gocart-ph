@@ -1,12 +1,13 @@
 import { ProductStatus } from "@prisma/client";
+import z from "zod";
 import { prisma } from "../db/client";
 import {
   CreateProductParams,
+  GetProductParams,
   GetProductsWithRatingParams,
   GetStoreProductsParams,
   UpdateProductStatusParams,
 } from "../types/product";
-import z from "zod";
 
 const sortSchema = z.object({
   sortKey: z.enum(["totalSales", "offerPrice", "createdAt"]),
@@ -152,6 +153,28 @@ export async function getStoreProducts({
       totalPage: Math.ceil(count / size),
     },
   };
+}
+
+export async function getProduct({ id }: GetProductParams) {
+  const product = await prisma.product.findFirst({
+    where: {
+      id,
+    },
+    include: {
+      productImages: {
+        select: { id: true, url: true, isPrimary: true },
+        orderBy: { isPrimary: "desc" },
+      },
+    },
+  });
+
+  return product
+    ? {
+        ...product,
+        actualPrice: product.actualPrice.toNumber(),
+        offerPrice: product.offerPrice.toNumber(),
+      }
+    : null;
 }
 
 export async function createProduct(data: CreateProductParams) {
