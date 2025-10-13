@@ -23,7 +23,7 @@ export default async function Navbar() {
         </div>
 
         <div className="hidden sm:flex flex-row gap-6">
-          <Link href={"/home"}>Home</Link>
+          <Link href={"/"}>Home</Link>
           <Link href={"/shop"}>Shop</Link>
           {store && (
             <Link

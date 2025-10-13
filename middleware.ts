@@ -1,10 +1,12 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/utils/supabase-middleware";
 
+const AuthenticatedPaths = ["/store", "/create-store"];
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (pathname.startsWith("/store")) {
+  if (AuthenticatedPaths.some((path) => pathname.startsWith(path))) {
     const authResponse = await updateSession(request);
 
     authResponse.headers.set("x-url", request.url);

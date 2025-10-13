@@ -1,12 +1,17 @@
-import { SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import {
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import { Category } from "@prisma/client";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Funnel } from "lucide-react";
-import { Fragment, ReactNode } from "react";
+import { Fragment } from "react";
 import CategoryFilter from "./category-filter";
 import ClearAllButton from "./clear-all-button";
 import PriceRangeFilter from "./price-range-filter";
 import RatingsFilter from "./ratings-filter";
-import { Category } from "@prisma/client";
 
 type Props = {
   categories: Category[];
@@ -15,7 +20,7 @@ type Props = {
 export default function FilterSectionMobile({ categories }: Props) {
   return (
     <Fragment>
-      <SheetContent side="left" className="px-4" aria-describedby="">
+      <SheetContent side="left" className="" aria-describedby="">
         <SheetHeader>
           <SheetTitle>
             <div className="flex gap-2 items-center">
@@ -24,19 +29,23 @@ export default function FilterSectionMobile({ categories }: Props) {
             </div>
           </SheetTitle>
         </SheetHeader>
-        <PriceRangeFilter />
+        <section className="overflow-auto px-4 flex flex-col gap-3">
+          <PriceRangeFilter />
 
-        <Separator />
+          <Separator />
 
-        <RatingsFilter />
+          <RatingsFilter />
 
-        <Separator />
+          <Separator />
 
-        <CategoryFilter categories={categories} />
+          <CategoryFilter categories={categories} />
 
-        <Separator />
+          <Separator />
+        </section>
 
-        <ClearAllButton />
+        <SheetFooter>
+          <ClearAllButton />
+        </SheetFooter>
       </SheetContent>
     </Fragment>
   );
