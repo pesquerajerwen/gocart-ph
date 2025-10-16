@@ -20,9 +20,8 @@ function ProductCard({ product, imageClass }: Props) {
           <Image
             src={product.primaryImageUrl}
             alt="Product Image"
-            className={cn(
-              "object-contain group-hover:scale-110 transition-all"
-            )}
+            className="object-contain group-hover:scale-110 transition-all"
+            sizes="(max-width: 640px) 8rem, (max-width: 1024px) 10rem, 12rem"
             fill
           />
         </div>

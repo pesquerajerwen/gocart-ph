@@ -1,7 +1,7 @@
 import "@/app/globals.css";
-import AccountMenu from "@/components/account-menu";
+import AccountMenu from "@/components/navbar/account-menu";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { getCurrentUserAction } from "@/lib/actions/get-user";
+import { getCurrentUser } from "@/lib/dal/user";
 import { capitalize } from "lodash";
 import Link from "next/link";
 import React, { Suspense } from "react";
@@ -31,7 +31,7 @@ async function LayoutWrapper({
   children: React.ReactNode;
   params: Promise<{ storeId: string }>;
 }>) {
-  const user = await getCurrentUserAction();
+  const user = await getCurrentUser();
 
   const { storeId } = await params;
 

@@ -1,3 +1,4 @@
+import { createClient } from "@/utils/supabase-server";
 import { prisma } from "../db/client";
 import { faker } from "@faker-js/faker";
 
@@ -8,6 +9,22 @@ export type CreateUserProp = {
   lastName?: string;
   avatar_url?: string;
 };
+
+export async function getCurrentUser() {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error || !data.user) {
+    return null;
+  }
+
+  const user = await getUserBySupabaseId(data.user.id);
+
+  if (!user) return null;
+
+  return user;
+}
 
 export async function getUsers() {
   return prisma.user.findMany();

@@ -1,20 +1,18 @@
 import ProductCard from "@/components/product-card";
+import { Button } from "@/components/ui/button";
 import { getProductsWithRating } from "@/lib/dal/product";
+import { SearchX } from "lucide-react";
 import Link from "next/link";
 import { Fragment } from "react";
 import getSearchPayload from "../search-params";
+import NoResult from "./no-result";
 
 export default async function ProductList() {
   const searchPayload = await getSearchPayload();
 
   const productsWithRating = await getProductsWithRating(searchPayload);
 
-  if (productsWithRating.data.length <= 0)
-    return (
-      <div className=" h-full flex justify-center items-center">
-        <p className="text-slate-600">No products found</p>
-      </div>
-    );
+  if (productsWithRating.data.length <= 0) return <NoResult />;
 
   return (
     <Fragment>

@@ -1,6 +1,5 @@
-import { assets } from "@/assets/assets";
-import { ProductDescription } from "@/app/(buyer)/product/[productId]/product-description";
 import ProductDetails from "@/app/(buyer)/product/[productId]/product-details";
+import ProductTabs from "@/app/(buyer)/product/[productId]/product-tabs";
 import { getProduct } from "@/lib/dal/product";
 import { redirect } from "next/navigation";
 
@@ -20,7 +19,7 @@ export default async function ProductPage({ params }: Props) {
       <p className="text-sm text-slate-600">Home / Products / Home & Kitchen</p>
 
       <ProductDetails product={product} />
-      <ProductDescription />
+      <ProductTabs product={product} />
     </div>
   );
 }

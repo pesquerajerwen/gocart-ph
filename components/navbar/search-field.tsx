@@ -3,7 +3,7 @@
 import { Search } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { useQueryState } from "nuqs";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 export default function NavSearch() {
   const router = useRouter();
@@ -17,6 +17,10 @@ export default function NavSearch() {
   const [, setPage] = useQueryState("page");
 
   const [value, setValue] = useState(query ?? "");
+
+  useEffect(() => {
+    setValue(query);
+  }, [query]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

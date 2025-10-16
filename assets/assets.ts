@@ -16,6 +16,8 @@ import product_img9 from "./product_img9.png";
 import product_img10 from "./product_img10.png";
 import product_img11 from "./product_img11.png";
 import product_img12 from "./product_img12.png";
+import star from "./star.png";
+import document_search from "./document-search.png";
 
 export const assets = {
   upload_area,
@@ -36,4 +38,6 @@ export const assets = {
   product_img10,
   product_img11,
   product_img12,
+  star,
+  document_search,
 };

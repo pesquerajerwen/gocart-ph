@@ -61,9 +61,10 @@ model User {
   
   role         Role      @relation(fields: [roleId], references: [id])
   addresses    Address[]
-  carts        Cart[]
+  cartItems        CartItem[]
   orders       Order[]
-  Store        Store?
+  store        Store?
+  reviews      Review[]
 }
 
 model Role {
@@ -154,27 +155,21 @@ model ProductImage {
   product   Product @relation(fields: [productId], references: [id])
 }
 
-model Cart {
+model CartItem {
   id        String     @id @default(cuid())
   userId    String
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  isActive  Boolean    @default(true)
-
-  user      User       @relation(fields: [userId], references: [id])
-  items     CartItem[]
-}
-
-model CartItem {
-  id        String    @id @default(cuid())
-  cartId    String
   productId String
   quantity  Int
-  addedAt   DateTime  @default(now())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
-  cart      Cart      @relation(fields: [cartId], references: [id])
-  product   Product   @relation(fields: [productId], references: [id])
+  user      User       @relation(fields: [userId], references: [id])
+  product   Product    @relation(fields: [productId], references: [id])
+
+  @@unique([userId, productId])
 }
+
+
 
 model Order {
   id          String       @id @default(cuid())
@@ -210,6 +205,7 @@ model Review {
   id           String   @id @default(cuid())
   orderItemId  String   @unique
   productId    String   
+  userId       String
   rating       Int
   comment      String 
   createdAt    DateTime   @default(now())
@@ -217,6 +213,7 @@ model Review {
 
   orderItem    OrderItem? @relation(fields: [orderItemId], references: [id])
   product      Product    @relation(fields: [productId], references: [id])
+  user         User       @relation(fields: [userId], references: [id])
 }
 
 model Payment {
