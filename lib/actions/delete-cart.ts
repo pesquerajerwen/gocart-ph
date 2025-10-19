@@ -1,12 +1,12 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { createCartItem } from "../dal/cart";
-import { getCurrentUser, getUserBySupabaseId } from "../dal/user";
-import { createCartSchema } from "../schema/cart";
+import { deleteCartItem } from "../dal/cart";
+import { getCurrentUser } from "../dal/user";
+import { deleteCartItemSchema } from "../schema/cart";
 
-export async function createCartItemAction(rawData: unknown) {
-  const parsed = createCartSchema.safeParse(rawData);
+export async function deleteCartAction(rawData: unknown) {
+  const parsed = deleteCartItemSchema.safeParse(rawData);
 
   if (!parsed.success) {
     return {
@@ -24,9 +24,9 @@ export async function createCartItemAction(rawData: unknown) {
   }
 
   try {
-    await createCartItem({
-      ...parsed.data,
+    await deleteCartItem({
       userId: user.id,
+      productId: parsed.data.productId,
     });
   } catch (error) {
     return {

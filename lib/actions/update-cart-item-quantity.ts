@@ -1,12 +1,12 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { createCartItem } from "../dal/cart";
-import { getCurrentUser, getUserBySupabaseId } from "../dal/user";
-import { createCartSchema } from "../schema/cart";
+import { updateCartItemQuantity } from "../dal/cart";
+import { getCurrentUser } from "../dal/user";
+import { updateCartItemQuantitySchema } from "../schema/cart";
 
-export async function createCartItemAction(rawData: unknown) {
-  const parsed = createCartSchema.safeParse(rawData);
+export async function updateCartItemQuantityAction(rawData: unknown) {
+  const parsed = updateCartItemQuantitySchema.safeParse(rawData);
 
   if (!parsed.success) {
     return {
@@ -20,11 +20,11 @@ export async function createCartItemAction(rawData: unknown) {
   const user = await getCurrentUser();
 
   if (!user) {
-    redirect("login");
+    return redirect("login");
   }
 
   try {
-    await createCartItem({
+    await updateCartItemQuantity({
       ...parsed.data,
       userId: user.id,
     });
@@ -37,5 +37,5 @@ export async function createCartItemAction(rawData: unknown) {
     };
   }
 
-  return { success: true, message: "Cart successfully created." };
+  return { success: true, message: "Cart item quantity successfully updated." };
 }

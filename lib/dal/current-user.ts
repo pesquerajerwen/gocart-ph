@@ -4,9 +4,9 @@ import { prisma } from "../db/client";
 export async function getCurrentUser() {
   const supabase = await createClient();
 
-  const currentSession = await supabase.auth.getSession();
+  const currentUser = await supabase.auth.getUser();
 
   return prisma.user.findUnique({
-    where: { supabaseId: currentSession.data.session?.user.id },
+    where: { supabaseId: currentUser.data.user?.id },
   });
 }

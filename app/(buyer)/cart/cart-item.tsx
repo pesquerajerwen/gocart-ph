@@ -1,11 +1,9 @@
-"use client";
-
 import { assets } from "@/assets/assets";
-import CounterInput from "@/components/ui/counter-input";
 import { CartItemWithProduct } from "@/lib/types/cart";
 import { cn } from "@/lib/utils";
-import { Trash2 } from "lucide-react";
 import Image from "next/image";
+import QuantityField from "./quantity-field";
+import DeleteIcon from "./delete-icon";
 
 type Props = {
   cartItem: CartItemWithProduct;
@@ -43,11 +41,7 @@ export default function CartItem({ cartItem }: Props) {
         </div>
       </div>
       <div className="col-span-1 flex justify-center">
-        <CounterInput
-          defaultValue={cartItem.quantity}
-          min={0}
-          onChange={(value) => null}
-        />
+        <QuantityField productId={product.id} quantity={cartItem.quantity} />
       </div>
       <div className="col-span-1 flex justify-center">
         <p className="text-slate-600">
@@ -55,7 +49,7 @@ export default function CartItem({ cartItem }: Props) {
         </p>
       </div>
       <div className="col-span-1 flex justify-center">
-        <Trash2 className="text-red-500 size-5 cursor-pointer" />
+        <DeleteIcon productId={product.id} />
       </div>
     </div>
   );

@@ -4,8 +4,7 @@ import { Button } from "@/components/ui/button";
 import CounterInput from "@/components/ui/counter-input";
 import { createCartItemAction } from "@/lib/actions/create-cart";
 import { ProductWithImages } from "@/lib/types/product";
-import { createClient } from "@/utils/supabase-client";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
@@ -14,8 +13,6 @@ type Props = {
 };
 
 export default function ProductForm({ product }: Props) {
-  const supabase = createClient();
-
   const router = useRouter();
 
   const [quantity, setQuantity] = useState(0);
@@ -23,13 +20,8 @@ export default function ProductForm({ product }: Props) {
   const [isPending, startTransition] = useTransition();
 
   async function handleClickAddToCart() {
-    const userId = (await supabase.auth.getSession()).data.session?.user.id;
-
-    if (!userId) redirect("/login");
-
     startTransition(async () => {
       const { success } = await createCartItemAction({
-        userId,
         productId: product.id,
         quantity,
       });

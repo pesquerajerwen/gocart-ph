@@ -1,8 +1,12 @@
 import { prisma } from "../db/client";
-import { CreateCartParams } from "../types/cart";
+import {
+  CreateCartParams,
+  DeleteCartItemParams,
+  UpdateCartItemQuantityParams,
+} from "../types/cart";
 
 export async function getCartItems({ userId }: { userId: string }) {
-  // TODO: Add auth validation on private actions
+  console.log("fetching cart items");
 
   const cartItems = await prisma.cartItem.findMany({
     where: { userId },
@@ -35,6 +39,27 @@ export async function createCartItem(data: CreateCartParams) {
     create: data,
     update: {
       quantity: { increment: data.quantity },
+    },
+  });
+}
+
+export async function updateCartItemQuantity(
+  data: UpdateCartItemQuantityParams
+) {
+  return prisma.cartItem.update({
+    where: {
+      userId_productId: { userId: data.userId, productId: data.productId },
+    },
+    data: {
+      quantity: data.quantity,
+    },
+  });
+}
+
+export async function deleteCartItem(data: DeleteCartItemParams) {
+  return prisma.cartItem.delete({
+    where: {
+      userId_productId: { userId: data.userId, productId: data.productId },
     },
   });
 }
