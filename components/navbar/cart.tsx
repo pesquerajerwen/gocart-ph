@@ -1,4 +1,4 @@
-import { getCartItems } from "@/lib/dal/cart";
+import { getCartItems, getCartItemsCount } from "@/lib/dal/cart";
 import { ShoppingCart } from "lucide-react";
 import { Badge } from "../ui/badge";
 import Link from "next/link";
@@ -8,14 +8,14 @@ type Props = {
 };
 
 export default async function Cart({ userId }: Props) {
-  const cartItems = userId ? await getCartItems({ userId }) : [];
+  const cartItemsCount = userId ? await getCartItemsCount({ userId }) : [];
 
   return (
     <Link href={"/cart"}>
       <div className="flex items-center gap-3 relative cursor-pointer">
         <ShoppingCart size={18} />
         <Badge className="absolute -top-1 left-3 text-[8px] text-white bg-slate-600 size-3.5 rounded-full">
-          {cartItems.length}
+          {cartItemsCount}
         </Badge>
         <p>Cart</p>
       </div>
