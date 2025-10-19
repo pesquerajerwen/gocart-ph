@@ -12,7 +12,7 @@ const BASE_FIELDS = {
     .number()
     .nonnegative("Offer price must be zero or positive"),
   stock: z.coerce.number().nonnegative("Stock must be zero or positive"),
-  categoryId: z.string().min(1, "Category ID is required"),
+  categoryName: z.string().min(1, "Category ID is required"),
   productImages: z
     .array(
       z
@@ -72,4 +72,26 @@ export type CreateProductClientValues = z.infer<
 export const updateProductStatusSchema = z.object({
   id: z.string(),
   status: z.enum(["active", "deactivated"]),
+});
+
+export const getProductsSchema = z.object({
+  sortKey: z
+    .enum(["name", "description", "offerPrice", "actualPrice"])
+    .default("name")
+    .catch("name"),
+  sortOrder: z.enum(["asc", "desc"]).default("asc").catch("asc"),
+  size: z.coerce
+    .number()
+    .refine((val) => [5, 10, 20].includes(val), {
+      message: "Size must be one of 5, 10, or 20",
+    })
+    .default(10)
+    .catch(10),
+  page: z.coerce
+    .number()
+    .min(1, { message: "Page must be 1 or greater" })
+    .default(1)
+    .catch(1),
+  search: z.string().optional(),
+  storeId: z.string().default("").catch(""),
 });

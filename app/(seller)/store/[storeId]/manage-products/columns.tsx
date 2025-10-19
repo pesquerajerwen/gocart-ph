@@ -1,4 +1,8 @@
-import { Switch } from "@/components/ui/switch";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { ProductWithImages } from "@/lib/types/product";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
@@ -28,7 +32,14 @@ export const columns: ColumnDef<ProductWithImages>[] = [
     accessorKey: "description",
     header: "Description",
     size: 50,
-    cell: ({ row }) => <p className="truncate">{row.original.description}</p>,
+    cell: ({ row }) => (
+      <Tooltip delayDuration={700}>
+        <TooltipTrigger asChild>
+          <p className="truncate">{row.original.description}</p>
+        </TooltipTrigger>
+        <TooltipContent>{row.original.description}</TooltipContent>
+      </Tooltip>
+    ),
   },
   {
     accessorKey: "actualPrice",

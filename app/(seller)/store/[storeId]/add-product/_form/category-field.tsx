@@ -24,7 +24,7 @@ export default function CategoryField() {
   return (
     <FormField
       control={control}
-      name="categoryId"
+      name="categoryName"
       render={({ field }) => (
         <FormItem>
           <FormLabel className="text-slate-500">Category</FormLabel>
@@ -36,7 +36,7 @@ export default function CategoryField() {
 
               <SelectContent>
                 {categories.map((category) => (
-                  <SelectItem key={category.id} value={category.id}>
+                  <SelectItem key={category.name} value={category.name}>
                     {category.name}
                   </SelectItem>
                 ))}

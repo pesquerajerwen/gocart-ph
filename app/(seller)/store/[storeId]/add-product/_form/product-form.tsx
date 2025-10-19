@@ -25,7 +25,7 @@ const defaultValues = {
   actualPrice: 0,
   offerPrice: 0,
   stock: 0,
-  categoryId: "",
+  categoryName: "",
 };
 
 export default function ProductForm() {
@@ -35,7 +35,7 @@ export default function ProductForm() {
   });
 
   const {
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
   } = form;
 
   async function onSubmit(values: CreateProductClientValues) {

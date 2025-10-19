@@ -39,7 +39,7 @@ export async function createProductAction(rawData: unknown) {
 
   let productId = null;
 
-  const { productImages, ...rest } = parsed.data;
+  const { productImages, categoryName, ...rest } = parsed.data;
 
   const mappedProductImages = productImages
     .filter((i) => i?.url)
@@ -54,7 +54,7 @@ export async function createProductAction(rawData: unknown) {
       productImages: mappedProductImages,
       status: ProductStatus.active,
       storeId: store.id,
-      categorySlug: slugify(rest.categoryId), // TODO: Replace with category slug
+      categorySlug: slugify(categoryName, { lower: true }),
       totalRating: 0,
       totalSales: 0,
     });

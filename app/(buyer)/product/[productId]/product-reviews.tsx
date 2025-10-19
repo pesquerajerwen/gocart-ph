@@ -2,7 +2,6 @@ import { assets } from "@/assets/assets";
 import UserReviewComponent from "@/components/product-review";
 import { Separator } from "@/components/ui/separator";
 import { getProductReviews } from "@/lib/dal/reviews";
-import { Star } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 

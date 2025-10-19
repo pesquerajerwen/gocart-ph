@@ -19,6 +19,7 @@ import product_img12 from "./product_img12.png";
 import star from "./star.png";
 import document_search from "./document-search.png";
 import image_not_available from "./image_not_available.png";
+import stumbled_robot from "./stumbled-robot.png";
 
 export const assets = {
   upload_area,
@@ -42,4 +43,5 @@ export const assets = {
   star,
   document_search,
   image_not_available,
+  stumbled_robot,
 };

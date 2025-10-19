@@ -8,6 +8,7 @@ import {
   GetStoreProductsParams,
   UpdateProductStatusParams,
 } from "../types/product";
+import { getProductsSchema } from "../schema/product";
 
 const sortSchema = z.object({
   sortKey: z.enum(["totalSales", "offerPrice", "createdAt"]),
@@ -102,14 +103,15 @@ export async function getProductsWithRating({
   };
 }
 
-export async function getStoreProducts({
-  sortKey = "name",
-  sortOrder = "asc",
-  size = 10,
-  page = 1,
-  search,
-  storeId,
-}: GetStoreProductsParams) {
+export async function getStoreProducts(props: GetStoreProductsParams) {
+  const parseGetProductPayload = getProductsSchema.safeParse(props);
+
+  const { data, error } = parseGetProductPayload;
+
+  if (error) throw new Error(error.message);
+
+  const { page, size, search, sortKey, sortOrder, storeId } = data;
+
   const skip = (page - 1) * size;
 
   const where = {
@@ -127,7 +129,7 @@ export async function getStoreProducts({
       where,
       orderBy: { [sortKey]: sortOrder },
       skip,
-      take: size + 1,
+      take: size,
       include: {
         productImages: {
           select: { id: true, url: true, isPrimary: true },

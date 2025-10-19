@@ -2,6 +2,8 @@ import { prisma } from "../db/client";
 import { CreateCartParams } from "../types/cart";
 
 export async function getCartItems({ userId }: { userId: string }) {
+  // TODO: Add auth validation on private actions
+
   const cartItems = await prisma.cartItem.findMany({
     where: { userId },
     include: {

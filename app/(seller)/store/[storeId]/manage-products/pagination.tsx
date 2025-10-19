@@ -34,7 +34,7 @@ export default function TablePagination({ pagination }: Props) {
         <span className="text-sm text-slate-600">Rows per page:</span>
         <Select
           onValueChange={async (value) => {
-            await setSize(Number(value));
+            await Promise.all([setPage(1), setSize(Number(value))]);
 
             router.refresh();
           }}
@@ -62,7 +62,7 @@ export default function TablePagination({ pagination }: Props) {
         <Button
           variant="outline"
           onClick={async () => {
-            await setPage(0);
+            await setPage(1);
 
             router.refresh();
           }}

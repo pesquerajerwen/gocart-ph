@@ -77,10 +77,12 @@ export default function DataTableHeader({ table }: Props) {
                     {!disableSorting && (
                       <>
                         {isSorted === false && (
-                          <ArrowUpDown className="size-4" />
+                          <ArrowUpDown className="size-2.5" />
                         )}
-                        {isSorted === "asc" && <MoveUp className="size-4" />}
-                        {isSorted === "desc" && <MoveDown className="size-4" />}
+                        {isSorted === "asc" && <MoveUp className="size-2.5" />}
+                        {isSorted === "desc" && (
+                          <MoveDown className="size-2.5" />
+                        )}
                       </>
                     )}
                   </div>

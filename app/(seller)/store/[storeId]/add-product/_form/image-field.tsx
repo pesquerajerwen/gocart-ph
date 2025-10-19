@@ -22,7 +22,7 @@ type Props = {
 export default function ImageField({ index }: Props) {
   const supabase = createClient();
 
-  const { control, watch, setValue, getFieldState, getValues } =
+  const { control, watch, setValue, getFieldState } =
     useFormContext<CreateProductClientValues>();
 
   const { productImages } = watch();
@@ -79,6 +79,9 @@ export default function ImageField({ index }: Props) {
                 if (file instanceof File) {
                   handleOnChange(file);
                 }
+              }}
+              onFileRemove={() => {
+                setValue(`productImages.${index}.url`, undefined);
               }}
               className="size-29"
             />
