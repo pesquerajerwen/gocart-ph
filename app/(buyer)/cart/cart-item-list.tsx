@@ -1,11 +1,10 @@
-import { getCartItems } from "@/lib/dal/cart";
+"use client";
+
+import { useCartStore } from "@/zustand/cart-store";
 import CartItem from "./cart-item";
-import { getCurrentUser } from "@/lib/dal/current-user";
 
-export default async function CartItemList() {
-  const user = await getCurrentUser();
-
-  const cartItems = user ? await getCartItems({ userId: user.id }) : [];
+export default function CartItemList() {
+  const { cartItems } = useCartStore();
 
   return (
     <div className="space-y-6">

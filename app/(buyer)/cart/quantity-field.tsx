@@ -2,17 +2,21 @@
 
 import CounterInput from "@/components/ui/counter-input";
 import { updateCartItemQuantityAction } from "@/lib/actions/update-cart-item-quantity";
+import { ProductWithImages } from "@/lib/types/product";
+import { useCartStore } from "@/zustand/cart-store";
 import _ from "lodash";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
 type Props = {
-  productId: string;
+  product: ProductWithImages;
   quantity: number;
 };
 
-export default function QuantityField({ productId, quantity }: Props) {
+export default function QuantityField({ product, quantity }: Props) {
   const router = useRouter();
+
+  const { openRemoveItemDialog } = useCartStore();
 
   const [value, setValue] = useState(quantity);
 
@@ -20,7 +24,7 @@ export default function QuantityField({ productId, quantity }: Props) {
 
   async function handleChange(inputValue: number) {
     const { error } = await updateCartItemQuantityAction({
-      productId,
+      productId: product.id,
       quantity: inputValue,
     });
 
@@ -37,6 +41,12 @@ export default function QuantityField({ productId, quantity }: Props) {
       min={0}
       value={value}
       onChange={(value) => {
+        if (value === 0) {
+          return openRemoveItemDialog({
+            product,
+          });
+        }
+
         setValue(value);
         debounceHandleChange(value);
       }}

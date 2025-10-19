@@ -1,6 +1,12 @@
 "use client";
 
-import { deleteCartAction } from "@/lib/actions/delete-cart";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { deleteCartItemAction } from "@/lib/actions/delete-cart-item";
+import { useCartStore } from "@/zustand/cart-store";
 import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -12,8 +18,16 @@ type Props = {
 export default function DeleteIcon({ productId }: Props) {
   const router = useRouter();
 
+  const { cartItems, setCartItems } = useCartStore();
+
   async function handleClick() {
-    const { error } = await deleteCartAction({
+    const updatedCartItems = cartItems.filter(
+      (cartItem) => cartItem.productId !== productId
+    );
+
+    setCartItems(updatedCartItems);
+
+    const { error } = await deleteCartItemAction({
       productId,
     });
 
@@ -25,9 +39,16 @@ export default function DeleteIcon({ productId }: Props) {
   }
 
   return (
-    <Trash2
-      className="text-red-500 size-5 cursor-pointer"
-      onClick={handleClick}
-    />
+    <Tooltip>
+      <TooltipTrigger>
+        <Trash2
+          className="text-red-500 size-5 cursor-pointer"
+          onClick={handleClick}
+        />
+      </TooltipTrigger>
+      <TooltipContent sideOffset={5}>
+        <p className="text-sm">Remove item</p>
+      </TooltipContent>
+    </Tooltip>
   );
 }

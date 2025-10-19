@@ -5,7 +5,7 @@ import { deleteCartItem } from "../dal/cart";
 import { getCurrentUser } from "../dal/user";
 import { deleteCartItemSchema } from "../schema/cart";
 
-export async function deleteCartAction(rawData: unknown) {
+export async function deleteCartItemAction(rawData: unknown) {
   const parsed = deleteCartItemSchema.safeParse(rawData);
 
   if (!parsed.success) {

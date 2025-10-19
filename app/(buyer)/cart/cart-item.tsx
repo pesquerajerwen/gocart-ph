@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import QuantityField from "./quantity-field";
 import DeleteIcon from "./delete-icon";
+import Link from "next/link";
 
 type Props = {
   cartItem: CartItemWithProduct;
@@ -24,24 +25,28 @@ export default function CartItem({ cartItem }: Props) {
             )}
           >
             <div className={cn("relative size-12")}>
-              <Image
-                src={primaryImage?.url || assets.image_not_available}
-                alt="Product Image"
-                className="object-cover"
-                sizes="(max-width: 640px) 8rem, (max-width: 1024px) 10rem, 12rem"
-                fill
-              />
+              <Link href={`/product/${product.id}`}>
+                <Image
+                  src={primaryImage?.url || assets.image_not_available}
+                  alt="Product Image"
+                  className="object-cover"
+                  sizes="(max-width: 640px) 8rem, (max-width: 1024px) 10rem, 12rem"
+                  fill
+                />
+              </Link>
             </div>
           </div>
           <div>
-            <p>{product.name}</p>
+            <Link href={`/product/${product.id}`}>
+              <p>{product.name}</p>
+            </Link>
             <p className="text-xs text-slate-500">{product.categorySlug}</p>
             <p className="text-slate-600">${Number(product.offerPrice)}</p>
           </div>
         </div>
       </div>
       <div className="col-span-1 flex justify-center">
-        <QuantityField productId={product.id} quantity={cartItem.quantity} />
+        <QuantityField product={product} quantity={cartItem.quantity} />
       </div>
       <div className="col-span-1 flex justify-center">
         <p className="text-slate-600">

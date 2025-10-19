@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import CounterInput from "@/components/ui/counter-input";
-import { createCartItemAction } from "@/lib/actions/create-cart";
+import { createCartItemAction } from "@/lib/actions/create-cart-item";
 import { ProductWithImages } from "@/lib/types/product";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -15,7 +15,7 @@ type Props = {
 export default function ProductForm({ product }: Props) {
   const router = useRouter();
 
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
   const [isPending, startTransition] = useTransition();
 
@@ -54,7 +54,7 @@ export default function ProductForm({ product }: Props) {
         <Button
           className="rounded"
           onClick={handleClickAddToCart}
-          disabled={isPending}
+          disabled={isPending || quantity <= 0}
         >
           Add To Cart
         </Button>
