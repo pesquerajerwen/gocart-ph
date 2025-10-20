@@ -5,6 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { CartItemWithProduct } from "@/lib/types/cart";
 import { PlusIcon } from "lucide-react";
+import AddressSection from "./address-section";
 
 type Props = {
   cartItems: CartItemWithProduct[];
@@ -46,12 +47,7 @@ export default async function PaymentSummary({ cartItems }: Props) {
 
       <Separator />
 
-      <div>
-        <p className="text-slate-400 text-sm">Address</p>
-        <p className="flex items-center gap-1 text-sm text-slate-500 cursor-pointer hover:underline">
-          Add address <PlusIcon className="size-4" />
-        </p>
-      </div>
+      <AddressSection />
 
       <Separator />
 

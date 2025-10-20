@@ -78,15 +78,12 @@ model Role {
 model Address {
   id          String    @id @default(cuid())
   userId      String    @unique
-  firstName   String
-  lastName    String
+  fullName    String
   phone       String?
-  addressLine1 String
-  addressLine2 String?
+  address     String
   city        String
   state       String
   postalCode  String
-  country     String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 

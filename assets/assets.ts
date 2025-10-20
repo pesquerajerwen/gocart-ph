@@ -20,6 +20,7 @@ import star from "./star.png";
 import document_search from "./document-search.png";
 import image_not_available from "./image_not_available.png";
 import stumbled_robot from "./stumbled-robot.png";
+import empty_cart from "./empty-cart.png";
 
 export const assets = {
   upload_area,
@@ -44,4 +45,5 @@ export const assets = {
   document_search,
   image_not_available,
   stumbled_robot,
+  empty_cart,
 };

@@ -42,7 +42,7 @@ export default function DeleteIcon({ productId }: Props) {
     <Tooltip>
       <TooltipTrigger>
         <Trash2
-          className="text-red-500 size-5 cursor-pointer"
+          className="text-slate-500 hover:text-red-500 size-5 cursor-pointer"
           onClick={handleClick}
         />
       </TooltipTrigger>
