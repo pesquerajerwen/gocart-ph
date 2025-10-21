@@ -79,13 +79,16 @@ model Address {
   id          String    @id @default(cuid())
   userId      String    @unique
   fullName    String
-  phone       String?
-  address     String
+  phone       String
+  region      String
+  province    String
   city        String
-  state       String
-  postalCode  String
+  barangay    String
+  address     String
+  zipcode     String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  isDefault   Boolean   @default(false)
 
   user        User      @relation(fields: [userId], references: [id])
   orders      Order[]

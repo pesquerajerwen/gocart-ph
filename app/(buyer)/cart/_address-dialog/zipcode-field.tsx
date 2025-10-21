@@ -1,7 +1,5 @@
 "use client";
 
-import { useFormContext } from "react-hook-form";
-import { Input } from "@/components/ui/input";
 import {
   FormControl,
   FormField,
@@ -9,19 +7,21 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useFormContext } from "react-hook-form";
 
-export default function StreetAddressField() {
+export default function ZipcodeField() {
   const { control } = useFormContext();
 
   return (
     <FormField
       control={control}
-      name="address"
+      name="zipcode"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Street Address</FormLabel>
+          <FormLabel>Zip Code</FormLabel>
           <FormControl>
-            <Input placeholder="Street, Building, House No." {...field} />
+            <Input placeholder="Zip Code" {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>

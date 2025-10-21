@@ -6,7 +6,6 @@ import {
 } from "../types/cart";
 
 export async function getCartItems({ userId }: { userId: string }) {
-  console.log("fetching cart items");
 
   const cartItems = await prisma.cartItem.findMany({
     where: { userId },
