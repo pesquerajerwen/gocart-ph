@@ -6,3 +6,8 @@ export type Pagination = {
   totalCount: number;
   totalPage: number;
 };
+
+export type ApiResponse<T> = {
+  error?: string;
+  data?: T;
+};

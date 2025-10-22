@@ -1,7 +1,8 @@
 import "@/app/globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
+import QueryProvider from "@/lib/providers/query-provider";
 import { Outfit } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
 
 const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600"] });
@@ -19,8 +20,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${outfit.className} antialiased`}>
-        <NuqsAdapter>{children}</NuqsAdapter>
-        <Toaster richColors position="top-right" />
+        <QueryProvider>
+          <NuqsAdapter>
+            {children}
+            <Toaster richColors position="top-right" />
+          </NuqsAdapter>
+        </QueryProvider>
       </body>
     </html>
   );

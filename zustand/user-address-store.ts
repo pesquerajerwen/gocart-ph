@@ -3,26 +3,46 @@
 import { create } from "zustand";
 
 interface UserAddressState {
-  addressDialog: {
+  createAddressDialog: {
     open: boolean;
   };
-  openDialog: () => void;
-  closeDialog: () => void;
+  myAddressDialog: {
+    open: boolean;
+  };
+  openCreateAddressDialog: () => void;
+  closeCreateAddressDialog: () => void;
+  openMyAddressDialog: () => void;
+  closeMyAddressDialog: () => void;
 }
 
 export const useUserAddressStore = create<UserAddressState>((set) => ({
-  addressDialog: {
+  createAddressDialog: {
     open: false,
   },
-  openDialog: () =>
+  myAddressDialog: {
+    open: false,
+  },
+  openCreateAddressDialog: () =>
     set({
-      addressDialog: {
+      createAddressDialog: {
         open: true,
       },
     }),
-  closeDialog: () =>
+  closeCreateAddressDialog: () =>
     set((state) => ({
-      addressDialog: {
+      createAddressDialog: {
+        open: false,
+      },
+    })),
+  openMyAddressDialog: () =>
+    set({
+      myAddressDialog: {
+        open: true,
+      },
+    }),
+  closeMyAddressDialog: () =>
+    set((state) => ({
+      myAddressDialog: {
         open: false,
       },
     })),

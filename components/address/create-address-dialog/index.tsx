@@ -13,6 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { AddressFormValues, addressSchema } from "@/lib/schema/address";
 import { useUserAddressStore } from "@/zustand/user-address-store";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import BarangaySelect from "./barangay-select";
 import CitySelect from "./city-select";
@@ -23,12 +24,16 @@ import ProvinceSelect from "./province-select";
 import RegionSelect from "./region-select";
 import StreetAddressField from "./street-field";
 import ZipcodeField from "./zipcode-field";
-import { createAddressAction } from "@/lib/actions/create-address";
-import { toast } from "sonner";
-import { LoaderCircle } from "lucide-react";
+import useHandleSubmit from "./hooks/handle-submit";
+import { usePrimaryAddress } from "@/hooks/use-primary-address";
 
-export default function AddressDialog() {
-  const { addressDialog, closeDialog } = useUserAddressStore();
+export default function CreateAddressDialog() {
+  const { createAddressDialog, closeCreateAddressDialog } =
+    useUserAddressStore();
+
+  const handleSubmit = useHandleSubmit();
+
+  const { data: primaryAddress } = usePrimaryAddress();
 
   const form = useForm<AddressFormValues>({
     resolver: zodResolver(addressSchema),
@@ -41,32 +46,22 @@ export default function AddressDialog() {
       barangay: "",
       address: "",
       zipcode: "",
-      isDefault: false,
+      isDefault: primaryAddress ? false : true,
     },
   });
 
-  const handleSubmit = async (values: AddressFormValues) => {
-    const { error } = await createAddressAction(values);
-
-    if (error) {
-      return toast.error(error.message);
-    }
-
-    closeDialog();
-  };
-
   return (
     <Dialog
-      open={addressDialog.open}
-      onOpenChange={(open) => !open && closeDialog()}
+      open={createAddressDialog.open}
+      onOpenChange={(open) => !open && closeCreateAddressDialog()}
     >
       <DialogContent className="sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>New Address</DialogTitle>
         </DialogHeader>
 
-        <fieldset disabled={form.formState.isSubmitting}>
-          <Form {...form}>
+        <Form {...form}>
+          <fieldset disabled={form.formState.isSubmitting}>
             <form
               onSubmit={form.handleSubmit(handleSubmit)}
               className="space-y-4"
@@ -87,7 +82,8 @@ export default function AddressDialog() {
                 <StreetAddressField />
                 <ZipcodeField />
               </div>
-              <DefaultCheckbox />
+
+              {!!primaryAddress && <DefaultCheckbox />}
 
               <Separator />
 
@@ -95,7 +91,7 @@ export default function AddressDialog() {
                 <Button
                   type="button"
                   variant="ghost"
-                  onClick={() => closeDialog()}
+                  onClick={() => closeCreateAddressDialog()}
                   className="w-24"
                 >
                   Cancel
@@ -109,8 +105,8 @@ export default function AddressDialog() {
                 </Button>
               </DialogFooter>
             </form>
-          </Form>
-        </fieldset>
+          </fieldset>
+        </Form>
       </DialogContent>
     </Dialog>
   );

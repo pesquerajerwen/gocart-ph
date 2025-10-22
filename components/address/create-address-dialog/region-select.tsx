@@ -22,7 +22,13 @@ export default function RegionSelect() {
   const [regionList, setRegionList] = useState<Region[]>([]);
 
   useEffect(() => {
-    regions().then((data) => setRegionList(data));
+    async function fetchRegions() {
+      const regionList = await regions();
+
+      setRegionList(regionList);
+    }
+
+    fetchRegions();
   }, []);
 
   return (

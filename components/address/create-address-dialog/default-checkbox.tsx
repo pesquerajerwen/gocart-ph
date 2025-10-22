@@ -1,6 +1,5 @@
 "use client";
 
-import { useFormContext } from "react-hook-form";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   FormControl,
@@ -8,6 +7,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import { useFormContext } from "react-hook-form";
 
 export default function DefaultCheckbox() {
   const { control } = useFormContext();

@@ -4,7 +4,6 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { CartItemWithProduct } from "@/lib/types/cart";
-import { PlusIcon } from "lucide-react";
 import AddressSection from "./address-section";
 
 type Props = {

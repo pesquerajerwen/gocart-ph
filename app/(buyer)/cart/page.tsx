@@ -4,13 +4,19 @@ import PaymentSummary from "./payment-summary";
 import { getCartItems } from "@/lib/dal/cart";
 import DataHydrator from "./data-hydrator";
 import RemoveItemDialog from "./remove-item-dialog";
-import AddressDialog from "./_address-dialog";
+import CreateAddressDialog from "@/components/address/create-address-dialog";
 import EmptyCart from "./empty-cart";
+import MyAddressDialog from "@/components/address/my-address-dialog";
+import AddressList from "@/components/address/my-address-dialog/address-list";
+import { getAddresses } from "@/lib/dal/address";
 
 export default async function CartPage() {
   const user = await getCurrentUser();
 
-  const cartItems = user ? await getCartItems({ userId: user.id }) : [];
+  const [cartItems, addresses] = await Promise.all([
+    user ? await getCartItems({ userId: user.id }) : [],
+    user?.id ? await getAddresses({ userId: user.id }) : [],
+  ]);
 
   if (cartItems.length === 0) return <EmptyCart />;
 
@@ -18,7 +24,8 @@ export default async function CartPage() {
     <DataHydrator cartItems={cartItems}>
       <div className="px-6 max-w-7xl mx-auto my-10 space-y-5">
         <RemoveItemDialog />
-        <AddressDialog />
+        <CreateAddressDialog />
+        <MyAddressDialog addresses={addresses} />
 
         <section>
           <h1 className="text-xl text-stale-800 font-bold">My Cart</h1>
@@ -29,7 +36,7 @@ export default async function CartPage() {
           <div className="flex-1">
             <CartItemList />
           </div>
-          <div className="min-w-80">
+          <div className="w-full sm:w-80">
             <PaymentSummary cartItems={cartItems} />
           </div>
         </section>
