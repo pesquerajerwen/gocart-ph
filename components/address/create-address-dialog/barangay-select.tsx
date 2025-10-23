@@ -1,14 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useFormContext } from "react-hook-form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   FormControl,
   FormField,
@@ -16,24 +7,25 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { barangays, Barangay } from "select-philippines-address";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { AddressFormValues } from "@/lib/schema/address";
+import { useFormContext } from "react-hook-form";
 
 export default function BarangaySelect() {
-  const { watch, setValue, control } = useFormContext();
-  const selectedCity = watch("city");
-  const [barangayList, setBarangayList] = useState<Barangay[]>([]);
+  const { watch, setValue, control } = useFormContext<AddressFormValues>();
+  const { city: selectedCity, barangayList } = watch();
 
-  useEffect(() => {
-    if (selectedCity) {
-      barangays(selectedCity).then((data) => {
-        setBarangayList(data);
-        setValue("barangay", "");
-      });
-    } else {
-      setBarangayList([]);
-      setValue("barangay", "");
-    }
-  }, [selectedCity, setValue]);
+  async function handleOnChange(selectedBrgy: string) {
+    if (!selectedBrgy) return;
+
+    setValue("barangay", selectedBrgy);
+  }
 
   return (
     <FormField
@@ -43,7 +35,7 @@ export default function BarangaySelect() {
         <FormItem>
           <FormLabel>Barangay</FormLabel>
           <Select
-            onValueChange={field.onChange}
+            onValueChange={handleOnChange}
             value={field.value}
             disabled={!selectedCity}
           >

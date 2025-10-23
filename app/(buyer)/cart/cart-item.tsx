@@ -16,7 +16,7 @@ export default function CartItem({ cartItem }: Props) {
   const primaryImage = product.productImages.find((p) => p.isPrimary);
 
   return (
-    <div className="grid grid-cols-6 items-center">
+    <div className="grid grid-cols-5 sm:grid-cols-6 items-center">
       <div className="col-span-3">
         <div className="flex gap-2">
           <div
@@ -53,7 +53,7 @@ export default function CartItem({ cartItem }: Props) {
           ${cartItem.quantity * Number(product.offerPrice)}
         </p>
       </div>
-      <div className="col-span-1 flex justify-center">
+      <div className="col-span-1 flex justify-center max-sm:hidden">
         <DeleteIcon productId={product.id} />
       </div>
     </div>

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 
 export default function FullNameField() {
-  const { register, control } = useFormContext();
+  const { control } = useFormContext();
 
   return (
     <FormField

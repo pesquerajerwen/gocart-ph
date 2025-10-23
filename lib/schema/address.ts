@@ -14,6 +14,16 @@ export const addressSchema = z.object({
   address: z.string().min(1, "Street address is required"),
   zipcode: z.string().min(1, "Zip code is required"),
   isDefault: z.boolean().default(false),
+  regionList: z.array(
+    z.object({ region_code: z.string(), region_name: z.string() })
+  ),
+  provinceList: z.array(
+    z.object({ province_code: z.string(), province_name: z.string() })
+  ),
+  cityList: z.array(z.object({ city_code: z.string(), city_name: z.string() })),
+  barangayList: z.array(
+    z.object({ brgy_code: z.string(), brgy_name: z.string() })
+  ),
 });
 
 export type AddressFormValues = z.input<typeof addressSchema>;

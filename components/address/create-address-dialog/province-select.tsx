@@ -1,14 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useFormContext } from "react-hook-form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   FormControl,
   FormField,
@@ -16,28 +7,35 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { provinces, Province } from "select-philippines-address";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { AddressFormValues } from "@/lib/schema/address";
+import { useCallback, useEffect } from "react";
+import { useFormContext } from "react-hook-form";
+import { cities } from "select-philippines-address";
 
 export default function ProvinceSelect() {
-  const { watch, setValue, control } = useFormContext();
-  const selectedRegion = watch("region");
-  const [provinceList, setProvinceList] = useState<Province[]>([]);
+  const { watch, setValue, control } = useFormContext<AddressFormValues>();
+  const { region: selectedRegion, provinceList } = watch();
 
-  useEffect(() => {
-    if (selectedRegion) {
-      provinces(selectedRegion).then((data) => {
-        setProvinceList(data);
-        setValue("province", "");
-        setValue("city", "");
-        setValue("barangay", "");
-      });
-    } else {
-      setProvinceList([]);
-      setValue("province", "");
-      setValue("city", "");
-      setValue("barangay", "");
-    }
-  }, [selectedRegion, setValue]);
+  const onChange = useCallback(handleOnChange, []);
+
+  async function handleOnChange(selectedProvince: string) {
+    if (!selectedProvince) return;
+
+    setValue("province", selectedProvince);
+
+    const cityList = await cities(selectedProvince);
+
+    setValue("cityList", cityList);
+    setValue("city", "");
+    setValue("barangay", "");
+  }
 
   return (
     <FormField
@@ -47,7 +45,7 @@ export default function ProvinceSelect() {
         <FormItem>
           <FormLabel>Province</FormLabel>
           <Select
-            onValueChange={field.onChange}
+            onValueChange={onChange}
             value={field.value}
             disabled={!selectedRegion}
           >

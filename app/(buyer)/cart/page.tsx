@@ -32,7 +32,7 @@ export default async function CartPage() {
           <p className="text-slate-600">Items in your cart</p>
         </section>
 
-        <section className="flex gap-3">
+        <section className="flex flex-col sm:flex-row gap-6">
           <div className="flex-1">
             <CartItemList />
           </div>

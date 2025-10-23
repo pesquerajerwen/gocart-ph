@@ -8,17 +8,17 @@ export default function CartItemList() {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-6 items-center">
+      <div className="grid grid-cols-5 sm:grid-cols-6 items-center">
         <div className="col-span-3">
-          <p className="text-slate-600 font-medium">Product</p>
+          <p className="text-slate-600 font-medium max-sm:text-sm">Product</p>
         </div>
-        <div className="col-span-1 flex justify-center">
+        <div className="col-span-1 flex justify-center max-sm:text-sm">
           <p className="text-slate-600 font-medium">Quantity</p>
         </div>
-        <div className="col-span-1 flex justify-center">
+        <div className="col-span-1 flex justify-center max-sm:text-sm">
           <p className="text-slate-600 font-medium">Total Price</p>
         </div>
-        <div className="col-span-1 flex justify-center">
+        <div className="col-span-1 flex justify-center max-sm:hidden">
           <p className="text-slate-600 font-medium">Remove</p>
         </div>
       </div>

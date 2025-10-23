@@ -1,6 +1,8 @@
 "use client";
 
-import { create } from "zustand";
+import { Address } from "@prisma/client";
+import { create, StoreApi, UseBoundStore } from "zustand";
+import { createSelectors } from "./selector";
 
 interface UserAddressState {
   createAddressDialog: {
@@ -9,27 +11,31 @@ interface UserAddressState {
   myAddressDialog: {
     open: boolean;
   };
-  openCreateAddressDialog: () => void;
+  selectedAddress: Address | null;
+  openCreateAddressDialog: (address?: Address) => void;
   closeCreateAddressDialog: () => void;
   openMyAddressDialog: () => void;
   closeMyAddressDialog: () => void;
 }
 
-export const useUserAddressStore = create<UserAddressState>((set) => ({
+const useUserAddressStoreBase = create<UserAddressState>((set) => ({
   createAddressDialog: {
     open: false,
   },
   myAddressDialog: {
     open: false,
   },
-  openCreateAddressDialog: () =>
+  selectedAddress: null,
+  openCreateAddressDialog: (address?: Address) =>
     set({
+      selectedAddress: address || null,
       createAddressDialog: {
         open: true,
       },
     }),
   closeCreateAddressDialog: () =>
     set((state) => ({
+      selectedAddress: null,
       createAddressDialog: {
         open: false,
       },
@@ -47,3 +53,5 @@ export const useUserAddressStore = create<UserAddressState>((set) => ({
       },
     })),
 }));
+
+export const useUserAddressStore = createSelectors(useUserAddressStoreBase);

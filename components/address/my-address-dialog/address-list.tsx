@@ -19,9 +19,9 @@ export default function AddressList({ addresses }: Props) {
     <RadioGroup className="space-y-2">
       {addresses.map((address, index) => (
         <Fragment key={address.id}>
-          <div className="flex gap-4 items-start">
+          <div className="flex gap-4 items-start cursor-pointer">
             <div>
-              <RadioGroupItem value={""} />
+              <RadioGroupItem value={address.id} checked={address.isDefault} />
             </div>
             <div className="flex-1 space-y-1">
               <div className="flex gap-3 items-center h-5">
@@ -51,7 +51,7 @@ export default function AddressList({ addresses }: Props) {
               <Button
                 variant="link"
                 className="px-0"
-                onClick={openCreateAddressDialog}
+                onClick={() => openCreateAddressDialog(address)}
               >
                 Edit
               </Button>

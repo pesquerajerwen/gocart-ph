@@ -1,14 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useFormContext } from "react-hook-form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   FormControl,
   FormField,
@@ -16,27 +7,31 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { cities, City } from "select-philippines-address";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { AddressFormValues } from "@/lib/schema/address";
+import { useFormContext } from "react-hook-form";
+import { barangays } from "select-philippines-address";
 
 export default function CitySelect() {
-  const { watch, setValue, control } = useFormContext();
-  const selectedProvince = watch("province");
-  const selectedCity = watch("city");
-  const [cityList, setCityList] = useState<City[]>([]);
+  const { watch, setValue, control } = useFormContext<AddressFormValues>();
+  const { province: selectedProvince, cityList } = watch();
 
-  useEffect(() => {
-    if (selectedProvince) {
-      cities(selectedProvince).then((data) => {
-        setCityList(data);
-        setValue("city", "");
-        setValue("barangay", "");
-      });
-    } else {
-      setCityList([]);
-      setValue("city", "");
-      setValue("barangay", "");
-    }
-  }, [selectedProvince, setValue]);
+  async function handleOnChange(selectedCity: string) {
+    if (!selectedCity) return;
+
+    setValue("city", selectedCity);
+
+    const barangayList = await barangays(selectedCity);
+
+    setValue("barangayList", barangayList);
+    setValue("barangay", "");
+  }
 
   return (
     <FormField
@@ -46,7 +41,7 @@ export default function CitySelect() {
         <FormItem>
           <FormLabel>City / Municipality</FormLabel>
           <Select
-            onValueChange={field.onChange}
+            onValueChange={handleOnChange}
             value={field.value}
             disabled={!selectedProvince}
           >

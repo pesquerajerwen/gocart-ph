@@ -6,8 +6,9 @@ import { useUserAddressStore } from "@/zustand/user-address-store";
 import { PlusIcon } from "lucide-react";
 
 export default function AddressSection() {
-  const { openCreateAddressDialog, openMyAddressDialog } =
-    useUserAddressStore();
+  const openCreateAddressDialog =
+    useUserAddressStore.use.openCreateAddressDialog();
+  const openMyAddressDialog = useUserAddressStore.use.openMyAddressDialog();
 
   const { data: primaryAddress, isLoading } = usePrimaryAddress();
 

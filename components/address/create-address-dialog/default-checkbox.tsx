@@ -7,10 +7,20 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import { usePrimaryAddress } from "@/hooks/use-primary-address";
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
 export default function DefaultCheckbox() {
-  const { control } = useFormContext();
+  const { control, setValue, watch } = useFormContext();
+
+  const { data: primaryAddress } = usePrimaryAddress();
+
+  useEffect(() => {
+    setValue("isDefault", !!primaryAddress ? false : true);
+  }, [primaryAddress]);
+
+  if (!primaryAddress) return null;
 
   return (
     <FormField
