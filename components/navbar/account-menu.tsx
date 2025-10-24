@@ -41,8 +41,8 @@ export default function AccountMenu({ variant = "buyer", user }: Props) {
     {
       icon: LogOut,
       label: "Sign out",
-      onClick: () => {
-        supabase.auth.signOut();
+      onClick: async () => {
+        await supabase.auth.signOut();
         router.refresh();
       },
     },

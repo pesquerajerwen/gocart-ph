@@ -1,8 +1,9 @@
 "use server";
 
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createCartItem } from "../dal/cart";
-import { getCurrentUser, getUserBySupabaseId } from "../dal/user";
+import { getCurrentUser } from "../dal/user";
 import { createCartSchema } from "../schema/cart";
 
 export async function createCartItemAction(rawData: unknown) {
@@ -20,7 +21,12 @@ export async function createCartItemAction(rawData: unknown) {
   const user = await getCurrentUser();
 
   if (!user) {
-    redirect("login");
+    const headersList = await headers();
+    const fullUrl = headersList.get("x-url") ?? "";
+
+    const pathname = fullUrl ? new URL(fullUrl).pathname : "/";
+
+    redirect("/login?next=" + encodeURIComponent(pathname));
   }
 
   try {

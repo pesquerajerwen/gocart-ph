@@ -3,15 +3,20 @@
 import { GoogleIcon } from "@/assets/icons";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase-client";
+import { useSearchParams } from "next/navigation";
 
 export default function GoogleSignin() {
   const supabase = createClient();
+  const searchParams = useSearchParams();
+  const next = searchParams.get("next") || "/";
 
   const handleOnClick = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/google/confirm`,
+        redirectTo: `${
+          window.location.origin
+        }/google/confirm?next=${encodeURIComponent(next)}`,
         queryParams: {
           access: "offline",
         },
