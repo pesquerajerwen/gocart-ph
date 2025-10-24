@@ -18,8 +18,12 @@ type Props = {
 };
 
 export default function MyAddressDialog({ addresses }: Props) {
-  const { myAddressDialog, openCreateAddressDialog, closeMyAddressDialog } =
-    useUserAddressStore();
+  const myAddressDialog = useUserAddressStore.use.myAddressDialog();
+
+  const openCreateAddressDialog =
+    useUserAddressStore.use.openCreateAddressDialog();
+
+  const closeMyAddressDialog = useUserAddressStore.use.closeMyAddressDialog();
 
   return (
     <Dialog
@@ -32,7 +36,7 @@ export default function MyAddressDialog({ addresses }: Props) {
         </DialogHeader>
         <div className="px-4 space-y-4">
           <AddressList addresses={addresses} />
-          <Button variant="outline" onClick={openCreateAddressDialog}>
+          <Button variant="outline" onClick={() => openCreateAddressDialog()}>
             <Plus /> Add New Address
           </Button>
         </div>
