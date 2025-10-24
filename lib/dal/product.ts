@@ -68,7 +68,7 @@ export async function getProductsWithRating({
       where,
       orderBy,
       skip,
-      take: size + 1,
+      take: size,
       include: {
         productImages: {
           select: { id: true, url: true, isPrimary: true },
