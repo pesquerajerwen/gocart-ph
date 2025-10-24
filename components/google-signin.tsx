@@ -3,7 +3,6 @@
 import { GoogleIcon } from "@/assets/icons";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase-client";
-import { useSearchParams } from "next/navigation";
 import { useQueryState } from "nuqs";
 
 export default function GoogleSignin() {
