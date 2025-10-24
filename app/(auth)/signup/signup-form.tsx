@@ -13,6 +13,7 @@ import EmailField from "./email-field";
 import FirstNameField from "./first-name-field";
 import LastNameField from "./last-name-field";
 import PasswordField from "./password-field";
+import { Suspense } from "react";
 
 export default function SignupForm() {
   const {
@@ -68,7 +69,9 @@ export default function SignupForm() {
         </div>
 
         <div>
-          <GoogleSignin />
+          <Suspense>
+            <GoogleSignin />
+          </Suspense>
         </div>
 
         <div className="flex flex-row items-center gap-4 text-sm text-slate-500">

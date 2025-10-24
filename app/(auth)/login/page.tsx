@@ -7,6 +7,7 @@ import EnterPasswordForm from "./enter-password";
 import SigninForm from "./signin";
 import { createClient } from "@/utils/supabase-client";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 const loginSchema = z
   .object({

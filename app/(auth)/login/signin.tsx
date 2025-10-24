@@ -1,6 +1,5 @@
 "use client";
 
-import { GoogleIcon } from "@/assets/icons";
 import { Button } from "@/components/ui/button";
 import {
   FormControl,
@@ -13,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { useFormContext } from "react-hook-form";
 import GoogleSignin from "../../../components/google-signin";
+import { Suspense } from "react";
 
 export default function SigninForm() {
   const { control } = useFormContext();
@@ -27,7 +27,9 @@ export default function SigninForm() {
       </div>
 
       <div>
-        <GoogleSignin />
+        <Suspense>
+          <GoogleSignin />
+        </Suspense>
       </div>
 
       <div className="flex flex-row items-center gap-4 text-sm text-slate-500">
