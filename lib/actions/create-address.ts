@@ -1,12 +1,12 @@
 "use server";
 
-import { redirect } from "next/navigation";
-import { createAddress } from "../dal/address";
+import { redirectToLogin } from "@/utils/redirect";
+import { upsertAddress } from "../dal/address";
 import { getCurrentUser } from "../dal/user";
-import { addressSchema } from "../schema/address";
+import { addAddressSchema } from "../schema/address";
 
 export async function createAddressAction(rawData: unknown) {
-  const parsed = addressSchema.safeParse(rawData);
+  const parsed = addAddressSchema.safeParse(rawData);
 
   if (!parsed.success) {
     return {
@@ -20,13 +20,13 @@ export async function createAddressAction(rawData: unknown) {
   const user = await getCurrentUser();
 
   if (!user) {
-    redirect("login");
+    redirectToLogin();
   }
 
   try {
-    await createAddress({
+    await upsertAddress({
       ...parsed.data,
-      userId: user.id,
+      userId: user!.id,
     });
   } catch (error) {
     return {

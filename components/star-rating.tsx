@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/tailwind";
 import { Star } from "lucide-react";
 import React from "react";
 

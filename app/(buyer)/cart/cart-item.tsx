@@ -1,6 +1,6 @@
 import { assets } from "@/assets/assets";
 import { CartItemWithProduct } from "@/lib/types/cart";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/tailwind";
 import Image from "next/image";
 import QuantityField from "./quantity-field";
 import DeleteIcon from "./delete-icon";
@@ -41,7 +41,9 @@ export default function CartItem({ cartItem }: Props) {
               <p>{product.name}</p>
             </Link>
             <p className="text-xs text-slate-500">{product.categorySlug}</p>
-            <p className="text-slate-600">${Number(product.offerPrice)}</p>
+            <p className="text-slate-600">
+              P {Number(product.offerPrice).toFixed(2)}
+            </p>
           </div>
         </div>
       </div>
@@ -50,7 +52,7 @@ export default function CartItem({ cartItem }: Props) {
       </div>
       <div className="col-span-1 flex justify-center">
         <p className="text-slate-600">
-          ${cartItem.quantity * Number(product.offerPrice)}
+          P {(cartItem.quantity * Number(product.offerPrice)).toFixed(2)}
         </p>
       </div>
       <div className="col-span-1 flex justify-center max-sm:hidden">

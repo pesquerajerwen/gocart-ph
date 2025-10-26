@@ -1,54 +1,54 @@
 "use client";
 
 import { Address } from "@prisma/client";
-import { create, StoreApi, UseBoundStore } from "zustand";
+import { create } from "zustand";
 import { createSelectors } from "./selector";
 
 interface UserAddressState {
-  createAddressDialog: {
+  addressFormDialog: {
     open: boolean;
   };
-  myAddressDialog: {
+  addressListDialog: {
     open: boolean;
   };
   selectedAddress: Address | null;
-  openCreateAddressDialog: (address?: Address) => void;
-  closeCreateAddressDialog: () => void;
-  openMyAddressDialog: () => void;
-  closeMyAddressDialog: () => void;
+  openAddressFormDialog: (address?: Address) => void;
+  closeAddressFormDialog: () => void;
+  openAddressListDialog: () => void;
+  closeAddressListDialog: () => void;
 }
 
 const useUserAddressStoreBase = create<UserAddressState>((set) => ({
-  createAddressDialog: {
+  addressFormDialog: {
     open: false,
   },
-  myAddressDialog: {
+  addressListDialog: {
     open: false,
   },
   selectedAddress: null,
-  openCreateAddressDialog: (address?: Address) =>
+  openAddressFormDialog: (address?: Address) =>
     set({
       selectedAddress: address || null,
-      createAddressDialog: {
+      addressFormDialog: {
         open: true,
       },
     }),
-  closeCreateAddressDialog: () =>
+  closeAddressFormDialog: () =>
     set((state) => ({
       selectedAddress: null,
-      createAddressDialog: {
+      addressFormDialog: {
         open: false,
       },
     })),
-  openMyAddressDialog: () =>
+  openAddressListDialog: () =>
     set({
-      myAddressDialog: {
+      addressListDialog: {
         open: true,
       },
     }),
-  closeMyAddressDialog: () =>
+  closeAddressListDialog: () =>
     set((state) => ({
-      myAddressDialog: {
+      addressListDialog: {
         open: false,
       },
     })),

@@ -10,17 +10,20 @@ import {
   cities,
   barangays,
 } from "select-philippines-address";
+import { emptyValues } from "./init-form";
 
 export default function useMapSelectedAddress() {
   const selectedAddress = useUserAddressStore((s) => s.selectedAddress);
+  const addressFormDialog = useUserAddressStore((s) => s.addressFormDialog);
+
   const { reset } = useFormContext<AddressFormValues>();
 
   const [isPending, startMapping] = useTransition();
 
   useEffect(() => {
-    if (!selectedAddress) return;
-
-    let timeoutId: NodeJS.Timeout;
+    if (!selectedAddress) {
+      return reset(emptyValues);
+    }
 
     const mapAddressToCodes = async () => {
       try {
@@ -64,21 +67,15 @@ export default function useMapSelectedAddress() {
           cityList,
           barangayList,
         });
-
-        await new Promise<void>((resolve) => {
-          timeoutId = setTimeout(() => resolve(), 1000);
-        });
       } catch (err) {
         console.error("Failed to map selected address:", err);
       }
     };
 
-    startMapping(() => mapAddressToCodes());
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [selectedAddress, reset]);
+    startMapping(() => {
+      addressFormDialog.open && mapAddressToCodes();
+    });
+  }, [addressFormDialog.open]);
 
   return { isPending };
 }

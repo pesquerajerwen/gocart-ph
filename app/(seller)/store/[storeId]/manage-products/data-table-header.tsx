@@ -2,7 +2,7 @@
 
 import { TableHeader, TableRow, TableHead } from "@/components/ui/table";
 import { ProductWithImages } from "@/lib/types/product";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/tailwind";
 import { flexRender, Table } from "@tanstack/react-table";
 import { ArrowUpDown, MoveUp, MoveDown } from "lucide-react";
 import { useQueryState } from "nuqs";

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "./button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/tailwind";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import React, { useState } from "react";
 import { Input } from "./input";

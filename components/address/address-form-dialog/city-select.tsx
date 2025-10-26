@@ -10,46 +10,53 @@ import {
 import {
   Select,
   SelectContent,
-  SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { AddressFormValues } from "@/lib/schema/address";
 import { useFormContext } from "react-hook-form";
+import { barangays } from "select-philippines-address";
+import SelectItems from "./select-items";
+import { useMemo } from "react";
 
-export default function BarangaySelect() {
+export default function CitySelect() {
   const { watch, setValue, control } = useFormContext<AddressFormValues>();
-  const { city: selectedCity, barangayList } = watch();
+  const { province: selectedProvince, cityList } = watch();
 
-  async function handleOnChange(selectedBrgy: string) {
-    if (!selectedBrgy) return;
+  async function handleOnChange(selectedCity: string) {
+    if (!selectedCity) return;
 
-    setValue("barangay", selectedBrgy);
+    setValue("city", selectedCity);
+
+    const barangayList = await barangays(selectedCity);
+
+    setValue("barangayList", barangayList);
+    setValue("barangay", "");
   }
 
   return (
     <FormField
       control={control}
-      name="barangay"
+      name="city"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Barangay</FormLabel>
+          <FormLabel>City / Municipality</FormLabel>
           <Select
             onValueChange={handleOnChange}
             value={field.value}
-            disabled={!selectedCity}
+            disabled={!selectedProvince}
           >
             <FormControl>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Barangay" />
+                <SelectValue placeholder="Select City / Municipality" />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {barangayList.map((b) => (
-                <SelectItem key={b.brgy_code} value={b.brgy_code}>
-                  {b.brgy_name}
-                </SelectItem>
-              ))}
+              <SelectItems
+                items={cityList}
+                valueKey={"city_code"}
+                labelKey={"city_name"}
+              />
             </SelectContent>
           </Select>
           <FormMessage />

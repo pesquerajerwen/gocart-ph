@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Toggle } from "@/components/ui/toggle";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/tailwind";
 import { useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 

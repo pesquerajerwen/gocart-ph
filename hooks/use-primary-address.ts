@@ -6,7 +6,7 @@ export function usePrimaryAddress() {
   return useQuery<Address>({
     queryKey: [addressKeys.primary],
     queryFn: async () => {
-      const res = await fetch(`/api/address`);
+      const res = await fetch(`/api/addresses/primary`);
 
       if (!res.ok) {
         throw new Error("Failed to fetch primary address");

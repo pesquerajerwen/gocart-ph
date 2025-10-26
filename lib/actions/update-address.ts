@@ -1,12 +1,12 @@
 "use server";
 
 import { redirectToLogin } from "@/utils/redirect";
-import { createCartItem } from "../dal/cart";
+import { upsertAddress } from "../dal/address";
 import { getCurrentUser } from "../dal/user";
-import { createCartSchema } from "../schema/cart";
+import { updateAddressSchema } from "../schema/address";
 
-export async function createCartItemAction(rawData: unknown) {
-  const parsed = createCartSchema.safeParse(rawData);
+export async function updateAddressAction(rawData: unknown) {
+  const parsed = updateAddressSchema.safeParse(rawData);
 
   if (!parsed.success) {
     return {
@@ -24,7 +24,7 @@ export async function createCartItemAction(rawData: unknown) {
   }
 
   try {
-    await createCartItem({
+    await upsertAddress({
       ...parsed.data,
       userId: user!.id,
     });
@@ -37,5 +37,5 @@ export async function createCartItemAction(rawData: unknown) {
     };
   }
 
-  return { success: true, message: "Cart successfully created." };
+  return { success: true, message: "Address successfully updated." };
 }

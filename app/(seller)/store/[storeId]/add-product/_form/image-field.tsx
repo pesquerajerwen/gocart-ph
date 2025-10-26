@@ -10,7 +10,7 @@ import {
 import ImageUploader from "@/components/ui/image-uploader";
 import { CreateProductClientValues } from "@/lib/schema/product";
 import { createStoreClientSchema } from "@/lib/schema/store";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/tailwind";
 import { createClient } from "@/utils/supabase-client";
 import { useFormContext } from "react-hook-form";
 import { toast } from "sonner";

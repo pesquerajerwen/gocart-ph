@@ -15,9 +15,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AddressFormValues } from "@/lib/schema/address";
-import { useCallback, useEffect } from "react";
+import { useCallback, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { cities } from "select-philippines-address";
+import SelectItems from "./select-items";
 
 export default function ProvinceSelect() {
   const { watch, setValue, control } = useFormContext<AddressFormValues>();
@@ -37,6 +38,14 @@ export default function ProvinceSelect() {
     setValue("barangay", "");
   }
 
+  const filteredProvinceList = useMemo(
+    () =>
+      provinceList?.filter(
+        (province) => province.province_name !== "City Of Manila"
+      ),
+    [provinceList]
+  );
+
   return (
     <FormField
       control={control}
@@ -50,16 +59,16 @@ export default function ProvinceSelect() {
             disabled={!selectedRegion}
           >
             <FormControl>
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-full truncate">
                 <SelectValue placeholder="Select Province" />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {provinceList.map((p) => (
-                <SelectItem key={p.province_code} value={p.province_code}>
-                  {p.province_name}
-                </SelectItem>
-              ))}
+              <SelectItems
+                items={filteredProvinceList}
+                valueKey={"province_code"}
+                labelKey={"province_name"}
+              />
             </SelectContent>
           </Select>
           <FormMessage />

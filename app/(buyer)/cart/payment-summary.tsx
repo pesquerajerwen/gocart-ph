@@ -53,11 +53,11 @@ export default async function PaymentSummary({ cartItems }: Props) {
       <div className="space-y-2">
         <div className="flex justify-between">
           <p className="text-slate-400 text-sm">Subtotal:</p>
-          <p className="text-slate-500 text-sm">${subtotal.toFixed(2)}</p>
+          <p className="text-slate-500 text-sm">P {subtotal.toFixed(2)}</p>
         </div>
         <div className="flex justify-between">
           <p className="text-slate-400 text-sm">Shipping:</p>
-          <p className="text-slate-500 text-sm">${shipping.toFixed(2)}</p>
+          <p className="text-slate-500 text-sm">P {shipping.toFixed(2)}</p>
         </div>
         <div className="flex gap-2">
           <Input placeholder="Coupon Code" />
@@ -70,7 +70,7 @@ export default async function PaymentSummary({ cartItems }: Props) {
       <div className="flex justify-between">
         <p className="text-slate-400 text-sm font-semibold">Total:</p>
         <p className="text-slate-500 text-sm font-semibold">
-          ${total.toFixed(2)}
+          P {total.toFixed(2)}
         </p>
       </div>
 

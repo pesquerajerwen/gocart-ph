@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/tailwind";
 import { Image as ImageIcon, Trash } from "lucide-react";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { DropzoneOptions, useDropzone } from "react-dropzone";

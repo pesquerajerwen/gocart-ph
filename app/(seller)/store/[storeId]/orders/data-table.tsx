@@ -20,7 +20,7 @@ import { ArrowUpDown, MoveDown, MoveUp } from "lucide-react";
 import { useState } from "react";
 import { columns, Order } from "./columns";
 import Pagination from "./pagination";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/tailwind";
 import useProductDialogStore from "@/zustand/product-dialog-store";
 
 export const dummyData: Order[] = [

@@ -1,5 +1,5 @@
 import { prisma } from "../db/client";
-import { CreateAddressParams } from "../types/address";
+import { UpsertAddressParams } from "../types/address";
 
 export async function getPrimaryAddress({ userId }: { userId: string }) {
   return await prisma.address.findFirst({
@@ -18,6 +18,27 @@ export async function getAddresses({ userId }: { userId: string }) {
   });
 }
 
-export async function createAddress(data: CreateAddressParams) {
-  return await prisma.address.create({ data });
+export async function upsertAddress(data: UpsertAddressParams) {
+  return await prisma.$transaction(async (tx) => {
+    if (data.isDefault) {
+      await tx.address.updateMany({
+        where: {
+          userId: data.userId,
+        },
+        data: {
+          isDefault: false,
+        },
+      });
+    }
+
+    const address = await tx.address.upsert({
+      where: {
+        id: data.id ?? "",
+      },
+      update: data,
+      create: data,
+    });
+
+    return address;
+  });
 }

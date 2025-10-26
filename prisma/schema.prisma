@@ -61,7 +61,7 @@ model User {
   
   role         Role      @relation(fields: [roleId], references: [id])
   addresses    Address[]
-  cartItems        CartItem[]
+  cartItems    CartItem[]
   orders       Order[]
   store        Store?
   reviews      Review[]
@@ -77,7 +77,7 @@ model Role {
 
 model Address {
   id          String    @id @default(cuid())
-  userId      String    @unique
+  userId      String    
   fullName    String
   phone       String
   region      String

@@ -29,9 +29,10 @@ import useMapSelectedAddress from "./hooks/map-selected-address";
 import FormSkeleton from "./skeleton";
 
 function CreateAddressDialog() {
-  const createAddressDialog = useUserAddressStore.use.createAddressDialog();
-  const closeCreateAddressDialog =
-    useUserAddressStore.use.closeCreateAddressDialog();
+  const addressFormDialog = useUserAddressStore.use.addressFormDialog();
+  const closeAddressFormDialog =
+    useUserAddressStore.use.closeAddressFormDialog();
+  const selectedAddress = useUserAddressStore.use.selectedAddress;
 
   const form = useFormContext<AddressFormValues>();
 
@@ -41,12 +42,14 @@ function CreateAddressDialog() {
 
   return (
     <Dialog
-      open={createAddressDialog.open}
-      onOpenChange={(open) => !open && closeCreateAddressDialog()}
+      open={addressFormDialog.open}
+      onOpenChange={(open) => !open && closeAddressFormDialog()}
     >
       <DialogContent className="sm:max-w-xl">
-        <DialogHeader>
-          <DialogTitle>New Address</DialogTitle>
+        <DialogHeader className="mb-6">
+          <DialogTitle>
+            {!!selectedAddress ? "Update" : "New"} Address
+          </DialogTitle>
         </DialogHeader>
 
         <div hidden={!isMapping}>
@@ -59,7 +62,7 @@ function CreateAddressDialog() {
         >
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
-            className="space-y-4"
+            className="space-y-6"
           >
             <div className="grid sm:grid-cols-2 gap-3 items-start">
               <FullNameField />
@@ -86,7 +89,7 @@ function CreateAddressDialog() {
               <Button
                 type="button"
                 variant="ghost"
-                onClick={() => closeCreateAddressDialog()}
+                onClick={() => closeAddressFormDialog()}
                 className="w-24"
               >
                 Cancel

@@ -1,8 +1,13 @@
+"use client";
+
 import { createAddressAction } from "@/lib/actions/create-address";
+import { updateAddressAction } from "@/lib/actions/update-address";
 import { addressKeys } from "@/lib/queryKeys";
 import { AddressFormValues } from "@/lib/schema/address";
 import { useUserAddressStore } from "@/zustand/user-address-store";
 import { useQueryClient } from "@tanstack/react-query";
+import _ from "lodash";
+import { useRouter } from "next/navigation";
 import {
   barangays,
   cities,
@@ -12,7 +17,11 @@ import {
 import { toast } from "sonner";
 
 export default function useHandleSubmit() {
-  const { closeCreateAddressDialog } = useUserAddressStore();
+  const router = useRouter();
+
+  const closeAddressFormDialog =
+    useUserAddressStore.use.closeAddressFormDialog();
+  const selectedAddress = useUserAddressStore.use.selectedAddress();
 
   const queryClient = useQueryClient();
 
@@ -29,21 +38,44 @@ export default function useHandleSubmit() {
     const city = cityList.find((r) => r.city_code === values.city);
     const barangay = barangayList.find((r) => r.brgy_code === values.barangay);
 
-    const { error } = await createAddressAction({
-      ...values,
+    const payload = {
+      ..._.omit(
+        values,
+        "regionList",
+        "provinceList",
+        "cityList",
+        "barangayList"
+      ),
+      id: selectedAddress?.id,
       region: region!.region_name,
       province: province!.province_name,
       city: city!.city_name,
       barangay: barangay!.brgy_name,
-    });
+    };
 
-    if (error) {
-      return toast.error(error.message);
+    let errorResult = null;
+
+    if (!!selectedAddress) {
+      const { error } = await updateAddressAction(payload);
+
+      errorResult = error;
+    } else {
+      console.log("payload", payload);
+
+      const { error } = await createAddressAction(payload);
+
+      errorResult = error;
+    }
+
+    if (errorResult) {
+      return toast.error(errorResult.message);
     }
 
     queryClient.invalidateQueries({ queryKey: [addressKeys.primary] });
 
-    closeCreateAddressDialog();
+    router.refresh();
+
+    closeAddressFormDialog();
   };
 
   return handleSubmit;

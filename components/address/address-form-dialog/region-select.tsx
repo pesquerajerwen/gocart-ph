@@ -13,9 +13,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AddressFormValues } from "@/lib/schema/address";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { provinces, regions } from "select-philippines-address";
+import SelectItems from "./select-items";
 
 export default function RegionSelect() {
   const { control, setValue, watch } = useFormContext<AddressFormValues>();
@@ -37,11 +38,7 @@ export default function RegionSelect() {
 
     if (selectedRegion === currentRegion) return;
 
-    console.log("change value of region to", selectedRegion);
-
     const provinceList = await provinces(selectedRegion);
-
-    console.log("resetting the value of other address fields");
 
     setValue("region", selectedRegion);
     setValue("provinceList", provinceList);
@@ -64,11 +61,12 @@ export default function RegionSelect() {
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {regionList.map((r) => (
-                <SelectItem key={r.region_code} value={r.region_code}>
-                  {r.region_name}
-                </SelectItem>
-              ))}
+              {" "}
+              <SelectItems
+                items={regionList}
+                valueKey={"region_code"}
+                labelKey={"region_name"}
+              />
             </SelectContent>
           </Select>
           <FormMessage />

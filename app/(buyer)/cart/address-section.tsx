@@ -2,15 +2,25 @@
 
 import { Badge } from "@/components/ui/badge";
 import { usePrimaryAddress } from "@/hooks/use-primary-address";
+import { useCartStore } from "@/zustand/cart-store";
 import { useUserAddressStore } from "@/zustand/user-address-store";
+import { Address } from "@prisma/client";
 import { PlusIcon } from "lucide-react";
+import { useEffect } from "react";
 
 export default function AddressSection() {
-  const openCreateAddressDialog =
-    useUserAddressStore.use.openCreateAddressDialog();
-  const openMyAddressDialog = useUserAddressStore.use.openMyAddressDialog();
+  const openAddressFormDialog = useUserAddressStore.use.openAddressFormDialog();
+  const openAddressListDialog = useUserAddressStore.use.openAddressListDialog();
+  const selectAddress = useCartStore.use.selectAddress();
+  const selectedAddress = useCartStore.use.selectedAddress();
 
   const { data: primaryAddress, isLoading } = usePrimaryAddress();
+
+  useEffect(() => {
+    console.log("setting selected to  primary address");
+
+    primaryAddress && selectAddress(primaryAddress);
+  }, [primaryAddress]);
 
   if (isLoading) {
     return (
@@ -22,37 +32,45 @@ export default function AddressSection() {
     );
   }
 
+  function renderAddress(address: Address) {
+    return `${address.address}, ${address.barangay}, ${address.city}, ${address.province}, ${address.region}, ${address.zipcode}`;
+  }
+
   return (
     <div>
       <div className="flex items-center gap-1">
         <p className="text-slate-400 text-sm">Address</p>
-        <Badge
-          variant="outline"
-          className="text-primary border-primary rounded"
-        >
-          Default
-        </Badge>
+        {selectedAddress && selectedAddress.isDefault && (
+          <Badge
+            variant="outline"
+            className="text-primary border-primary rounded"
+          >
+            Default
+          </Badge>
+        )}
       </div>
       <div className="mt-1 flex items-center">
-        {primaryAddress && (
+        {selectedAddress && (
           <p className="text-sm text-slate-500 wrap-break-word line-clamp-2">
-            {`${primaryAddress.address}, ${primaryAddress.barangay}, ${primaryAddress.city}, ${primaryAddress.province}, ${primaryAddress.region}, ${primaryAddress.zipcode}`}
+            {renderAddress(selectedAddress)}
           </p>
         )}
         {!primaryAddress && (
           <p
             className="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800 cursor-pointer"
-            onClick={() => openCreateAddressDialog()}
+            onClick={() => openAddressFormDialog()}
           >
             Add address <PlusIcon className="size-4" />
           </p>
         )}
-        <p
-          className="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800 cursor-pointer hover:underline"
-          onClick={() => openMyAddressDialog()}
-        >
-          Change
-        </p>
+        {primaryAddress && (
+          <p
+            className="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800 cursor-pointer hover:underline"
+            onClick={openAddressListDialog}
+          >
+            Change
+          </p>
+        )}
       </div>
     </div>
   );

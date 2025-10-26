@@ -5,7 +5,7 @@ import {
   SidebarGroupContent,
   SidebarMenu,
 } from "@/components/ui/sidebar";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/tailwind";
 import SideBarMenuItem from "./sidebar-menu-item";
 import StoreLogo from "./store-logo";
 

@@ -53,7 +53,6 @@ export default function PhoneField() {
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   const formatted = formatPhoneNumber(e.target.value);
 
-                  console.log("formatted", formatted);
                   field.onChange(formatted);
                 }}
                 value={field.value || ""}

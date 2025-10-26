@@ -1,14 +1,13 @@
+import CreateAddressDialog from "@/components/address/address-form-dialog";
+import MyAddressDialog from "@/components/address/address-list-dialog";
+import { getAddresses } from "@/lib/dal/address";
+import { getCartItems } from "@/lib/dal/cart";
 import { getCurrentUser } from "@/lib/dal/user";
 import CartItemList from "./cart-item-list";
-import PaymentSummary from "./payment-summary";
-import { getCartItems } from "@/lib/dal/cart";
 import DataHydrator from "./data-hydrator";
-import RemoveItemDialog from "./remove-item-dialog";
-import CreateAddressDialog from "@/components/address/create-address-dialog";
 import EmptyCart from "./empty-cart";
-import MyAddressDialog from "@/components/address/my-address-dialog";
-import AddressList from "@/components/address/my-address-dialog/address-list";
-import { getAddresses } from "@/lib/dal/address";
+import PaymentSummary from "./payment-summary";
+import RemoveItemDialog from "./remove-item-dialog";
 
 export default async function CartPage() {
   const user = await getCurrentUser();

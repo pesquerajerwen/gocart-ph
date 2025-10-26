@@ -10,20 +10,33 @@ import { Fragment } from "react";
 
 type Props = {
   addresses: Address[];
+  selectedId: string;
+  onSelect: (value: string) => void;
 };
 
-export default function AddressList({ addresses }: Props) {
-  const { openCreateAddressDialog } = useUserAddressStore();
+export default function AddressList({
+  addresses,
+  selectedId,
+  onSelect,
+}: Props) {
+  const openAddressFormDialog = useUserAddressStore.use.openAddressFormDialog();
 
   return (
-    <RadioGroup className="space-y-2">
+    <RadioGroup
+      className="space-y-2"
+      value={selectedId}
+      onValueChange={onSelect}
+    >
       {addresses.map((address, index) => (
         <Fragment key={address.id}>
           <div className="flex gap-4 items-start cursor-pointer">
             <div>
-              <RadioGroupItem value={address.id} checked={address.isDefault} />
+              <RadioGroupItem value={address.id} id={`radio-${address.id}`} />
             </div>
-            <div className="flex-1 space-y-1">
+            <label
+              htmlFor={`radio-${address.id}`}
+              className="flex-1 space-y-1 cursor-pointer"
+            >
               <div className="flex gap-3 items-center h-5">
                 <p className="text-slate-700 font-semibold">
                   {address.fullName}
@@ -46,18 +59,18 @@ export default function AddressList({ addresses }: Props) {
                   Default
                 </Badge>
               )}
-            </div>
+            </label>
             <div>
               <Button
                 variant="link"
-                className="px-0"
-                onClick={() => openCreateAddressDialog(address)}
+                className="p-0 h-4"
+                onClick={(e) => openAddressFormDialog(address)}
               >
                 Edit
               </Button>
             </div>
           </div>
-          {addresses.length - 1 < index && <Separator />}
+          {index < addresses.length - 1 && <Separator />}
         </Fragment>
       ))}
     </RadioGroup>

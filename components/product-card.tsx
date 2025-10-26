@@ -1,5 +1,5 @@
 import { ProductWithRating } from "@/lib/types/product";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/tailwind";
 import Image from "next/image";
 import StarRating from "./star-rating";
 
@@ -29,7 +29,7 @@ function ProductCard({ product, imageClass }: Props) {
       <div>
         <div className="flex justify-between text-sm">
           <p>{product.name}</p>
-          <p>${product.offerPrice}</p>
+          <p>P {product.offerPrice}</p>
         </div>
         <StarRating rating={product.rating} />
       </div>

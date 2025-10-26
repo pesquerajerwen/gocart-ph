@@ -1,6 +1,6 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { ProductWithImages } from "@/lib/types/product";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/tailwind";
 import { flexRender, Table } from "@tanstack/react-table";
 
 type Props = {
