@@ -40,6 +40,18 @@ export default async function PaymentSummary({ cartItems }: Props) {
                 GCash
               </Label>
             </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="maya" id="maya" />
+              <Label htmlFor="maya" className="text-slate-500 text-sm">
+                Maya
+              </Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="qrph" id="qrph" />
+              <Label htmlFor="qrph" className="text-slate-500 text-sm">
+                QR PH
+              </Label>
+            </div>
           </RadioGroup>
         </div>
       </div>

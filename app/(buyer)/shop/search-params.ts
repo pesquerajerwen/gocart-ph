@@ -5,7 +5,7 @@ export default async function getSearchPayload() {
 
   const sortBy = searchParams.get("sortBy") ?? "name";
   const order = searchParams.get("order") ?? "asc";
-  const size = Number(searchParams.get("size") ?? 5);
+  const size = Number(searchParams.get("size") ?? 20);
   const page = Number(searchParams.get("page") ?? 1);
   const rating = searchParams.get("rating")
     ? Number(searchParams.get("rating"))

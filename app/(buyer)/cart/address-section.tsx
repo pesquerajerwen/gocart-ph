@@ -26,7 +26,7 @@ export default function AddressSection() {
     return (
       <div>
         <p className="text-slate-400 text-sm">Address</p>
-        <div className="bg-slate-200 animate-pulse w-full h-4 rounded" />
+        <div className="bg-slate-200 animate-pulse w-full h-4 rounded mt-2" />
         <div className="bg-slate-200 animate-pulse w-4/5 h-4 rounded mt-2" />
       </div>
     );
@@ -65,7 +65,7 @@ export default function AddressSection() {
         )}
         {primaryAddress && (
           <p
-            className="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800 cursor-pointer hover:underline"
+            className="flex items-center gap-1 text-sm text-green-500  cursor-pointer hover:underline "
             onClick={openAddressListDialog}
           >
             Change

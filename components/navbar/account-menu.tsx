@@ -36,7 +36,7 @@ export default function AccountMenu({ variant = "buyer", user }: Props) {
       icon: Package,
       label: "My Orders",
       hidden: ["seller", "admin"].includes(variant),
-      onClick: () => null,
+      onClick: () => router.push("/orders"),
     },
     {
       icon: LogOut,

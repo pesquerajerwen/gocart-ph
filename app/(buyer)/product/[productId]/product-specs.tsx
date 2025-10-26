@@ -25,11 +25,11 @@ export default function ProductSpecs({ product }: Props) {
       {/* Price & Discount */}
       <div className="flex items-start gap-3 mt-5">
         <span className="text-2xl text-green-600 font-bold">
-          ${product.offerPrice.toFixed(2)}
+          P{product.offerPrice.toFixed(2)}
         </span>
         {product.actualPrice && (
           <span className="text-xl text-slate-500 font-bold line-through">
-            ${product.actualPrice.toFixed(2)}
+            P{product.actualPrice.toFixed(2)}
           </span>
         )}
       </div>

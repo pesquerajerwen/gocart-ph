@@ -29,7 +29,7 @@ function ProductCard({ product, imageClass }: Props) {
       <div>
         <div className="flex justify-between text-sm">
           <p>{product.name}</p>
-          <p>P {product.offerPrice}</p>
+          <p>P {product.offerPrice.toFixed(2)}</p>
         </div>
         <StarRating rating={product.rating} />
       </div>
