@@ -1,60 +1,50 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
+import { createCheckoutSession } from "@/lib/actions/paymongo";
 import { CartItemWithProduct } from "@/lib/types/cart";
+import { useCartStore } from "@/zustand/cart-store";
+import { toast } from "sonner";
 import AddressSection from "./address-section";
+import CostSummary from "./cost-summary";
+import PaymentMethods from "./payment-methods";
 
 type Props = {
   cartItems: CartItemWithProduct[];
 };
 
-export default async function PaymentSummary({ cartItems }: Props) {
-  const subtotal = cartItems.reduce((acc, item) => {
-    const price = item.product.offerPrice ?? item.product.actualPrice;
-    return acc + price * item.quantity;
-  }, 0);
+export default function PaymentSummary({ cartItems }: Props) {
+  const selectedPaymentMethod = useCartStore.use.selectedPaymentMethod();
 
-  const shipping = subtotal > 500 ? 0 : 5; // TODO: Provide correct calculation
+  async function handlePlaceOrder() {
+    const lineItems = cartItems.map((cartItem) => ({
+      amount: cartItem.product.offerPrice * cartItem.quantity * 100,
+      currency: "PHP" as const,
+      name: cartItem.product.name,
+      quantity: cartItem.quantity,
+      images: cartItem.product.productImages.map((image) => image.url),
+    }));
 
-  const total = subtotal + shipping;
+    const { error, data } = await createCheckoutSession({
+      line_items: lineItems,
+      payment_method_types: [selectedPaymentMethod!],
+    });
+
+    if (error) {
+      return toast.error(error);
+    }
+
+    if (data?.attributes) {
+      window.open(data?.attributes.checkout_url, "_blank");
+    }
+  }
 
   return (
     <div className="p-6 rounded-md border space-y-5">
       <h2 className="text-slate-500 text-lg font-bold">Payment Summary</h2>
 
-      <div className="space-y-2">
-        <p className="text-slate-400 text-sm">Payment Method</p>
-        <div>
-          <RadioGroup defaultValue="cod">
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="cod" id="cod" />
-              <Label htmlFor="cod" className="text-slate-500 text-sm">
-                COD
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="gcash" id="gcash" />
-              <Label htmlFor="gcash" className="text-slate-500 text-sm">
-                GCash
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="maya" id="maya" />
-              <Label htmlFor="maya" className="text-slate-500 text-sm">
-                Maya
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="qrph" id="qrph" />
-              <Label htmlFor="qrph" className="text-slate-500 text-sm">
-                QR PH
-              </Label>
-            </div>
-          </RadioGroup>
-        </div>
-      </div>
+      <PaymentMethods />
 
       <Separator />
 
@@ -62,31 +52,12 @@ export default async function PaymentSummary({ cartItems }: Props) {
 
       <Separator />
 
-      <div className="space-y-2">
-        <div className="flex justify-between">
-          <p className="text-slate-400 text-sm">Subtotal:</p>
-          <p className="text-slate-500 text-sm">P {subtotal.toFixed(2)}</p>
-        </div>
-        <div className="flex justify-between">
-          <p className="text-slate-400 text-sm">Shipping:</p>
-          <p className="text-slate-500 text-sm">P {shipping.toFixed(2)}</p>
-        </div>
-        <div className="flex gap-2">
-          <Input placeholder="Coupon Code" />
-          <Button className="bg-slate-500 hover:bg-slate-800">Apply</Button>
-        </div>
-      </div>
+      <CostSummary cartItems={cartItems} />
 
-      <Separator />
-
-      <div className="flex justify-between">
-        <p className="text-slate-400 text-sm font-semibold">Total:</p>
-        <p className="text-slate-500 text-sm font-semibold">
-          P {total.toFixed(2)}
-        </p>
-      </div>
-
-      <Button className="bg-slate-600 hover:bg-slate-900 w-full">
+      <Button
+        className="bg-slate-600 hover:bg-slate-900 w-full"
+        onClick={() => handlePlaceOrder()}
+      >
         Place Order
       </Button>
     </div>

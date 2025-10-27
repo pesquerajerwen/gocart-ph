@@ -13,9 +13,11 @@ export default async function LatestProducts() {
   return (
     <div className="px-6 mt-24 flex flex-col justify-center items-center gap-8 max-w-7xl w-full m-auto">
       <div className="space-y-3">
-        <h2 className="text-2xl font-semibold text-slate-800 text-center">
-          Latest Products
-        </h2>
+        <Link href={"/shop"}>
+          <h2 className="text-2xl font-semibold text-slate-800 text-center">
+            Latest Products
+          </h2>
+        </Link>
         <div className="flex items-center gap-2 text-sm">
           <p>Showing 4 of 12 products</p>
 

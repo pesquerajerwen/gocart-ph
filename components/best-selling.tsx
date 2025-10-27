@@ -1,6 +1,7 @@
 import ProductCard from "@/components/product-card";
 import { getProductsWithRating } from "@/lib/dal/product";
 import { ArrowRightIcon } from "lucide-react";
+import Link from "next/link";
 
 export default async function LatestProducts() {
   const { data: products } = await getProductsWithRating({
@@ -10,9 +11,11 @@ export default async function LatestProducts() {
   return (
     <div className="px-6 mt-24 flex flex-col justify-center items-center gap-8 max-w-7xl w-full m-auto">
       <div className="space-y-3">
-        <h2 className="text-2xl font-semibold text-slate-800 text-center">
-          Best Selling
-        </h2>
+        <Link href={"/shop"}>
+          <h2 className="text-2xl font-semibold text-slate-800 text-center">
+            Best Selling
+          </h2>
+        </Link>
         <div className="flex items-center gap-2 text-sm">
           <p>Showing 8 of 12 products</p>
 
@@ -21,7 +24,7 @@ export default async function LatestProducts() {
             <ArrowRightIcon
               className="group-hover:ml-2 transition-all"
               size={18}
-            />{" "}
+            />
           </p>
         </div>
       </div>
