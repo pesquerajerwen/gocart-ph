@@ -56,15 +56,13 @@ export default function useHandleSubmit() {
     let errorResult = null;
 
     if (!!selectedAddress) {
-      const { error } = await updateAddressAction(payload);
+      const response = await updateAddressAction(payload);
 
-      errorResult = error;
+      errorResult = response?.error;
     } else {
-      console.log("payload", payload);
+      const response = await createAddressAction(payload);
 
-      const { error } = await createAddressAction(payload);
-
-      errorResult = error;
+      errorResult = response?.error;
     }
 
     if (errorResult) {

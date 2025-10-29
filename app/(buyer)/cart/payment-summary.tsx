@@ -26,11 +26,15 @@ export default function PaymentSummary({ cartItems }: Props) {
 
   function handlePlaceOrder() {
     startTransition(async () => {
-      const { error, data } = await placeOrderAction({
+      const response = await placeOrderAction({
         items: cartItems,
         paymentMethod: selectedPaymentMethod!,
         addressId: selectedAddress!.id,
       });
+
+      if (!response) return;
+
+      const { error, data } = response;
 
       if (error) {
         toast.error(error);

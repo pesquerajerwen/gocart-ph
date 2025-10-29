@@ -20,7 +20,7 @@ export async function createAddressAction(rawData: unknown) {
   const user = await getCurrentUser();
 
   if (!user) {
-    redirectToLogin();
+    return redirectToLogin();
   }
 
   try {

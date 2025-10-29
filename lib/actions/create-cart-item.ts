@@ -20,7 +20,7 @@ export async function createCartItemAction(rawData: unknown) {
   const user = await getCurrentUser();
 
   if (!user) {
-    redirectToLogin();
+    return redirectToLogin();
   }
 
   try {

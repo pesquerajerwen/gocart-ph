@@ -15,7 +15,7 @@ export default async function placeOrderAction({
   const user = await getCurrentUser();
 
   if (!user) {
-    redirectToLogin();
+    return redirectToLogin();
   }
 
   const totalAmount = items.reduce(

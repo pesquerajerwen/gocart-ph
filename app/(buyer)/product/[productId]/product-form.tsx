@@ -21,12 +21,12 @@ export default function ProductForm({ product }: Props) {
 
   async function handleClickAddToCart() {
     startTransition(async () => {
-      const { success } = await createCartItemAction({
+      const response = await createCartItemAction({
         productId: product.id,
         quantity,
       });
 
-      if (success) {
+      if (response?.success) {
         toast.success("Item has been added to your shopping cart", {
           duration: 1000,
           position: "top-center",
