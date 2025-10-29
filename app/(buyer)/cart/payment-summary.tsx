@@ -2,9 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { createCheckoutSession } from "@/lib/actions/paymongo";
+import placeOrderAction from "@/lib/actions/order";
 import { CartItemWithProduct } from "@/lib/types/cart";
 import { useCartStore } from "@/zustand/cart-store";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 import { toast } from "sonner";
 import AddressSection from "./address-section";
 import CostSummary from "./cost-summary";
@@ -15,29 +17,33 @@ type Props = {
 };
 
 export default function PaymentSummary({ cartItems }: Props) {
+  const router = useRouter();
+
+  const [isPending, startTransition] = useTransition();
+
   const selectedPaymentMethod = useCartStore.use.selectedPaymentMethod();
+  const selectedAddress = useCartStore.use.selectedAddress();
 
-  async function handlePlaceOrder() {
-    const lineItems = cartItems.map((cartItem) => ({
-      amount: cartItem.product.offerPrice * cartItem.quantity * 100,
-      currency: "PHP" as const,
-      name: cartItem.product.name,
-      quantity: cartItem.quantity,
-      images: cartItem.product.productImages.map((image) => image.url),
-    }));
+  function handlePlaceOrder() {
+    startTransition(async () => {
+      const { error, data } = await placeOrderAction({
+        items: cartItems,
+        paymentMethod: selectedPaymentMethod!,
+        addressId: selectedAddress!.id,
+      });
 
-    const { error, data } = await createCheckoutSession({
-      line_items: lineItems,
-      payment_method_types: [selectedPaymentMethod!],
+      if (error) {
+        toast.error(error);
+
+        return;
+      }
+
+      if (data?.attributes) {
+        router.push(data?.attributes.checkout_url);
+
+        return;
+      }
     });
-
-    if (error) {
-      return toast.error(error);
-    }
-
-    if (data?.attributes) {
-      window.open(data?.attributes.checkout_url, "_blank");
-    }
   }
 
   return (
@@ -57,6 +63,7 @@ export default function PaymentSummary({ cartItems }: Props) {
       <Button
         className="bg-slate-600 hover:bg-slate-900 w-full"
         onClick={() => handlePlaceOrder()}
+        disabled={isPending}
       >
         Place Order
       </Button>

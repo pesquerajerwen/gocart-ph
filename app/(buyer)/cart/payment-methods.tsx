@@ -5,10 +5,6 @@ import { useCartStore } from "@/zustand/cart-store";
 
 const PAYMENT_METHODS = [
   {
-    value: "cod",
-    label: "Cash on Delivery",
-  },
-  {
     value: "gcash",
     label: "GCash",
   },

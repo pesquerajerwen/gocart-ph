@@ -26,6 +26,7 @@ enum OrderStatus {
 }
 
 enum OrderItemStatus {
+  pending
   processing
   shipped
   delivered
@@ -195,7 +196,7 @@ model OrderItem {
   quantity     Int
   subtotal     Decimal
 
-  status       OrderItemStatus @default(processing)
+  status       OrderItemStatus @default(pending)
   review       Review?    
   order        Order    @relation(fields: [orderId], references: [id])
   product      Product  @relation(fields: [productId], references: [id])

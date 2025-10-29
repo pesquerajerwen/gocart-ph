@@ -1,3 +1,6 @@
+import { OrderItem, Product } from "@prisma/client";
+import { ProductWithImages } from "./product";
+
 export type LineItem = {
   amount: number;
   currency: "PHP";
@@ -57,8 +60,3 @@ export type CreateCheckoutSessionResponse = {
     };
   };
 };
-
-export type CreateCheckoutSessionParams = Pick<
-  CreateCheckSessionSessionRequest["attributes"],
-  "line_items" | "payment_method_types"
->;

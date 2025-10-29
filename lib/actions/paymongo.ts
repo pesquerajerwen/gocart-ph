@@ -2,26 +2,34 @@
 
 import { getPayMongoAuthHeaderSingleKey } from "@/utils/paymongo";
 import {
-  CreateCheckoutSessionParams,
   CreateCheckoutSessionResponse,
   CreateCheckSessionSessionRequest,
 } from "../types/paymongo";
+import { PlaceOrderActionParams } from "../types/order";
 
 const PAYMONGO_CHECKOUT_URL = "https://api.paymongo.com/v1/checkout_sessions";
 
 export async function createCheckoutSession({
-  line_items,
-  payment_method_types,
-}: CreateCheckoutSessionParams) {
+  items,
+  paymentMethod,
+}: Pick<PlaceOrderActionParams, "items" | "paymentMethod">) {
   const authHeader = await getPayMongoAuthHeaderSingleKey();
 
   const data: CreateCheckSessionSessionRequest = {
     attributes: {
-      line_items,
-      payment_method_types,
+      line_items: items.map((item) => ({
+        currency: "PHP" as const,
+        amount: item.product.offerPrice * 100,
+        name: item.product.name,
+        quantity: item.quantity,
+        description: item.product.description ?? undefined,
+        images: item.product.productImages.map((i) => i.url),
+      })),
+      payment_method_types: [paymentMethod],
       send_email_receipt: false,
       show_description: false,
       show_line_items: true,
+      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/orders`,
     },
   };
 
@@ -46,8 +54,6 @@ export async function createCheckoutSession({
 
     return { data: parsed.data };
   } catch (err) {
-    console.error(err);
-
     return {
       error:
         err instanceof Error

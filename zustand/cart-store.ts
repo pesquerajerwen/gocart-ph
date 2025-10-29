@@ -25,7 +25,7 @@ interface CartState {
 const useCartStoreBase = create<CartState>((set) => ({
   cartItems: [],
   selectedAddress: null,
-  selectedPaymentMethod: null,
+  selectedPaymentMethod: "gcash",
   removeItemDialog: {
     product: null,
     open: false,
