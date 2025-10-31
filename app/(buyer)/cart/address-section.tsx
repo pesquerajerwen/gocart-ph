@@ -17,8 +17,6 @@ export default function AddressSection() {
   const { data: primaryAddress, isLoading } = usePrimaryAddress();
 
   useEffect(() => {
-    console.log("setting selected to  primary address");
-
     primaryAddress && selectAddress(primaryAddress);
   }, [primaryAddress]);
 

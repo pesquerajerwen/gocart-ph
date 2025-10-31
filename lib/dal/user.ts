@@ -47,8 +47,6 @@ export async function createUser(data: CreateUserProp) {
     where: { email: data.email },
   });
 
-  console.log("existing", existing);
-
   if (existing) throw new Error("An account with this email already exists.");
 
   return prisma.user.create({

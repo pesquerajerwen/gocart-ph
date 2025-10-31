@@ -9,7 +9,7 @@ const PAYMENT_METHODS = [
     label: "GCash",
   },
   {
-    value: "maya",
+    value: "paymaya",
     label: "Maya",
   },
   {

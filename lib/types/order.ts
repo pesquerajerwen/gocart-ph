@@ -1,18 +1,24 @@
-import { Order, OrderItem } from "@prisma/client";
-import { ProductWithImages } from "./product";
-import { PaymentMethodType } from "./paymongo";
+import { Prisma } from "@prisma/client";
 import { CartItemWithProduct } from "./cart";
-
-export type CreateOrderParams = {
-  order: Pick<Order, "userId" | "addressId" | "totalAmount">;
-  items: Pick<
-    OrderItem,
-    "productId" | "productName" | "productPrice" | "quantity" | "subtotal"
-  >[];
-};
+import { PaymentMethodType } from "./paymongo";
 
 export type PlaceOrderActionParams = {
   items: CartItemWithProduct[];
   paymentMethod: PaymentMethodType;
   addressId: string;
+};
+
+export type OrderItemWithProductImages = Prisma.OrderItemGetPayload<{
+  include: {
+    product: { select: { productImages: true } };
+  };
+}>;
+
+export type FinalizeOrderPaymentParams = {
+  orderId: string;
+  sessionId: string;
+  paymentId: string;
+  amount: number;
+  paymentMethodType: string;
+  paidAt: Date;
 };

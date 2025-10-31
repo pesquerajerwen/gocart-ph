@@ -29,6 +29,7 @@ export type CreateCheckSessionSessionRequest = {
     success_url?: string;
     cancel_url?: string;
     description?: string;
+    reference_number?: string;
     line_items: LineItem[];
     payment_method_types: PaymentMethodType[];
     send_email_receipt?: boolean;

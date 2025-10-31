@@ -1,12 +1,10 @@
 import { getCurrentUser } from "@/lib/dal/user";
-import Link from "next/link";
 import AccountMenu from "./account-menu";
-import { Button } from "../ui/button";
 import Cart from "./cart";
 import NavLinks from "./links";
+import LoginButton from "./login-button";
 import Logo from "./logo";
 import SearchField from "./search-field";
-import LoginButton from "./login-button";
 
 export default async function Navbar() {
   const user = await getCurrentUser();

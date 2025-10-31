@@ -66,7 +66,7 @@ export default function PaymentSummary({ cartItems }: Props) {
 
       <Button
         className="bg-slate-600 hover:bg-slate-900 w-full"
-        onClick={() => handlePlaceOrder()}
+        onClick={handlePlaceOrder}
         disabled={isPending}
       >
         Place Order

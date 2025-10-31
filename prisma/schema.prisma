@@ -33,11 +33,6 @@ enum OrderItemStatus {
   cancelled
 }
 
-enum PaymentStatus {
-  succeeded
-  failed
-}
-
 enum ProductStatus {
   active
   deactivated
@@ -218,12 +213,13 @@ model Review {
 }
 
 model Payment {
-  id              String        @id @default(cuid())
-  orderId         String
-  stripePaymentId String?
-  amount          Decimal
-  status          PaymentStatus
-  paidAt          DateTime?
+  id                String        @id @default(cuid())
+  orderId           String
+  checkoutSessionId String
+  paymentId         String
+  paymentMethodType String
+  amount            Decimal
+  paidAt            DateTime
 
   order           Order         @relation(fields: [orderId], references: [id])
 }

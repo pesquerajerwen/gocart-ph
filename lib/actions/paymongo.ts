@@ -12,7 +12,10 @@ const PAYMONGO_CHECKOUT_URL = "https://api.paymongo.com/v1/checkout_sessions";
 export async function createCheckoutSession({
   items,
   paymentMethod,
-}: Pick<PlaceOrderActionParams, "items" | "paymentMethod">) {
+  referenceNumber,
+}: Pick<PlaceOrderActionParams, "items" | "paymentMethod"> & {
+  referenceNumber: string;
+}) {
   const authHeader = await getPayMongoAuthHeaderSingleKey();
 
   const data: CreateCheckSessionSessionRequest = {
@@ -26,10 +29,12 @@ export async function createCheckoutSession({
         images: item.product.productImages.map((i) => i.url),
       })),
       payment_method_types: [paymentMethod],
-      send_email_receipt: false,
+      reference_number: referenceNumber,
+      send_email_receipt: true,
       show_description: false,
       show_line_items: true,
       success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/orders`,
+      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/cart`,
     },
   };
 

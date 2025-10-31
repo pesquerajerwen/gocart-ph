@@ -23,7 +23,7 @@ export default async function placeOrderAction({
     0
   );
 
-  await createOrder({
+  const { id } = await createOrder({
     order: {
       userId: user!.id,
       addressId,
@@ -38,5 +38,9 @@ export default async function placeOrderAction({
     })),
   });
 
-  return await createCheckoutSession({ items, paymentMethod });
+  return await createCheckoutSession({
+    items,
+    paymentMethod,
+    referenceNumber: id,
+  });
 }
