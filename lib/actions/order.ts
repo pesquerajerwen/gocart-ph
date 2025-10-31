@@ -27,14 +27,14 @@ export default async function placeOrderAction({
     order: {
       userId: user!.id,
       addressId,
-      totalAmount: Prisma.Decimal(totalAmount),
+      totalAmount,
     },
     items: items.map((item) => ({
       productId: item.product.id,
       productName: item.product.name,
-      productPrice: Prisma.Decimal(item.product.offerPrice),
+      productPrice: item.product.offerPrice,
       quantity: item.quantity,
-      subtotal: Prisma.Decimal(item.product.offerPrice * item.quantity),
+      subtotal: item.product.offerPrice * item.quantity,
     })),
   });
 
