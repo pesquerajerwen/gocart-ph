@@ -2,6 +2,8 @@ import { prisma } from "../db/client";
 import {
   CreateOrderParams,
   createOrderSchema,
+  GetOrderCountParams,
+  getOrderCountSchema,
   GetOrderParams,
   getOrdersSchema,
 } from "../schema/order";
@@ -27,25 +29,59 @@ export async function getOrders(props: GetOrderParams) {
 
   if (error) throw new Error(error.message);
 
-  const { userId, sortKey, sortOrder } = data;
+  const { userId, sortKey, sortOrder, size, page } = data;
 
-  return prisma.order.findMany({
+  const skip = (page - 1) * size;
+
+  const where = {
+    userId,
+    status: { not: "pending" as const },
+  };
+
+  const [orders, count] = await Promise.all([
+    prisma.order.findMany({
+      where,
+      select: {
+        address: true,
+        createdAt: true,
+        items: {
+          include: {
+            product: {
+              select: { productImages: true },
+            },
+          },
+        },
+      },
+      orderBy: { [sortKey]: sortOrder },
+      skip,
+      take: size,
+    }),
+    prisma.order.count({ where }),
+  ]);
+
+  return {
+    data: orders,
+    pagination: {
+      page,
+      size,
+      totalCount: count,
+      totalPage: Math.ceil(count / size),
+    },
+  };
+}
+
+export async function getOrderCount(props: GetOrderCountParams) {
+  const { data, error } = getOrderCountSchema.safeParse(props);
+
+  if (error) throw new Error(error.message);
+
+  const { userId } = data;
+
+  return prisma.order.count({
     where: {
       userId,
       status: { not: "pending" },
     },
-    select: {
-      address: true,
-      createdAt: true,
-      items: {
-        include: {
-          product: {
-            select: { productImages: true },
-          },
-        },
-      },
-    },
-    orderBy: { [sortKey]: sortOrder },
   });
 }
 

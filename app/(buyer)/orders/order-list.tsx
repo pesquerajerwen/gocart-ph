@@ -1,16 +1,21 @@
+"use client";
+
+import { InfiniteScrollLoader } from "@/components/infinite-scroll-loader";
 import { Separator } from "@/components/ui/separator";
-import { getOrders } from "@/lib/dal/order";
-import { getCurrentUser } from "@/lib/dal/user";
+import { useInfiniteOrders } from "@/hooks/use-infinite-orders";
+import useIntersectionObserver from "@/hooks/use-intersection-observer";
 import { Fragment } from "react";
 import OrderItem from "./order-item";
+import OrderItemSkeleton from "./order-item-skeleton";
 
-export default async function OrderList() {
-  const currentUser = await getCurrentUser();
+export default function OrderList() {
+  const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
+    useInfiniteOrders();
 
-  const orders = await getOrders({
-    userId: currentUser!.id,
-    sortKey: "createdAt",
-    sortOrder: "desc",
+  const { ref } = useIntersectionObserver({
+    onIntersect: fetchNextPage,
+    enabled: hasNextPage && !isFetchingNextPage,
+    threshold: 0.25, // triggers when 25% visible
   });
 
   return (
@@ -31,22 +36,34 @@ export default async function OrderList() {
           </div>
         </div>
       </div>
-      {orders.map((order, index) => (
-        <Fragment key={index}>
-          <div className="space-y-6 my-16">
-            {order.items.map((item, index) => (
-              <OrderItem
-                key={index}
-                orderItem={item}
-                address={order.address}
-                dateOrdered={order.createdAt}
-              />
-            ))}
-          </div>
+      {isLoading && <OrderItemSkeleton />}
+      {data?.pages.map((page, index) => {
+        const orders = page.data;
 
-          {index + 1 < orders.length && <Separator className="" />}
-        </Fragment>
-      ))}
+        return (
+          <Fragment key={index}>
+            {orders.map((order, index) => (
+              <Fragment key={index}>
+                <div className="space-y-6 my-16">
+                  {order.items.map((item, index) => (
+                    <OrderItem
+                      key={index}
+                      orderItem={item}
+                      address={order.address}
+                      dateOrdered={order.createdAt}
+                    />
+                  ))}
+                </div>
+                <Separator />
+              </Fragment>
+            ))}
+          </Fragment>
+        );
+      })}
+
+      <InfiniteScrollLoader isFetchingNextPage={isFetchingNextPage} />
+
+      <div ref={ref} className="h-10" />
     </Fragment>
   );
 }

@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/utils/supabase-middleware";
 
-const AuthenticatedPaths = ["/store", "/create-store"];
+const AuthenticatedPaths = ["/store", "/create-store", "/orders"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

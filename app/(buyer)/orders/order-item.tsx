@@ -39,7 +39,8 @@ export default function OrderItem({ orderItem, dateOrdered, address }: Props) {
             <div>
               <p>{orderItem.productName}</p>
               <p className="text-sm text-slate-500">
-                P{orderItem.productPrice.toFixed(2)} Qty: {orderItem.quantity}
+                P{Number(orderItem.productPrice).toFixed(2)} Qty:{" "}
+                {orderItem.quantity}
               </p>
               <p className="text-sm text-slate-500">
                 {dayjs(dateOrdered).format("ddd MMM DD YYYY")}
