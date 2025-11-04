@@ -32,6 +32,25 @@ export const getOrderCountSchema = z.object({
   userId: z.string().nonempty("User ID is required"),
 });
 
+export const getStoreOrdersSchema = z.object({
+  storeId: z.string().nonempty("Store ID is required"),
+  sortKey: z
+    .enum(["order.id", "order.createdAt", "total", "status"])
+    .default("order.createdAt")
+    .catch("order.createdAt"),
+  sortOrder: z.enum(["asc", "desc"]).default("asc").catch("desc"),
+  size: z.coerce.number().nonnegative().default(5),
+  page: z.coerce.number().nonnegative().default(1),
+});
+
+export const getStoreOrderDetailsSchema = z.object({
+  orderItemId: z.string().nonempty("Order Item ID is required"),
+});
+
 export type CreateOrderParams = z.infer<typeof createOrderSchema>;
 export type GetOrderParams = z.infer<typeof getOrdersSchema>;
 export type GetOrderCountParams = z.infer<typeof getOrderCountSchema>;
+export type GetStoreOrdersParams = z.infer<typeof getStoreOrdersSchema>;
+export type GetStoreOrderDetailsParams = z.infer<
+  typeof getStoreOrderDetailsSchema
+>;

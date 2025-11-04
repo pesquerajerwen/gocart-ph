@@ -1,7 +1,7 @@
 import { assets } from "@/assets/assets";
 import { cn } from "@/utils/tailwind";
 import Image from "next/image";
-import OrderStatus from "./order-status";
+import OrderStatus from "@/components/order-status";
 import { OrderItemWithProductImages } from "@/lib/types/order";
 import dayjs from "dayjs";
 import { Address } from "@prisma/client";

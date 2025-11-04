@@ -4,7 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 export function useInfiniteOrders() {
   return useInfiniteQuery<OrdersWithPagination>({
-    queryKey: [ordersKeys.all],
+    queryKey: ordersKeys.all,
     initialPageParam: 1,
     queryFn: async ({ pageParam }) => {
       const page = pageParam as string;

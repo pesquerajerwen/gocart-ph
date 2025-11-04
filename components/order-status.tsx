@@ -2,15 +2,15 @@
 
 import { Badge } from "@/components/ui/badge";
 import { OrderItemStatus } from "@prisma/client";
-import {
-  Loader2,
-  Truck,
-  CheckCircle2,
-  XCircle,
-  Dot,
-  Clock,
-} from "lucide-react";
 import clsx from "clsx";
+import {
+  CheckCircle2,
+  Clock,
+  Dot,
+  RefreshCw,
+  Truck,
+  XCircle,
+} from "lucide-react";
 
 type Props = {
   variant: OrderItemStatus;
@@ -24,7 +24,7 @@ export default function OrderStatus({ variant }: Props) {
       className: "bg-gray-100 text-gray-700 border border-gray-300",
     },
     processing: {
-      icon: <Loader2 className="size-4" />,
+      icon: <RefreshCw className="size-4" />,
       label: "Processing",
       className: "bg-amber-100 text-amber-800 border border-amber-300",
     },

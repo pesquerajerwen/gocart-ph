@@ -1,6 +1,6 @@
 import { getCurrentUser } from "@/lib/dal/current-user";
 import { getOrders } from "@/lib/dal/order";
-import { GetOrderParams, getOrdersSchema } from "@/lib/schema/order";
+import { getOrdersSchema } from "@/lib/schema/order";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     const currentUser = await getCurrentUser();
 
     if (!currentUser) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(orders);
   } catch (error) {
-    console.error("[GET_ADDRESSES]", error);
+    console.error("[GET_ORDERS]", error);
 
     return NextResponse.json(
       { error: "Internal Server Error" },

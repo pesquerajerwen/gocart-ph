@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { StoreOrder } from "@/lib/types/order";
 import { Table } from "@tanstack/react-table";
 import {
   ChevronLeft,
@@ -8,9 +9,8 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
-import { Order } from "./columns";
 
-export default function Pagination({ table }: { table: Table<Order> }) {
+export default function Pagination({ table }: { table: Table<StoreOrder> }) {
   return (
     <div className="flex max-sm:flex-col items-center justify-end mt-6 gap-6">
       <div className="flex items-center">

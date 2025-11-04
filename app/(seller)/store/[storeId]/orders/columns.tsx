@@ -1,5 +1,7 @@
 import { Badge } from "@/components/ui/badge";
+import { StoreOrder } from "@/lib/types/order";
 import { OrderStatus } from "@prisma/client";
+import OrderStatusBadge from "@/components/order-status";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import { StaticImageData } from "next/image";
@@ -14,34 +16,49 @@ export type Order = {
   date: string;
 };
 
-export const columns: ColumnDef<Order>[] = [
+export const columns: ColumnDef<StoreOrder>[] = [
   {
     accessorKey: "orderId",
     header: "ORDER ID",
-    cell: ({ row }) => <p className="text-green-600">{row.original.orderId}</p>,
+    cell: ({ row }) => <p className="text-green-600">{row.original.id}</p>,
+  },
+  {
+    accessorKey: "product",
+    header: "PRODUCT",
+    cell: ({ row }) => <p>{row.original.productName}</p>,
   },
   {
     accessorKey: "customer",
     header: "Customer",
+    cell: ({ row }) =>
+      row.original.order.user.firstName +
+      " " +
+      row.original.order.user.lastName,
   },
   {
     accessorKey: "total",
     header: "TOTAL",
     cell: ({ row }) => (
       <p className="font-semibold text-right">
-        $ {row.original.total.toFixed(2)}
+        P {Number(row.original.subtotal).toFixed(2)}
       </p>
     ),
   },
   {
     accessorKey: "payment",
     header: "PAYMENT",
+    cell: ({ row }) => (
+      <p className="uppercase text-center">
+        {row.original.order.payments[0].paymentMethodType}
+      </p>
+    ),
   },
   {
     accessorKey: "coupon",
     header: "COUPON",
     cell: ({ row }) => {
-      if (!row.original.coupon) return "-";
+      if (!row.original.coupon) return <p className="text-center">-</p>;
+
       return (
         <Badge variant="secondary" className="bg-green-100 rounded-sm">
           <span className="text-green-700">{row.original.coupon}</span>
@@ -52,13 +69,19 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: "status",
     header: "STATUS",
-    cell: ({ row }) => <span className="uppercase">{row.original.status}</span>,
+    cell: ({ row }) => (
+      <div className="flex justify-center">
+        <OrderStatusBadge variant={row.original.status} />
+      </div>
+    ),
   },
   {
     accessorKey: "date",
     header: "DATE",
     cell: ({ row }) => (
-      <span>{dayjs(row.original.date).format("M/D/YYYY, hh:mm A")}</span>
+      <p className="text-center">
+        {dayjs(row.original.order.createdAt).format("M/D/YYYY, hh:mm A")}
+      </p>
     ),
   },
 ];
