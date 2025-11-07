@@ -1,4 +1,3 @@
-import { serializePrisma } from "@/utils/prisma-serializer";
 import { prisma } from "../db/client";
 import {
   CreateOrderParams,
@@ -7,10 +6,6 @@ import {
   getOrderCountSchema,
   GetOrderParams,
   getOrdersSchema,
-  GetStoreOrderDetailsParams,
-  getStoreOrderDetailsSchema,
-  GetStoreOrdersParams,
-  getStoreOrdersSchema,
 } from "../schema/order";
 import { FinalizeOrderPaymentParams } from "../types/order";
 
@@ -73,62 +68,6 @@ export async function getOrders(props: GetOrderParams) {
       totalPage: Math.ceil(count / size),
     },
   };
-}
-
-export async function getStoreOrderDetails(props: GetStoreOrderDetailsParams) {
-  const { data, error } = getStoreOrderDetailsSchema.safeParse(props);
-
-  if (error) throw new Error(error.message);
-
-  const { orderItemId } = data;
-
-  const orderItems = await prisma.orderItem.findFirst({
-    where: {
-      id: orderItemId,
-    },
-    include: {
-      order: {
-        include: { user: true, payments: true, address: true },
-      },
-      product: {
-        select: {
-          productImages: true,
-          store: true,
-        },
-      },
-    },
-  });
-
-  return serializePrisma(orderItems);
-}
-
-export async function getStoreOrders(props: GetStoreOrdersParams) {
-  const { data, error } = getStoreOrdersSchema.safeParse(props);
-
-  if (error) throw new Error(error.message);
-
-  const { storeId, sortKey, sortOrder, size, page } = data;
-
-  const skip = (page - 1) * size;
-
-  const orderBy = buildOrderBy(sortKey, sortOrder);
-
-  const orderItems = await prisma.orderItem.findMany({
-    where: {
-      order: { status: { not: "pending" } },
-      product: { storeId },
-    },
-    include: {
-      order: {
-        include: { user: true, payments: true },
-      },
-    },
-    ...(orderBy ? { orderBy } : {}),
-    skip,
-    take: size,
-  });
-
-  return serializePrisma(orderItems);
 }
 
 export async function getOrderCount(props: GetOrderCountParams) {
@@ -207,21 +146,4 @@ export async function finalizeOrderPayment({
 
     await Promise.all(updates);
   });
-}
-
-function buildOrderBy(sortKey: string, sortOrder: "asc" | "desc") {
-  switch (sortKey) {
-    case "order.id":
-      return { order: { id: sortOrder } };
-    case "order.createdAt":
-      return { order: { createdAt: sortOrder } };
-
-    case "total":
-      return { total: sortOrder };
-    case "status":
-      return { status: sortOrder };
-
-    default:
-      return { order: { createdAt: sortOrder } };
-  }
 }

@@ -1,10 +1,10 @@
 import { Badge } from "@/components/ui/badge";
 import { StoreOrder } from "@/lib/types/order";
 import { OrderStatus } from "@prisma/client";
-import OrderStatusBadge from "@/components/order-status";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import { StaticImageData } from "next/image";
+import StatusSelect from "./status-select";
 
 export type Order = {
   orderId: string;
@@ -29,19 +29,17 @@ export const columns: ColumnDef<StoreOrder>[] = [
   },
   {
     accessorKey: "customer",
-    header: "Customer",
+    header: "CUSTOMER",
     cell: ({ row }) =>
       row.original.order.user.firstName +
       " " +
       row.original.order.user.lastName,
   },
   {
-    accessorKey: "total",
+    accessorKey: "subtotal",
     header: "TOTAL",
     cell: ({ row }) => (
-      <p className="font-semibold text-right">
-        P {Number(row.original.subtotal).toFixed(2)}
-      </p>
+      <p className="text-right">P {Number(row.original.subtotal).toFixed(2)}</p>
     ),
   },
   {
@@ -70,9 +68,10 @@ export const columns: ColumnDef<StoreOrder>[] = [
     accessorKey: "status",
     header: "STATUS",
     cell: ({ row }) => (
-      <div className="flex justify-center">
-        <OrderStatusBadge variant={row.original.status} />
-      </div>
+      <StatusSelect
+        orderItemId={row.original.id}
+        status={row.original.status}
+      />
     ),
   },
   {

@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/lib/dal/current-user";
-import { getStoreOrderDetails } from "@/lib/dal/order";
+import { getStoreOrderDetails } from "@/lib/dal/store-order";
 import { getStoreOrderDetailsSchema } from "@/lib/schema/order";
 import { NextRequest, NextResponse } from "next/server";
 
