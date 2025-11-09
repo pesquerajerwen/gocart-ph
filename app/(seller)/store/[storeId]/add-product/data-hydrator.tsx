@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode, useEffect } from "react";
-import { useCategoryStore } from "@/zustand/categories-store";
+import { useCategoryStore } from "@/lib/zustand/categories-store";
 import { Category } from "@prisma/client";
 
 type Props = {

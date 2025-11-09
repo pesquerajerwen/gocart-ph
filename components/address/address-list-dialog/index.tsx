@@ -8,12 +8,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useUserAddressStore } from "@/zustand/user-address-store";
+import { useUserAddressStore } from "@/lib/zustand/user-address-store";
 import { Address } from "@prisma/client";
 import { Plus } from "lucide-react";
 import AddressList from "./address-list";
 import { useEffect, useState } from "react";
-import { useCartStore } from "@/zustand/cart-store";
+import { useCartStore } from "@/lib/zustand/cart-store";
 
 type Props = {
   addresses: Address[];

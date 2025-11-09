@@ -1,6 +1,6 @@
 "use client";
 
-import { useCartStore } from "@/zustand/cart-store";
+import { useCartStore } from "@/lib/zustand/cart-store";
 import CartItem from "./cart-item";
 
 export default function CartItemList() {

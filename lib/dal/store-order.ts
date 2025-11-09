@@ -1,4 +1,5 @@
 import { serializePrisma } from "@/utils/prisma-serializer";
+import { OrderItemStatus, Prisma } from "@prisma/client";
 import { prisma } from "../db/client";
 import {
   GetStoreOrderDetailsParams,
@@ -6,7 +7,6 @@ import {
   GetStoreOrdersParams,
   getStoreOrdersSchema,
   UpdateStoreOrderStatusParams,
-  updateStoreOrderStatusSchema,
 } from "../schema/order";
 
 export async function getStoreOrderDetails(props: GetStoreOrderDetailsParams) {
@@ -41,23 +41,40 @@ export async function getStoreOrders(props: GetStoreOrdersParams) {
 
   if (error) throw new Error(error.message);
 
-  const { storeId, sortKey, sortOrder, size, page } = data;
+  const {
+    storeId,
+    sortKey,
+    sortOrder,
+    size,
+    page,
+    search,
+    status,
+    payment,
+    product,
+    from,
+    to,
+  } = data;
 
   const skip = (page - 1) * size;
 
   const orderBy = buildOrderBy(sortKey, sortOrder);
 
-  const where = {
-    order: { status: { not: "pending" as const } },
-    product: { storeId },
-  };
+  const where = buildOrderItemWhere({
+    storeId,
+    search,
+    status,
+    payment,
+    product,
+    from,
+    to,
+  });
 
   const [orderItems, count] = await Promise.all([
     prisma.orderItem.findMany({
       where,
       include: {
         order: {
-          include: { user: true, payments: true },
+          include: { payments: true, address: true },
         },
       },
       ...(orderBy ? { orderBy } : {}),
@@ -105,4 +122,61 @@ function buildOrderBy(sortKey: string, sortOrder: "asc" | "desc") {
     default:
       return { order: { createdAt: sortOrder } };
   }
+}
+
+function buildOrderItemWhere({
+  storeId,
+  search,
+  status,
+  payment,
+  product,
+  from,
+  to,
+}: {
+  storeId: string;
+  search?: string;
+  status?: string;
+  payment?: string;
+  product?: string;
+  from?: string;
+  to?: string;
+}): Prisma.OrderItemWhereInput {
+  const and: Prisma.OrderItemWhereInput[] = [
+    { order: { status: { not: "pending" as const } } },
+  ];
+
+  if (status) {
+    and.push({ status: status as OrderItemStatus });
+  }
+
+  if (search) {
+    and.push({
+      order: {
+        address: { fullName: { contains: search, mode: "insensitive" } },
+      },
+    });
+  }
+
+  if (payment) {
+    and.push({
+      order: { payments: { every: { paymentMethodType: payment } } },
+    });
+  }
+
+  if (product) {
+    and.push({ productName: { contains: product, mode: "insensitive" } });
+  }
+
+  if (from && to) {
+    const fromDate = new Date(`${from}T00:00:00`);
+    const toDate = new Date(`${to}T23:59:59.999`);
+
+    and.push({
+      order: {
+        AND: [{ createdAt: { gte: fromDate } }, { createdAt: { lte: toDate } }],
+      },
+    });
+  }
+
+  return { product: { storeId }, AND: and };
 }

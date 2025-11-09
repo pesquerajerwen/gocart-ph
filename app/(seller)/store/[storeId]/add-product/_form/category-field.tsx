@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useCategoryStore } from "@/zustand/categories-store";
+import { useCategoryStore } from "@/lib/zustand/categories-store";
 
 import { useFormContext } from "react-hook-form";
 

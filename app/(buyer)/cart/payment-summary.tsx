@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import placeOrderAction from "@/lib/actions/order";
 import { CartItemWithProduct } from "@/lib/types/cart";
-import { useCartStore } from "@/zustand/cart-store";
+import { useCartStore } from "@/lib/zustand/cart-store";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";

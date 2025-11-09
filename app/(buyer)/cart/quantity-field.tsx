@@ -3,7 +3,7 @@
 import CounterInput from "@/components/ui/counter-input";
 import { updateCartItemQuantityAction } from "@/lib/actions/update-cart-item-quantity";
 import { ProductWithImages } from "@/lib/types/product";
-import { useCartStore } from "@/zustand/cart-store";
+import { useCartStore } from "@/lib/zustand/cart-store";
 import _ from "lodash";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";

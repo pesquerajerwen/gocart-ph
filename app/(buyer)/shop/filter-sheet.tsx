@@ -1,7 +1,7 @@
 "use client";
 
 import { Sheet } from "@/components/ui/sheet";
-import { useShopStore } from "@/zustand/shop-store";
+import { useShopStore } from "@/lib/zustand/shop-store";
 import { ReactNode } from "react";
 
 type Props = {

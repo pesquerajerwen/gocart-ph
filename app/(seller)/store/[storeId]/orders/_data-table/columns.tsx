@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { StoreOrder } from "@/lib/types/order";
+import { StoreOrder } from "@/lib/types/store";
 import { OrderStatus } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
@@ -20,31 +20,28 @@ export const columns: ColumnDef<StoreOrder>[] = [
   {
     accessorKey: "orderId",
     header: "ORDER ID",
-    cell: ({ row }) => <p className="text-green-600">{row.original.id}</p>,
+    cell: ({ row }) => <p className="text-green-600 px-2">{row.original.id}</p>,
   },
   {
     accessorKey: "product",
-    header: "PRODUCT",
+    header: "Product",
     cell: ({ row }) => <p>{row.original.productName}</p>,
   },
   {
     accessorKey: "customer",
-    header: "CUSTOMER",
-    cell: ({ row }) =>
-      row.original.order.user.firstName +
-      " " +
-      row.original.order.user.lastName,
+    header: "Customer",
+    cell: ({ row }) => row.original.order.address.fullName,
   },
   {
     accessorKey: "subtotal",
-    header: "TOTAL",
+    header: "Total",
     cell: ({ row }) => (
       <p className="text-right">P {Number(row.original.subtotal).toFixed(2)}</p>
     ),
   },
   {
     accessorKey: "payment",
-    header: "PAYMENT",
+    header: "Payment",
     cell: ({ row }) => (
       <p className="uppercase text-center">
         {row.original.order.payments[0].paymentMethodType}
@@ -53,7 +50,7 @@ export const columns: ColumnDef<StoreOrder>[] = [
   },
   {
     accessorKey: "coupon",
-    header: "COUPON",
+    header: "Coupon",
     cell: ({ row }) => {
       if (!row.original.coupon) return <p className="text-center">-</p>;
 
@@ -66,7 +63,7 @@ export const columns: ColumnDef<StoreOrder>[] = [
   },
   {
     accessorKey: "status",
-    header: "STATUS",
+    header: "Status",
     cell: ({ row }) => (
       <StatusSelect
         orderItemId={row.original.id}
@@ -76,7 +73,7 @@ export const columns: ColumnDef<StoreOrder>[] = [
   },
   {
     accessorKey: "date",
-    header: "DATE",
+    header: "Date",
     cell: ({ row }) => (
       <p className="text-center">
         {dayjs(row.original.order.createdAt).format("M/D/YYYY, hh:mm A")}

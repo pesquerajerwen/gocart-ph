@@ -29,4 +29,28 @@ export const createStoreServerSchema = z.object({
   avatarUrl: z.url("Image URL is required"),
 });
 
+export const getStoreProductsSchema = z.object({
+  sortKey: z
+    .enum(["name", "description", "offerPrice", "actualPrice"])
+    .default("name")
+    .catch("name"),
+  sortOrder: z.enum(["asc", "desc"]).default("asc").catch("asc"),
+  size: z.coerce
+    .number()
+    .refine((val) => [5, 10, 20].includes(val), {
+      message: "Size must be one of 5, 10, or 20",
+    })
+    .default(10)
+    .catch(10),
+  page: z.coerce
+    .number()
+    .min(1, { message: "Page must be 1 or greater" })
+    .default(1)
+    .catch(1),
+  search: z.string().optional(),
+  storeId: z.string().default("").catch(""),
+});
+
 export type CreateStoreServerValues = z.infer<typeof createStoreServerSchema>;
+
+export type GetStoreProductsParams = z.infer<typeof getStoreProductsSchema>;

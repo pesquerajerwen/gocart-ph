@@ -1,7 +1,7 @@
 "use client";
 
 import { Pagination } from "@/lib/types/global";
-import { useShopStore } from "@/zustand/shop-store";
+import { useShopStore } from "@/lib/zustand/shop-store";
 import { ReactNode, useEffect } from "react";
 
 type Props = {

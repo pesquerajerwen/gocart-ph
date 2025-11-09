@@ -1,9 +1,9 @@
 import { assets } from "@/assets/assets";
-import { StoreOrderDetail } from "@/lib/types/order";
-import Image from "next/image";
-import dayjs from "dayjs";
-import { Fragment } from "react";
 import OrderStatus from "@/components/order-status";
+import { StoreOrderDetail } from "@/lib/types/store";
+import dayjs from "dayjs";
+import Image from "next/image";
+import { Fragment } from "react";
 
 type Props = {
   storeOrderDetail: StoreOrderDetail;

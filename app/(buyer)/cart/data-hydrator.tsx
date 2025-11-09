@@ -2,8 +2,8 @@
 
 import { CartItemWithProduct } from "@/lib/types/cart";
 import { Pagination } from "@/lib/types/global";
-import { useCartStore } from "@/zustand/cart-store";
-import { useShopStore } from "@/zustand/shop-store";
+import { useCartStore } from "@/lib/zustand/cart-store";
+import { useShopStore } from "@/lib/zustand/shop-store";
 import { ReactNode, useEffect } from "react";
 
 type Props = {

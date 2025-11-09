@@ -35,10 +35,6 @@ export type GetProductsParams = {
   search?: string;
 };
 
-export type GetStoreProductsParams = GetProductsParams & {
-  storeId: string;
-};
-
 export type GetProductParams = {
   id: string;
 };

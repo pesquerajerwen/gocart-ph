@@ -2,8 +2,8 @@
 
 import { Badge } from "@/components/ui/badge";
 import { usePrimaryAddress } from "@/hooks/use-primary-address";
-import { useCartStore } from "@/zustand/cart-store";
-import { useUserAddressStore } from "@/zustand/user-address-store";
+import { useCartStore } from "@/lib/zustand/cart-store";
+import { useUserAddressStore } from "@/lib/zustand/user-address-store";
 import { Address } from "@prisma/client";
 import { PlusIcon } from "lucide-react";
 import { useEffect } from "react";

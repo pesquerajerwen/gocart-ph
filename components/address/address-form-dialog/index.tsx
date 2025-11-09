@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-import { useUserAddressStore } from "@/zustand/user-address-store";
+import { useUserAddressStore } from "@/lib/zustand/user-address-store";
 import { LoaderCircle } from "lucide-react";
 import BarangaySelect from "./barangay-select";
 import CitySelect from "./city-select";

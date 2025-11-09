@@ -1,7 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { PaymentMethodType } from "@/lib/types/paymongo";
-import { useCartStore } from "@/zustand/cart-store";
+import { useCartStore } from "@/lib/zustand/cart-store";
 
 const PAYMENT_METHODS = [
   {

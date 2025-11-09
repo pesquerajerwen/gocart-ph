@@ -1,5 +1,5 @@
 import { ordersKeys } from "@/lib/queryKeys";
-import { StoreOrderDetail } from "@/lib/types/order";
+import { StoreOrderDetail } from "@/lib/types/store";
 import { useQuery } from "@tanstack/react-query";
 
 export function useOrderDetails(id: string) {

@@ -24,7 +24,7 @@ export const getOrdersSchema = z.object({
     .default("createdAt")
     .catch("createdAt"),
   sortOrder: z.enum(["asc", "desc"]).default("asc").catch("asc"),
-  size: z.coerce.number().nonnegative().default(5),
+  size: z.coerce.number().nonnegative().default(10),
   page: z.coerce.number().nonnegative().default(1),
 });
 
@@ -39,9 +39,28 @@ export const getStoreOrdersSchema = z.object({
     .default("order.createdAt")
     .catch("order.createdAt"),
   sortOrder: z.enum(["asc", "desc"]).default("asc").catch("desc"),
-  size: z.coerce.number().nonnegative().default(5),
+  size: z.coerce.number().nonnegative().default(10),
   page: z.coerce.number().nonnegative().default(1),
   search: z.string().optional(),
+  payment: z.string().optional(),
+  status: z.string().optional(),
+  product: z.string().optional(),
+  from: z
+    .string()
+    .transform((val) => (val === "" ? undefined : val))
+    .optional()
+    .refine(
+      (val) => !val || /^\d{4}-\d{2}-\d{2}$/.test(val),
+      "Invalid 'from' date format (yyyy-mm-dd)"
+    ),
+  to: z
+    .string()
+    .transform((val) => (val === "" ? undefined : val))
+    .optional()
+    .refine(
+      (val) => !val || /^\d{4}-\d{2}-\d{2}$/.test(val),
+      "Invalid 'to' date format (yyyy-mm-dd)"
+    ),
 });
 
 export const getStoreOrderDetailsSchema = z.object({

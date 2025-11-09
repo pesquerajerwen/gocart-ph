@@ -1,7 +1,7 @@
 "use client";
 
 import { AddressFormValues } from "@/lib/schema/address";
-import { useUserAddressStore } from "@/zustand/user-address-store";
+import { useUserAddressStore } from "@/lib/zustand/user-address-store";
 import { useEffect, useTransition } from "react";
 import { useFormContext } from "react-hook-form";
 import {

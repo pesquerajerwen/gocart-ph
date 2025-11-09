@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { deleteCartItemAction } from "@/lib/actions/delete-cart-item";
-import { useCartStore } from "@/zustand/cart-store";
+import { useCartStore } from "@/lib/zustand/cart-store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 

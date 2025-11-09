@@ -13,7 +13,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { usePrimaryAddress } from "@/hooks/use-primary-address";
-import { useUserAddressStore } from "@/zustand/user-address-store";
+import { useUserAddressStore } from "@/lib/zustand/user-address-store";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 

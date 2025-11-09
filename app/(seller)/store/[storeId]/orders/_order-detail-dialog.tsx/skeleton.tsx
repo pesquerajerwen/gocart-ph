@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useStoreOrdersStore } from "@/zustand/store-orders";
+import { useStoreOrdersStore } from "@/lib/zustand/store-orders";
 
 export default function OrderDetailSkeleton() {
   const orderDetailDialog = useStoreOrdersStore.use.orderDetailDialog();

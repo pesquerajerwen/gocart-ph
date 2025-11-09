@@ -31,32 +31,6 @@ export type OrderItemWithProductImages = Prisma.OrderItemGetPayload<{
   };
 }>;
 
-export type StoreOrder = Prisma.OrderItemGetPayload<{
-  include: {
-    order: {
-      include: { user: true; payments: true };
-    };
-  };
-}> & {
-  coupon?: string; // TODO: apply the coupon implementation
-};
-
-export type StoreOrderDetail = Prisma.OrderItemGetPayload<{
-  include: {
-    order: {
-      include: { user: true; payments: true; address: true };
-    };
-    product: {
-      select: {
-        productImages: true;
-        store: true;
-      };
-    };
-  };
-}> & {
-  coupon?: string; // TODO: apply the coupon implementation
-};
-
 export type FinalizeOrderPaymentParams = {
   orderId: string;
   sessionId: string;

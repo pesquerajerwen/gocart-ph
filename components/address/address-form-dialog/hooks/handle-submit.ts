@@ -4,7 +4,7 @@ import { createAddressAction } from "@/lib/actions/create-address";
 import { updateAddressAction } from "@/lib/actions/update-address";
 import { addressKeys } from "@/lib/queryKeys";
 import { AddressFormValues } from "@/lib/schema/address";
-import { useUserAddressStore } from "@/zustand/user-address-store";
+import { useUserAddressStore } from "@/lib/zustand/user-address-store";
 import { useQueryClient } from "@tanstack/react-query";
 import _ from "lodash";
 import { useRouter } from "next/navigation";

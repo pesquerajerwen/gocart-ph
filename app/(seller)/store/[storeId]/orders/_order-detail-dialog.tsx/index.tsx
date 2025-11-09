@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useOrderDetails } from "@/hooks/use-order-details";
-import { useStoreOrdersStore } from "@/zustand/store-orders";
+import { useStoreOrdersStore } from "@/lib/zustand/store-orders";
 import DialogBody from "./dialog-body";
 import OrderDetailSkeleton from "./skeleton";
 

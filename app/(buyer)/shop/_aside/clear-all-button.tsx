@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useShopStore } from "@/zustand/shop-store";
+import { useShopStore } from "@/lib/zustand/shop-store";
 import { useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 

@@ -7,7 +7,7 @@ import { flexRender, Table } from "@tanstack/react-table";
 import { ArrowUpDown, MoveUp, MoveDown } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useRouter } from "next/navigation";
-import { StoreOrder } from "@/lib/types/order";
+import { StoreOrder } from "@/lib/types/store";
 
 type Props = {
   table: Table<StoreOrder>;
@@ -45,14 +45,13 @@ export default function DataTableHeader({ table }: Props) {
             const [sortKey, sortDir] = sort.split(",");
             const isSorted = sortKey === columnId ? sortDir : false;
 
-            const disableSorting =
-              header.column.columnDef.enableSorting === false;
+            const disableSorting = !header.column.getCanSort();
 
             return (
               <TableHead
                 key={header.id}
                 className={cn(
-                  "text-slate-600 px-3 bg-slate-50",
+                  "text-slate-600 px-3 bg-slate-50 h-12",
                   [1, 2].includes(index) && "hidden sm:table-cell"
                 )}
               >
