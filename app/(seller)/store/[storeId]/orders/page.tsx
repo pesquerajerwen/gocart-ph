@@ -74,7 +74,7 @@ export default function Orders() {
         <ViewOptionsDropdown />
       </section>
       <DataTable data={storeOrders} isLoading={isLoading} />
-      <StoreOrdersPagination totalPage={pagination.totalPage} />
+      {!isLoading && <StoreOrdersPagination totalPage={pagination.totalPage} />}
       <OrderDetailDialog />
     </div>
   );

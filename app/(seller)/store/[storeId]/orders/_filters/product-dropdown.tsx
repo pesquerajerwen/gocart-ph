@@ -19,10 +19,11 @@ import {
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useStoreProducts } from "@/hooks/use-store-products";
-import { PlusCircle, Search } from "lucide-react";
+import { PlusCircle, Search, X } from "lucide-react";
 import { useParams } from "next/navigation";
 import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
 import * as React from "react";
+import { useState } from "react";
 
 export function ProductDropdown() {
   const { storeId } = useParams<{ storeId: string }>();
@@ -34,7 +35,8 @@ export function ProductDropdown() {
     parseAsArrayOf(parseAsString.withDefault("")).withDefault([])
   );
 
-  const [search, setSearch] = React.useState("");
+  const [search, setSearch] = useState("");
+  const [open, setOpen] = useState(false);
 
   const { data: response, isLoading } = useStoreProducts(storeId);
 
@@ -55,11 +57,12 @@ export function ProductDropdown() {
   );
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open}>
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
           className="flex items-center gap-2 p-0 border-dashed"
+          onClick={() => setOpen((prev) => !prev)}
         >
           <PlusCircle className="h-4 w-4" />
           Product
@@ -73,6 +76,9 @@ export function ProductDropdown() {
               ) : (
                 <span className="text-xs">{selected.length} selected</span>
               )}
+              <div onClick={handleClear}>
+                <X className="size-4 " />
+              </div>
             </React.Fragment>
           )}
         </Button>
@@ -83,7 +89,10 @@ export function ProductDropdown() {
           <p className="text-center text-sm">Loading...</p>
         </DropdownMenuContent>
       ) : (
-        <DropdownMenuContent className="w-56">
+        <DropdownMenuContent
+          className="w-56"
+          onInteractOutside={() => setOpen(false)}
+        >
           <InputGroup className="h-7 border-0 focus-visible:ring-0">
             <InputGroupInput
               placeholder="Status"

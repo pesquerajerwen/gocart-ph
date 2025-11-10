@@ -14,13 +14,15 @@ import {
 import {
   InputGroup,
   InputGroupAddon,
+  InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { PlusCircle, Search } from "lucide-react";
+import { PlusCircle, Search, X } from "lucide-react";
 import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
 import * as React from "react";
+import { useState } from "react";
 
 const statuses = ["pending", "processing", "shipped", "delivered", "cancelled"];
 
@@ -30,7 +32,8 @@ export function StatusDropdown() {
     parseAsArrayOf(parseAsString.withDefault("")).withDefault([])
   );
 
-  const [search, setSearch] = React.useState("");
+  const [search, setSearch] = useState("");
+  const [open, setOpen] = useState(false);
 
   const handleToggle = (status: string) => {
     setSelected((prev) =>
@@ -47,11 +50,12 @@ export function StatusDropdown() {
   );
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open}>
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
           className="flex items-center gap-2 p-0 border-dashed"
+          onClick={() => setOpen((prev) => !prev)}
         >
           <PlusCircle className="h-4 w-4" />
           Status
@@ -65,20 +69,41 @@ export function StatusDropdown() {
               ) : (
                 <span className="text-xs">{selected.length} selected</span>
               )}
+              <div onClick={handleClear}>
+                <X className="size-4 " />
+              </div>
             </React.Fragment>
           )}
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent
+        className="w-56"
+        onInteractOutside={() => setOpen(false)}
+      >
         <InputGroup className="h-7 border-0 shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 active:shadow-none">
           <InputGroupInput
+            value={search}
             placeholder="Status"
             className="shadow-none border-0 focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 active:shadow-none"
+            onChange={(e) => setSearch(e.target.value)}
           />
           <InputGroupAddon>
             <Search className="h-4 w-4 text-muted-foreground" />
           </InputGroupAddon>
+          {search && (
+            <InputGroupAddon align="inline-end">
+              <InputGroupButton
+                variant="ghost"
+                aria-label="Help"
+                size="icon-xs"
+                className="rounded-full"
+                onClick={() => setSearch("")}
+              >
+                <X />
+              </InputGroupButton>
+            </InputGroupAddon>
+          )}
         </InputGroup>
 
         <DropdownMenuSeparator />

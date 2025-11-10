@@ -18,18 +18,24 @@ import {
 } from "@/components/ui/input-group";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { PlusCircle, Search } from "lucide-react";
+import { PlusCircle, Search, X } from "lucide-react";
 import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";
 import * as React from "react";
+import { useState } from "react";
 
-const paymentMethods = ["Gcash", "Maya", "QRPH"];
+const paymentMethods = [
+  { label: "Gcash", value: "gcash" },
+  { label: "Maya", value: "paymaya" },
+  { label: "QRPH", value: "qrph" },
+];
 
 export function PaymentDropdown() {
   const [selected, setSelected] = useQueryState(
     "payment",
     parseAsArrayOf(parseAsString.withDefault("")).withDefault([])
   );
-  const [search, setSearch] = React.useState("");
+  const [search, setSearch] = useState("");
+  const [open, setOpen] = useState(false);
 
   const handleToggle = (method: string) => {
     setSelected((prev) =>
@@ -42,15 +48,16 @@ export function PaymentDropdown() {
   const handleClear = () => setSelected([]);
 
   const filteredPaymentMethods = paymentMethods.filter((method) =>
-    method.toLowerCase().includes(search.toLowerCase())
+    method.value.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open}>
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
           className="flex items-center gap-2 p-0 border-dashed"
+          onClick={() => setOpen((prev) => !prev)}
         >
           <PlusCircle className="h-4 w-4" />
           Payment
@@ -64,12 +71,18 @@ export function PaymentDropdown() {
               ) : (
                 <span className="text-xs">{selected.length} selected</span>
               )}
+              <div onClick={handleClear}>
+                <X className="size-4 " />
+              </div>
             </React.Fragment>
           )}
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent
+        className="w-56"
+        onInteractOutside={() => setOpen(false)}
+      >
         <InputGroup className="h-7 border-0 shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 active:shadow-none">
           <InputGroupInput
             placeholder="Payment Method"
@@ -87,19 +100,22 @@ export function PaymentDropdown() {
           {filteredPaymentMethods.length > 0 ? (
             filteredPaymentMethods.map((method) => (
               <DropdownMenuItem
-                key={method}
+                key={method.value}
                 onSelect={(e) => {
                   e.preventDefault();
                 }}
               >
                 <Checkbox
-                  id={method}
-                  checked={selected.includes(method)}
-                  onCheckedChange={() => handleToggle(method)}
+                  id={method.value}
+                  checked={selected.includes(method.value)}
+                  onCheckedChange={() => handleToggle(method.value)}
                 />
 
-                <Label htmlFor={method} className="text-slate-600 font-normal">
-                  {method}
+                <Label
+                  htmlFor={method.value}
+                  className="text-slate-600 font-normal"
+                >
+                  {method.label}
                 </Label>
               </DropdownMenuItem>
             ))

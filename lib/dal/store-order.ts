@@ -146,7 +146,7 @@ function buildOrderItemWhere({
   ];
 
   if (status) {
-    and.push({ status: status as OrderItemStatus });
+    and.push({ status: { in: status.split(",") as OrderItemStatus[] } });
   }
 
   if (search) {
@@ -159,12 +159,19 @@ function buildOrderItemWhere({
 
   if (payment) {
     and.push({
-      order: { payments: { every: { paymentMethodType: payment } } },
+      order: {
+        payments: { every: { paymentMethodType: { in: payment.split(",") } } },
+      },
     });
   }
 
   if (product) {
-    and.push({ productName: { contains: product, mode: "insensitive" } });
+    and.push({
+      productName: {
+        in: product.split(","),
+        mode: "insensitive",
+      },
+    });
   }
 
   if (from && to) {
