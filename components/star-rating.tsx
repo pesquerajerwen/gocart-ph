@@ -10,6 +10,7 @@ type StarRatingProps = {
   className?: string;
   inactiveClassName?: string;
   size?: number;
+  gap?: number;
   disabled?: boolean;
   onChange?: (newRating: number) => void;
 };
@@ -20,11 +21,12 @@ const StarRating: React.FC<StarRatingProps> = ({
   className,
   inactiveClassName,
   size = 12,
+  gap = 1,
   disabled = false,
   onChange,
 }) => {
   return (
-    <div className="flex items-center space-x-1">
+    <div className="flex items-center" style={{ gap: `${gap * 0.25}rem` }}>
       {Array.from({ length: maxStars }, (_, i) => {
         const starValue = i + 1;
         const isActive = starValue <= rating;

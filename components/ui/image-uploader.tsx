@@ -92,7 +92,7 @@ export default function ImageUploader({
         <div className={cn("flex flex-col items-center gap-2 text-gray-500 ")}>
           <ImageIcon className="w-10 h-10" />
           <p className="text-sm text-center">
-            <span className="font-medium text-gray-700">Click to upload</span>
+            <span className="font-medium text-gray-700">Click to upload</span>{" "}
             or drag and drop
           </p>
         </div>

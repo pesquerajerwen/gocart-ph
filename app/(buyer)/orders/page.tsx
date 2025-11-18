@@ -2,6 +2,7 @@ import { getOrderCount } from "@/lib/dal/order";
 import OrderList from "./order-list";
 import { getCurrentUser } from "@/lib/dal/user";
 import { redirectToLogin } from "@/utils/redirect";
+import RateProductDialog from "./rate-product-dialog";
 
 export default async function OrderPage() {
   const currentUser = await getCurrentUser();
@@ -21,6 +22,7 @@ export default async function OrderPage() {
           <OrderList />
         </div>
       </section>
+      <RateProductDialog />
     </div>
   );
 }

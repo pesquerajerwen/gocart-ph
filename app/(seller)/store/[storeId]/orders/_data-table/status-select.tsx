@@ -7,6 +7,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { updateOrderItemStatusAction } from "@/lib/actions/update-order-item-status";
+import { ordersKeys } from "@/lib/queryKeys";
+import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 type Props = {
@@ -15,6 +17,8 @@ type Props = {
 };
 
 export default function StatusSelect({ orderItemId, status }: Props) {
+  const queryClient = useQueryClient();
+
   async function handleOnChange(value: string) {
     const { success, error } = await updateOrderItemStatusAction({
       id: orderItemId,
@@ -23,6 +27,8 @@ export default function StatusSelect({ orderItemId, status }: Props) {
 
     if (success) toast.success("Status successfully updated");
     else toast.error(error?.message);
+
+    queryClient.invalidateQueries({ queryKey: ordersKeys.all });
   }
 
   return (

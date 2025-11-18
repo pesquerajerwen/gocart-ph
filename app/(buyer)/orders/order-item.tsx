@@ -1,3 +1,5 @@
+"use client";
+
 import { assets } from "@/assets/assets";
 import { cn } from "@/utils/tailwind";
 import Image from "next/image";
@@ -5,6 +7,8 @@ import OrderStatus from "@/components/order-status";
 import { OrderItemWithProductImages } from "@/lib/types/order";
 import dayjs from "dayjs";
 import { Address } from "@prisma/client";
+import { Button } from "@/components/ui/button";
+import { useOrdersStore } from "@/lib/zustand/orders";
 
 type Props = {
   dateOrdered: Date;
@@ -13,6 +17,8 @@ type Props = {
 };
 
 export default function OrderItem({ orderItem, dateOrdered, address }: Props) {
+  const showRateProductDialog = useOrdersStore.use.showRateProductDialog();
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-6 items-center gap-4">
       <div className="col-span-2">
@@ -45,6 +51,15 @@ export default function OrderItem({ orderItem, dateOrdered, address }: Props) {
               <p className="text-sm text-slate-500">
                 {dayjs(dateOrdered).format("ddd MMM DD YYYY")}
               </p>
+              {orderItem.status === "delivered" && (
+                <Button
+                  variant="link"
+                  className="px-0"
+                  onClick={() => showRateProductDialog(orderItem.id)}
+                >
+                  Rate this product
+                </Button>
+              )}
             </div>
           </div>
         </div>
