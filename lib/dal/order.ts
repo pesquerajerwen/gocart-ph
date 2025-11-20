@@ -46,6 +46,7 @@ export async function getOrders(props: GetOrderParams) {
         createdAt: true,
         items: {
           include: {
+            review: true,
             product: {
               select: { productImages: true },
             },

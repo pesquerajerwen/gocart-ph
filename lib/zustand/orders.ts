@@ -1,18 +1,19 @@
 import { create } from "zustand";
 import { createSelectors } from "./selector";
+import { OrderItem } from "@prisma/client";
 
 interface OrdersState {
-  selectedOrderId: string | null;
+  selectedOrder: OrderItem | null;
   rateProductDialog: { isOpen: boolean };
-  showRateProductDialog: (id: string) => void;
+  showRateProductDialog: (order: OrderItem) => void;
   closeRateProductDialog: () => void;
 }
 
 const useOrdersStoreBase = create<OrdersState>((set) => ({
-  selectedOrderId: null,
+  selectedOrder: null,
   rateProductDialog: { isOpen: false },
-  showRateProductDialog: (id) =>
-    set({ rateProductDialog: { isOpen: true }, selectedOrderId: id }),
+  showRateProductDialog: (order) =>
+    set({ rateProductDialog: { isOpen: true }, selectedOrder: order }),
   closeRateProductDialog: () => set({ rateProductDialog: { isOpen: false } }),
 }));
 

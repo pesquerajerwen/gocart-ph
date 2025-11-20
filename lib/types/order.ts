@@ -13,7 +13,8 @@ export type Orders = Prisma.OrderGetPayload<{
   include: {
     items: {
       include: {
-        product: { select: { productImages: true } };
+        review: true;
+        product: { select: { productImages: true; reviews: true } };
       };
     };
     address: true;

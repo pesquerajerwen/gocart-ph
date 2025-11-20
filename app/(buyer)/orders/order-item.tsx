@@ -6,17 +6,24 @@ import Image from "next/image";
 import OrderStatus from "@/components/order-status";
 import { OrderItemWithProductImages } from "@/lib/types/order";
 import dayjs from "dayjs";
-import { Address } from "@prisma/client";
+import { Address, Review } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { useOrdersStore } from "@/lib/zustand/orders";
+import StarRating from "@/components/star-rating";
 
 type Props = {
   dateOrdered: Date;
   address: Address;
   orderItem: OrderItemWithProductImages;
+  review: Review | null;
 };
 
-export default function OrderItem({ orderItem, dateOrdered, address }: Props) {
+export default function OrderItem({
+  orderItem,
+  review,
+  dateOrdered,
+  address,
+}: Props) {
   const showRateProductDialog = useOrdersStore.use.showRateProductDialog();
 
   return (
@@ -51,14 +58,17 @@ export default function OrderItem({ orderItem, dateOrdered, address }: Props) {
               <p className="text-sm text-slate-500">
                 {dayjs(dateOrdered).format("ddd MMM DD YYYY")}
               </p>
-              {orderItem.status === "delivered" && (
+              {orderItem.status === "delivered" && !review?.rating && (
                 <Button
                   variant="link"
                   className="px-0"
-                  onClick={() => showRateProductDialog(orderItem.id)}
+                  onClick={() => showRateProductDialog(orderItem)}
                 >
                   Rate this product
                 </Button>
+              )}
+              {review?.rating && (
+                <StarRating rating={review.rating} size={16} />
               )}
             </div>
           </div>

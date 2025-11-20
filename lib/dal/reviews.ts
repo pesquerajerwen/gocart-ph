@@ -1,5 +1,8 @@
 import { prisma } from "../db/client";
-import { GetProductReviewsParams } from "../types/review";
+import {
+  CreateProductReviewParams,
+  GetProductReviewsParams,
+} from "../types/review";
 
 export async function getProductReviews({
   productId,
@@ -16,5 +19,11 @@ export async function getProductReviews({
         },
       },
     },
+  });
+}
+
+export async function createProductReview(review: CreateProductReviewParams) {
+  return prisma.review.create({
+    data: review,
   });
 }

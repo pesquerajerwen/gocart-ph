@@ -44,11 +44,12 @@ export default function OrderList() {
           <Fragment key={index}>
             {orders.map((order, index) => (
               <Fragment key={index}>
-                <div className="space-y-6 my-16">
+                <div className="space-y-6 my-8">
                   {order.items.map((item, index) => (
                     <OrderItem
                       key={index}
                       orderItem={item}
+                      review={item.review}
                       address={order.address}
                       dateOrdered={order.createdAt}
                     />
