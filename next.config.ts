@@ -11,6 +11,9 @@ const nextConfig: NextConfig = {
       new URL(
         "https://eczxcsyefookjsrvpmcv.supabase.co/storage/v1/object/public/product_images/*"
       ),
+      new URL(
+        "https://eczxcsyefookjsrvpmcv.supabase.co/storage/v1/object/public/review_images/*"
+      ),
     ],
   },
 };

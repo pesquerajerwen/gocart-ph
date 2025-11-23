@@ -23,14 +23,28 @@ export default function ProductReview(userReview: UserReview) {
           width={40}
           className="rounded-full cursor-pointer"
         />
-        <div className="flex flex-col gap-1">
-          <p className="text-sm text-slate-800">{name}</p>
-          <StarRating rating={userReview.rating} />
+        <div>
+          <div className="flex flex-col gap-1">
+            <p className="text-sm text-slate-800">{name}</p>
+            <StarRating rating={userReview.rating} />
 
-          <p className="text-sm text-slate-600">
-            {dayjs(userReview.createdAt).format("ddd MMM DD YYYY")}
-          </p>
-          <p className="text-sm text-slate-600 mt-3">{userReview.comment}</p>
+            <p className="text-sm text-slate-600">
+              {dayjs(userReview.createdAt).format("ddd MMM DD YYYY")}
+            </p>
+            <p className="text-sm text-slate-600 mt-3">{userReview.comment}</p>
+          </div>
+          <div className="flex gap-3">
+            {userReview.images.map((image, index) => (
+              <div className="relative size-24" key={index}>
+                <Image
+                  src={image.url}
+                  className="rounded object-cover"
+                  alt={"Image review"}
+                  fill
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

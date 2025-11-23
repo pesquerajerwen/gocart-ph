@@ -1,6 +1,6 @@
 "use client";
 
-import Pagination from "@/components/pagination";
+import Pagination from "@/components/table-pagination";
 import { parseAsInteger, useQueryState } from "nuqs";
 
 type Props = {

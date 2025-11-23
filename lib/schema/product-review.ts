@@ -12,8 +12,9 @@ export const createProductReviewClientSchema = z.object({
 });
 
 export const createProductReviewServerSchema = z.object({
-  productId: z.string(),
-  orderItemId: z.string(),
+  userId: z.string().nonempty(),
+  productId: z.string().nonempty(),
+  orderItemId: z.string().nonempty(),
   rating: z.number().min(1).max(5),
   comment: z.string(),
   images: z.array(
@@ -23,6 +24,16 @@ export const createProductReviewServerSchema = z.object({
   ),
 });
 
+export const getProductReviewsSchema = z.object({
+  productId: z.string().nonempty("Product ID is required"),
+  size: z.coerce.number().nonnegative().default(10),
+  page: z.coerce.number().nonnegative().default(1),
+});
+
 export type CreateProductReviewFormValues = z.infer<
   typeof createProductReviewClientSchema
 >;
+export type CreateProductReviewServerParams = z.infer<
+  typeof createProductReviewServerSchema
+>;
+export type GetProductReviewsParams = z.infer<typeof getProductReviewsSchema>;

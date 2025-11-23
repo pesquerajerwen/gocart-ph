@@ -23,3 +23,12 @@ export const storeOrdersKeys = {
   details: () => [...storeOrdersKeys.all, "detail"] as const,
   detail: (id: string) => [...storeOrdersKeys.details(), id] as const,
 };
+
+export const productReviewKeys = {
+  all: ["productReviews"] as const,
+  lists: () => [...productReviewKeys.all, "list"] as const,
+  list: (filters: Record<string, any>) =>
+    [...productReviewKeys.lists(), { filters }] as const,
+  details: () => [...productReviewKeys.all, "detail"] as const,
+  detail: (id: string) => [...productReviewKeys.details(), id] as const,
+};

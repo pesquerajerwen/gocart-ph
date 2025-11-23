@@ -6,7 +6,16 @@ import { getCurrentUser } from "../dal/user";
 import { createProductReviewServerSchema } from "../schema/product-review";
 
 export async function createProductReviewAction(rawData: unknown) {
-  const parsed = createProductReviewServerSchema.safeParse(rawData);
+  const user = await getCurrentUser();
+
+  if (!user) {
+    return redirectToLogin();
+  }
+
+  const parsed = createProductReviewServerSchema.safeParse({
+    ...Object(rawData),
+    userId: user.id,
+  });
 
   if (!parsed.success) {
     return {
@@ -15,12 +24,6 @@ export async function createProductReviewAction(rawData: unknown) {
         message: parsed.error.message,
       },
     };
-  }
-
-  const user = await getCurrentUser();
-
-  if (!user) {
-    return redirectToLogin();
   }
 
   const { images, ...rest } = parsed.data;
