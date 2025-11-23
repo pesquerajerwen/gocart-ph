@@ -22,7 +22,7 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import ImageUploader from "../image-uploader";
+import ImageUploader from "./image-uploader";
 import Rating from "./rating";
 import { LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
@@ -41,6 +41,7 @@ export default function RateProductDialog() {
     defaultValues: {
       rating: 0,
       comment: "",
+      images: [],
     },
     resolver: zodResolver(createProductReviewClientSchema),
   });
@@ -55,6 +56,7 @@ export default function RateProductDialog() {
   const onSubmit: SubmitHandler<CreateProductReviewFormValues> = async ({
     rating,
     comment,
+    images,
   }) => {
     if (!selectedOrder) throw Error("No selected order");
 
@@ -63,6 +65,7 @@ export default function RateProductDialog() {
       orderItemId: selectedOrder.id,
       rating,
       comment,
+      images: images.map(({ url }) => ({ url })),
     });
 
     if (!success) {
@@ -98,47 +101,49 @@ export default function RateProductDialog() {
           </DialogDescription>
         </DialogHeader>
 
-        <FormProvider {...form}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <section className="max-h-[70vh] overflow-auto space-y-3  px-4">
-              <Rating />
+        <fieldset disabled={form.formState.isSubmitting}>
+          <FormProvider {...form}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <section className="max-h-[70vh] overflow-auto space-y-3  px-4">
+                <Rating />
 
-              <div className="space-y-2">
-                <Controller
-                  control={control}
-                  name="comment"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-sm text-slate-500">
-                        Write Your Review
-                      </FormLabel>
-                      <FormControl>
-                        <Textarea
-                          {...field}
-                          placeholder="Please share your opinion about the product."
-                          className="text-sm resize-none h-24"
-                        />
-                      </FormControl>
-                    </FormItem>
+                <div className="space-y-2">
+                  <Controller
+                    control={control}
+                    name="comment"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm text-slate-500">
+                          Write Your Review
+                        </FormLabel>
+                        <FormControl>
+                          <Textarea
+                            {...field}
+                            placeholder="Please share your opinion about the product."
+                            className="text-sm resize-none h-24"
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div>
+                  <ImageUploader />
+                </div>
+              </section>
+              <div className="px-4 mt-3">
+                <Button className="w-full" disabled={!isValid || isSubmitting}>
+                  {isSubmitting ? (
+                    <LoaderCircle className="size-4 animate-spin" />
+                  ) : (
+                    "Submit Review"
                   )}
-                />
+                </Button>
               </div>
-
-              <div>
-                <ImageUploader />
-              </div>
-            </section>
-            <div className="px-4 mt-3">
-              <Button className="w-full" disabled={!isValid || isSubmitting}>
-                {isSubmitting ? (
-                  <LoaderCircle className="size-4 animate-spin" />
-                ) : (
-                  "Submit Review"
-                )}
-              </Button>
-            </div>
-          </form>
-        </FormProvider>
+            </form>
+          </FormProvider>
+        </fieldset>
       </DialogContent>
     </Dialog>
   );

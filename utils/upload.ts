@@ -15,8 +15,8 @@ type UploadSingleFileProps = {
 type UploadFilesWithProgress = {
   fileUploadItems: FileUploadItem[];
   bucketName: string;
-  onProgressUpdate?: (index: number, percent: number) => void;
-  onUploadFail?: (index: number, error: string) => void;
+  onProgressUpdate?: (id: string, percent: number) => void;
+  onUploadFail?: (id: string, error: string) => void;
 };
 
 /**
@@ -40,7 +40,7 @@ async function uploadSingleFile({
 
   // Upload file via Axios
   try {
-    const response = await axios.put(signedUrlData.signedUrl, file, {
+    await axios.put(signedUrlData.signedUrl, file, {
       headers: {
         "Content-Type": file.type,
       },
@@ -74,8 +74,8 @@ export async function uploadFilesWithProgress({
       file: fileUploadItem.file as File,
       fileName: fileUploadItem.id,
       bucketName,
-      onProgress: (percent) => onProgressUpdate?.(index, percent),
-      onFail: (error) => onUploadFail?.(index, error),
+      onProgress: (percent) => onProgressUpdate?.(fileUploadItem.id, percent),
+      onFail: (error) => onUploadFail?.(fileUploadItem.id, error),
     })
   );
 
@@ -95,7 +95,7 @@ export async function getPublicUrls(
     .filter((filePath) => filePath !== null)
     .map(async (path) => {
       const { data } = supabase.storage.from(bucketName).getPublicUrl(path);
-      return data.publicUrl;
+      return { id: path, url: data.publicUrl };
     });
 
   return Promise.all(urls);

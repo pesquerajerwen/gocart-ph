@@ -1,4 +1,4 @@
-import { Prisma, Review } from "@prisma/client";
+import { Prisma, Review, ReviewImage } from "@prisma/client";
 
 export type UserReview = Prisma.ReviewGetPayload<{
   include: {
@@ -15,4 +15,6 @@ export type GetProductReviewsParams = {
 export type CreateProductReviewParams = Omit<
   Review,
   "id" | "createdAt" | "updatedAt"
->;
+> & {
+  images: { url: string }[];
+};

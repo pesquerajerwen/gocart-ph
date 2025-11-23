@@ -23,7 +23,14 @@ export async function getProductReviews({
 }
 
 export async function createProductReview(review: CreateProductReviewParams) {
+  const { images, ...rest } = review;
+
   return prisma.review.create({
-    data: review,
+    data: {
+      ...rest,
+      images: {
+        create: images,
+      },
+    },
   });
 }

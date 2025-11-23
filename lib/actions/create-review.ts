@@ -23,9 +23,12 @@ export async function createProductReviewAction(rawData: unknown) {
     return redirectToLogin();
   }
 
+  const { images, ...rest } = parsed.data;
+
   try {
     await createProductReview({
-      ...parsed.data,
+      ...rest,
+      images,
       userId: user!.id,
     });
   } catch (error) {

@@ -3,6 +3,7 @@
 import { cn } from "@/utils/tailwind";
 import { Star } from "lucide-react";
 import React from "react";
+import { Button } from "./ui/button";
 
 type StarRatingProps = {
   rating: number;
@@ -32,20 +33,27 @@ const StarRating: React.FC<StarRatingProps> = ({
         const isActive = starValue <= rating;
 
         return (
-          <Star
+          <button
             key={i}
-            size={size}
+            type="button"
+            disabled={disabled}
             className={cn(
-              "fill-current transition-colors",
-              isActive
-                ? className ?? "text-green-500"
-                : inactiveClassName ?? "text-gray-300",
-              disabled ? "opacity-50 cursor-default" : "cursor-pointer"
+              disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
             )}
             onClick={() => {
               if (!disabled) onChange?.(starValue);
             }}
-          />
+          >
+            <Star
+              size={size}
+              className={cn(
+                "fill-current transition-colors",
+                isActive
+                  ? className ?? "text-green-500"
+                  : inactiveClassName ?? "text-gray-300"
+              )}
+            />
+          </button>
         );
       })}
     </div>

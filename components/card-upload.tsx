@@ -5,7 +5,6 @@ import {
   AlertContent,
   AlertDescription,
   AlertIcon,
-  AlertTitle,
 } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,7 +31,7 @@ import {
   VideoIcon,
   XIcon,
 } from "lucide-react";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 // Extend FileWithPreview to include upload status and progress
 export type FileUploadItem = FileWithPreview & {
@@ -42,14 +41,16 @@ export type FileUploadItem = FileWithPreview & {
 };
 
 type CardUploadProps = {
-  files?: FileUploadItem[];
+  files: FileUploadItem[];
   maxFiles?: number;
   maxSize?: number;
   accept?: string;
   multiple?: boolean;
   className?: string;
+  disabled?: boolean;
   children?: ReactNode;
-  onFilesChange?: (files: FileUploadItem[]) => void;
+  onFilesChange: (files: FileUploadItem[]) => void;
+  onFileRemove?: (id: string) => void;
 };
 
 export default function CardUpload({
@@ -59,11 +60,11 @@ export default function CardUpload({
   accept = "*",
   multiple = true,
   className,
+  disabled = false,
   children,
   onFilesChange,
+  onFileRemove,
 }: CardUploadProps) {
-  const [uploadFiles, setUploadFiles] = useState<FileUploadItem[]>([]);
-
   const [
     { isDragging, errors },
     {
@@ -84,10 +85,7 @@ export default function CardUpload({
     onFilesChange: (newFiles) => {
       // Convert to upload items when files change, preserving existing status
       const newUploadFiles = newFiles.map((file) => {
-        // Check if this file already exists in uploadFiles
-        const existingFile = uploadFiles.find(
-          (existing) => existing.id === file.id
-        );
+        const existingFile = files.find((existing) => existing.id === file.id);
 
         if (existingFile) {
           // Preserve existing file status and progress
@@ -110,26 +108,15 @@ export default function CardUpload({
   });
 
   const removeUploadFile = (fileId: string) => {
-    const fileToRemove = uploadFiles.find((f) => f.id === fileId);
+    const fileToRemove = files.find((f) => f.id === fileId);
     if (fileToRemove) {
       removeFile(fileToRemove.id);
     }
+
+    onFileRemove?.(fileId);
   };
 
-  const retryUpload = (fileId: string) => {
-    setUploadFiles((prev) =>
-      prev.map((file) =>
-        file.id === fileId
-          ? {
-              ...file,
-              progress: 0,
-              status: "uploading" as const,
-              error: undefined,
-            }
-          : file
-      )
-    );
-  };
+  const retryUpload = (fileId: string) => {};
 
   const getFileIcon = (file: File | FileMetadata) => {
     const type = file instanceof File ? file.type : file.type;
@@ -146,96 +133,135 @@ export default function CardUpload({
     return <FileTextIcon className="size-6" />;
   };
 
-  useEffect(() => {
-    if (files) setUploadFiles(files);
-  }, [files]);
-
   return (
-    <div className={cn("w-full space-y-4", className)}>
-      {/* Upload Area */}
-      <div
-        className={cn(
-          "relative rounded-lg border border-dashed p-6 text-center transition-colors",
-          isDragging
-            ? "border-primary bg-primary/5"
-            : "border-muted-foreground/25 hover:border-muted-foreground/50"
-        )}
-        onDragEnter={handleDragEnter}
-        onDragLeave={handleDragLeave}
-        onDragOver={handleDragOver}
-        onDrop={handleDrop}
-      >
-        <input {...getInputProps()} className="sr-only" />
-
-        <div className="flex flex-col items-center gap-4">
-          <Button
-            variant="secondary"
-            className={cn(
-              "flex h-12 w-12 items-center justify-center rounded-full bg-muted transition-colors",
-              isDragging
-                ? "border-primary bg-primary/10"
-                : "border-muted-foreground/25"
-            )}
-            onClick={openFileDialog}
-          >
-            <Upload className="h-5 w-5 text-muted-foreground" />
-          </Button>
-
-          {children ? (
-            <div onClick={openFileDialog}>{children}</div>
-          ) : (
-            <div className="space-y-2">
-              <p className="text-sm font-medium">
-                Drop files here or{" "}
-                <button
-                  type="button"
-                  onClick={openFileDialog}
-                  className="cursor-pointer text-primary underline-offset-4 hover:underline"
-                >
-                  browse files
-                </button>
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Maximum file size: {formatBytes(maxSize)} • Maximum files:{" "}
-                {maxFiles}
-              </p>
-            </div>
+    <fieldset disabled={disabled}>
+      <div className={cn("w-full space-y-4", className)}>
+        {/* Upload Area */}
+        <div
+          className={cn(
+            "relative rounded-lg border border-dashed p-6 text-center transition-colors",
+            isDragging
+              ? "border-primary bg-primary/5"
+              : "border-muted-foreground/25 hover:border-muted-foreground/50"
           )}
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+        >
+          <input {...getInputProps()} className="sr-only" />
+
+          <div className="flex flex-col items-center gap-4">
+            <Button
+              type="button"
+              variant="secondary"
+              className={cn(
+                "flex h-12 w-12 items-center justify-center rounded-full bg-muted transition-colors",
+                isDragging
+                  ? "border-primary bg-primary/10"
+                  : "border-muted-foreground/25"
+              )}
+              onClick={openFileDialog}
+            >
+              <Upload className="h-5 w-5 text-muted-foreground" />
+            </Button>
+
+            {children ? (
+              <div onClick={openFileDialog}>{children}</div>
+            ) : (
+              <div className="space-y-2">
+                <p className="text-sm font-medium">
+                  Drop files here or{" "}
+                  <button
+                    type="button"
+                    onClick={openFileDialog}
+                    className="cursor-pointer text-primary underline-offset-4 hover:underline"
+                  >
+                    browse files
+                  </button>
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Maximum file size: {formatBytes(maxSize)} • Maximum files:{" "}
+                  {maxFiles}
+                </p>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
 
-      {/* Files Grid */}
-      {uploadFiles.length > 0 && (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {uploadFiles.map((fileItem) => (
-              <div key={fileItem.id} className="relative group">
-                {/* Remove button */}
-                <Button
-                  onClick={() => removeUploadFile(fileItem.id)}
-                  variant="outline"
-                  size="icon"
-                  className="absolute -end-2 -top-2 z-10 size-6 rounded-full opacity-0 transition-opacity group-hover:opacity-100"
-                >
-                  <XIcon className="size-3" />
-                </Button>
+        {/* Files Grid */}
+        {files.length > 0 && (
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+              {files.map((fileItem) => (
+                <div key={fileItem.id} className="relative group">
+                  {/* Remove button */}
+                  <Button
+                    type="button"
+                    onClick={() => removeUploadFile(fileItem.id)}
+                    variant="outline"
+                    size="icon"
+                    className="absolute -end-2 -top-2 z-10 size-6 rounded-full opacity-0 transition-opacity group-hover:opacity-100"
+                  >
+                    <XIcon className="size-3" />
+                  </Button>
 
-                {/* Wrapper */}
-                <div className="relative overflow-hidden rounded-lg border bg-card transition-colors">
-                  {/* Image preview or file icon area */}
-                  <div className="relative aspect-square bg-muted border-b border-border">
-                    {fileItem.file.type.startsWith("image/") &&
-                    fileItem.preview ? (
-                      <>
-                        {/* Image cover */}
-                        <img
-                          src={fileItem.preview}
-                          alt={fileItem.file.name}
-                          className="h-full w-full object-cover"
-                        />
-                        {/* Progress overlay for uploading images */}
-                        {fileItem.status === "uploading" && (
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                  {/* Wrapper */}
+                  <div className="relative overflow-hidden rounded-lg border bg-card transition-colors">
+                    {/* Image preview or file icon area */}
+                    <div className="relative aspect-square bg-muted border-b border-border">
+                      {fileItem.file.type.startsWith("image/") &&
+                      fileItem.preview ? (
+                        <>
+                          {/* Image cover */}
+                          <img
+                            src={fileItem.preview}
+                            alt={fileItem.file.name}
+                            className="h-full w-full object-cover"
+                          />
+                          {/* Progress overlay for uploading images */}
+                          {fileItem.status === "uploading" && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                              <div className="relative">
+                                <svg
+                                  className="size-12 -rotate-90"
+                                  viewBox="0 0 48 48"
+                                >
+                                  <circle
+                                    cx="24"
+                                    cy="24"
+                                    r="20"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="3"
+                                    className="text-muted/60"
+                                  />
+                                  <circle
+                                    cx="24"
+                                    cy="24"
+                                    r="20"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="3"
+                                    strokeDasharray={`${2 * Math.PI * 20}`}
+                                    strokeDashoffset={`${
+                                      2 *
+                                      Math.PI *
+                                      20 *
+                                      (1 - fileItem.progress / 100)
+                                    }`}
+                                    className="text-white transition-all duration-300"
+                                    strokeLinecap="round"
+                                  />
+                                </svg>
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        /* File icon area for non-images */
+                        <div className="flex h-full items-center justify-center text-muted-foreground/80">
+                          {fileItem.status === "uploading" ? (
                             <div className="relative">
                               <svg
                                 className="size-12 -rotate-90"
@@ -248,7 +274,7 @@ export default function CardUpload({
                                   fill="none"
                                   stroke="currentColor"
                                   strokeWidth="3"
-                                  className="text-muted/60"
+                                  className="text-muted-foreground/20"
                                 />
                                 <circle
                                   cx="24"
@@ -264,118 +290,80 @@ export default function CardUpload({
                                     20 *
                                     (1 - fileItem.progress / 100)
                                   }`}
-                                  className="text-white transition-all duration-300"
+                                  className="text-primary transition-all duration-300"
                                   strokeLinecap="round"
                                 />
                               </svg>
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                {getFileIcon(fileItem.file)}
+                              </div>
                             </div>
-                          </div>
-                        )}
-                      </>
-                    ) : (
-                      /* File icon area for non-images */
-                      <div className="flex h-full items-center justify-center text-muted-foreground/80">
-                        {fileItem.status === "uploading" ? (
-                          <div className="relative">
-                            <svg
-                              className="size-12 -rotate-90"
-                              viewBox="0 0 48 48"
-                            >
-                              <circle
-                                cx="24"
-                                cy="24"
-                                r="20"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="3"
-                                className="text-muted-foreground/20"
-                              />
-                              <circle
-                                cx="24"
-                                cy="24"
-                                r="20"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="3"
-                                strokeDasharray={`${2 * Math.PI * 20}`}
-                                strokeDashoffset={`${
-                                  2 *
-                                  Math.PI *
-                                  20 *
-                                  (1 - fileItem.progress / 100)
-                                }`}
-                                className="text-primary transition-all duration-300"
-                                strokeLinecap="round"
-                              />
-                            </svg>
-                            <div className="absolute inset-0 flex items-center justify-center">
+                          ) : (
+                            <div className="text-4xl">
                               {getFileIcon(fileItem.file)}
                             </div>
-                          </div>
-                        ) : (
-                          <div className="text-4xl">
-                            {getFileIcon(fileItem.file)}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
 
-                  {/* File info footer */}
-                  <div className="p-1 px-2">
-                    <div className="space-y-1">
-                      <p className="truncate text-xs font-medium">
-                        {fileItem.file.name}
-                      </p>
-                      <div className="relative flex items-center justify-between gap-2">
-                        <span className="text-xs text-muted-foreground">
-                          {formatBytes(fileItem.file.size)}
-                        </span>
+                    {/* File info footer */}
+                    <div className="p-1 px-2">
+                      <div className="space-y-1">
+                        <p className="truncate text-xs font-medium">
+                          {fileItem.file.name}
+                        </p>
+                        <div className="relative flex items-center justify-between gap-2">
+                          <span className="text-xs text-muted-foreground">
+                            {formatBytes(fileItem.file.size)}
+                          </span>
 
-                        {fileItem.status === "error" && fileItem.error && (
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button
-                                onClick={() => retryUpload(fileItem.id)}
-                                variant="ghost"
-                                size="icon"
-                                className="absolute end-0 -top-1.25 size-6 text-destructive hover:bg-destructive/10 hover:text-destructive"
-                              >
-                                <RefreshCwIcon className="size-3 opacity-100" />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              Upload failed. Retry
-                            </TooltipContent>
-                          </Tooltip>
-                        )}
+                          {fileItem.status === "error" && fileItem.error && (
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  type="button"
+                                  onClick={() => retryUpload(fileItem.id)}
+                                  variant="ghost"
+                                  size="icon"
+                                  className="absolute end-0 -top-1.25 size-6 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                                >
+                                  <RefreshCwIcon className="size-3 opacity-100" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                Upload failed. Retry
+                              </TooltipContent>
+                            </Tooltip>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Error Messages */}
-      {errors.length > 0 && (
-        <Alert variant="destructive" appearance="light" className="mt-5">
-          <AlertIcon>
-            <TriangleAlert />
-          </AlertIcon>
-          <AlertContent>
-            <AlertDescription>
-              {errors.map((error, index) => (
-                <p key={index} className="last:mb-0">
-                  {error}
-                </p>
               ))}
-            </AlertDescription>
-          </AlertContent>
-        </Alert>
-      )}
-    </div>
+            </div>
+          </div>
+        )}
+
+        {/* Error Messages */}
+        {errors.length > 0 && (
+          <Alert variant="destructive" appearance="light" className="mt-5">
+            <AlertIcon>
+              <TriangleAlert />
+            </AlertIcon>
+            <AlertContent>
+              <AlertDescription>
+                {errors.map((error, index) => (
+                  <p key={index} className="last:mb-0">
+                    {error}
+                  </p>
+                ))}
+              </AlertDescription>
+            </AlertContent>
+          </Alert>
+        )}
+      </div>
+    </fieldset>
   );
 }
