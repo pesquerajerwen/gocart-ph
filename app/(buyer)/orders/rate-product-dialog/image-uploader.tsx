@@ -58,8 +58,6 @@ export default function ImageUploader() {
           url: publicUrl.url,
         }));
 
-      console.log("newImages", newImages);
-
       setValue("images", [...images, ...newImages]);
     } catch (error: any) {
       toast.error(`Upload failed: ${error.message}`);
