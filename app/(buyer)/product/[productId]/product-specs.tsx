@@ -8,7 +8,9 @@ type Props = {
 };
 
 export default function ProductSpecs({ product }: Props) {
-  const reviewsCount = 1; // TODO: Get the correct value from the DB
+  const reviewCount = Math.floor(product.totalRating / product.totalReviews);
+
+  console.log(product);
 
   return (
     <Fragment>
@@ -18,7 +20,7 @@ export default function ProductSpecs({ product }: Props) {
       <div className="flex items-center gap-3">
         <StarRating rating={product.totalRating} />
         <span className="text-sm text-slate-600">
-          {reviewsCount} {reviewsCount === 1 ? "review" : "reviews"}
+          {reviewCount} {reviewCount === 1 ? "review" : "reviews"}
         </span>
       </div>
 

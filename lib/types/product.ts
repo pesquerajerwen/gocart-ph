@@ -23,13 +23,9 @@ export type ProductWithImages = Omit<
 > &
   ProductPrices;
 
-export type ProductWithRating = ProductPrices &
-  Omit<
-    Product, // TODO: include the review table
-    "actualPrice" | "offerPrice"
-  > & {
-    rating: number;
-    primaryImageUrl: string | StaticImageData; // TODO: Remove static image when the homepage is not using dummy data anymore
+export type ProductWithPrimaryImage = ProductPrices &
+  Omit<Product, "actualPrice" | "offerPrice"> & {
+    primaryImageUrl: string;
   };
 
 export type GetProductsParams = {

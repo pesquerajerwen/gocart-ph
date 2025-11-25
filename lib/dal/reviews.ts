@@ -45,14 +45,27 @@ export async function getProductReviews({
 export async function createProductReview(
   review: CreateProductReviewServerParams
 ) {
-  const { images, ...rest } = review;
+  const { images, productId, ...rest } = review;
 
-  return prisma.review.create({
-    data: {
-      ...rest,
-      images: {
-        create: images,
+  return prisma.$transaction(async (tx) => {
+    const createdReview = await tx.review.create({
+      data: {
+        ...rest,
+        productId,
+        images: {
+          create: images,
+        },
       },
-    },
+    });
+
+    await tx.product.update({
+      where: { id: productId },
+      data: {
+        totalRating: { increment: review.rating },
+        totalReviews: { increment: 1 },
+      },
+    });
+
+    return createdReview;
   });
 }

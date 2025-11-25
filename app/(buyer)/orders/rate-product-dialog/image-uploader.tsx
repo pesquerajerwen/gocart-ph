@@ -25,6 +25,8 @@ export default function ImageUploader() {
         fileUploadItems: newFiles,
         bucketName,
         onProgressUpdate: (id, percent) => {
+          // TODO: Fix the problem where when you upload multiple files, only one progress updates
+
           setFiles(
             paramFiles.map((f) =>
               f.id === id

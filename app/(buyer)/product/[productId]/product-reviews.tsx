@@ -3,6 +3,7 @@
 import { assets } from "@/assets/assets";
 import ListPagination from "@/components/list-pagination";
 import ProductReview from "@/components/product-review";
+import ProductReviewSkeleton from "@/components/product-review-skeleton";
 import { Separator } from "@/components/ui/separator";
 import { useProductReviews } from "@/hooks/use-product-reviews";
 import Image from "next/image";
@@ -15,11 +16,15 @@ type Props = {
 export default function ProductReviews({ productId }: Props) {
   const [page, setPage] = useState(1);
 
-  const { data: response } = useProductReviews({
+  const { data: response, isLoading } = useProductReviews({
     productId,
     page,
     size: 10,
   });
+
+  if (isLoading) {
+    return <ProductReviewSkeleton />;
+  }
 
   if (!response?.data.length) {
     return (

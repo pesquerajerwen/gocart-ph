@@ -1,15 +1,15 @@
 "use client";
 
 import { Pagination } from "@/lib/types/global";
-import { ProductWithRating } from "@/lib/types/product";
+import { ProductWithPrimaryImage } from "@/lib/types/product";
 import { create } from "zustand";
 
 type ShopState = {
   isFilterOpen: boolean;
-  products: ProductWithRating[];
+  products: ProductWithPrimaryImage[];
   pagination: Pagination;
   showFilter: (show: boolean) => void;
-  setProducts: (products: ProductWithRating[]) => void;
+  setProducts: (products: ProductWithPrimaryImage[]) => void;
   setPagination: (pagination: Pagination) => void;
 };
 
@@ -23,6 +23,6 @@ export const useShopStore = create<ShopState>((set) => ({
     totalPage: 0,
   },
   showFilter: (show: boolean) => set({ isFilterOpen: show }),
-  setProducts: (products: ProductWithRating[]) => set({ products }),
+  setProducts: (products: ProductWithPrimaryImage[]) => set({ products }),
   setPagination: (pagination: Pagination) => set({ pagination }),
 }));

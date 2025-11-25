@@ -1,10 +1,10 @@
-import { ProductWithRating } from "@/lib/types/product";
+import { ProductWithPrimaryImage } from "@/lib/types/product";
 import { cn } from "@/utils/tailwind";
 import Image from "next/image";
 import StarRating from "./star-rating";
 
 type Props = {
-  product: ProductWithRating;
+  product: ProductWithPrimaryImage;
   imageClass?: string;
 };
 
@@ -31,7 +31,9 @@ function ProductCard({ product, imageClass }: Props) {
           <p>{product.name}</p>
           <p>P {product.offerPrice.toFixed(2)}</p>
         </div>
-        <StarRating rating={product.rating} />
+        <StarRating
+          rating={Math.floor(product.totalRating / product.totalReviews)}
+        />
       </div>
     </div>
   );

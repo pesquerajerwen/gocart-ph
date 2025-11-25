@@ -61,14 +61,16 @@ export default function OrderItem({
               {orderItem.status === "delivered" && !review?.rating && (
                 <Button
                   variant="link"
-                  className="px-0"
+                  className="px-0 h-5"
                   onClick={() => showRateProductDialog(orderItem)}
                 >
                   Rate this product
                 </Button>
               )}
               {review?.rating && (
-                <StarRating rating={review.rating} size={16} />
+                <div className="mt-2">
+                  <StarRating rating={review.rating} size={16} />
+                </div>
               )}
             </div>
           </div>
