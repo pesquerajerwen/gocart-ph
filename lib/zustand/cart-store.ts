@@ -2,7 +2,7 @@
 
 import { CartItemWithProduct } from "@/lib/types/cart";
 import { ProductWithImages } from "@/lib/types/product";
-import { Address } from "@prisma/client";
+import { Address } from "@/generated/prisma/client";
 import { create } from "zustand";
 import { createSelectors } from "./selector";
 import { PaymentMethodType } from "@/lib/types/paymongo";

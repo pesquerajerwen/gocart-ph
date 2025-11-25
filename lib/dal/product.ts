@@ -1,4 +1,3 @@
-import { ProductStatus } from "@prisma/client";
 import z from "zod";
 import { prisma } from "../db/client";
 import {
@@ -56,7 +55,7 @@ export async function getProductsWithRating({
           lte: maxPrice,
         },
       }),
-    status: ProductStatus.active,
+    status: "active" as const,
   };
 
   const orderBy = parsedSort.success ? { [sortKey]: sortOrder } : {};

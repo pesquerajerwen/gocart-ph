@@ -1,5 +1,5 @@
 import { addressKeys } from "@/lib/queryKeys";
-import { Address } from "@prisma/client";
+import { Address } from "@/generated/prisma/client";
 import { useQuery } from "@tanstack/react-query";
 
 export function usePrimaryAddress() {

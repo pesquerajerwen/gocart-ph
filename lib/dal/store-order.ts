@@ -1,5 +1,5 @@
 import { serializePrisma } from "@/utils/prisma-serializer";
-import { OrderItemStatus, Prisma } from "@prisma/client";
+import { OrderItemStatus, Prisma } from "@/generated/prisma/client";
 import { prisma } from "../db/client";
 import {
   GetStoreOrderDetailsParams,

@@ -4,7 +4,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Category } from "@prisma/client";
+import { Category } from "@/generated/prisma/client";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Funnel } from "lucide-react";
 import { Fragment } from "react";

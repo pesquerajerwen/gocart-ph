@@ -1,7 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { OrderItemStatus } from "@prisma/client";
+import { OrderItemStatus } from "@/generated/prisma/client";
 import clsx from "clsx";
 import {
   CheckCircle2,

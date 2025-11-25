@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@/generated/prisma/client";
 import { Pagination } from "./global";
 
 export type UserReview = Prisma.ReviewGetPayload<{

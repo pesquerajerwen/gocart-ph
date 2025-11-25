@@ -1,7 +1,7 @@
 "use client";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import { Category } from "@prisma/client";
+import { Category } from "@/generated/prisma/client";
 import { ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { parseAsArrayOf, parseAsString, useQueryState } from "nuqs";

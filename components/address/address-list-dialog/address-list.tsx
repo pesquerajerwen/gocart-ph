@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { useUserAddressStore } from "@/lib/zustand/user-address-store";
-import { Address } from "@prisma/client";
+import { Address } from "@/generated/prisma/client";
 import { Fragment } from "react";
 
 type Props = {

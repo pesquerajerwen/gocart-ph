@@ -1,4 +1,9 @@
-import { Prisma, Product, ProductImage, ProductStatus } from "@prisma/client";
+import {
+  Prisma,
+  Product,
+  ProductImage,
+  ProductStatus,
+} from "@/generated/prisma/client";
 import { StaticImageData } from "next/image";
 
 type ProductPrices = {

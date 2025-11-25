@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@/generated/prisma/client";
 import { CartItemWithProduct } from "./cart";
 import { PaymentMethodType } from "./paymongo";
 import { Pagination } from "./global";

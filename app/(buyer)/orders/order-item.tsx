@@ -6,7 +6,7 @@ import Image from "next/image";
 import OrderStatus from "@/components/order-status";
 import { OrderItemWithProductImages } from "@/lib/types/order";
 import dayjs from "dayjs";
-import { Address, Review } from "@prisma/client";
+import { Address, Review } from "@/generated/prisma/client";
 import { Button } from "@/components/ui/button";
 import { useOrdersStore } from "@/lib/zustand/orders";
 import StarRating from "@/components/star-rating";

@@ -1,7 +1,7 @@
 "use client";
 
 import { assets } from "@/assets/assets";
-import { User } from "@prisma/client";
+import { User } from "@/generated/prisma/client";
 import { LogOut, Package, PlusIcon, Settings } from "lucide-react";
 import Image from "next/image";
 import {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Address } from "@prisma/client";
+import { Address } from "@/generated/prisma/client";
 import { create } from "zustand";
 import { createSelectors } from "./selector";
 

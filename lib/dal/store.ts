@@ -1,4 +1,4 @@
-import { Store } from "@prisma/client";
+import { Store } from "@/generated/prisma/client";
 import { prisma } from "../db/client";
 
 type GetStoreProps = {

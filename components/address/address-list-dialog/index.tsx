@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useUserAddressStore } from "@/lib/zustand/user-address-store";
-import { Address } from "@prisma/client";
+import { Address } from "@/generated/prisma/client";
 import { Plus } from "lucide-react";
 import AddressList from "./address-list";
 import { useEffect, useState } from "react";

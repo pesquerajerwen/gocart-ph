@@ -1,10 +1,10 @@
 import { assets } from "@/assets/assets";
-import { CartItemWithProduct } from "@/lib/types/cart";
 import { cn } from "@/utils/tailwind";
 import Image from "next/image";
 import QuantityField from "./quantity-field";
 import DeleteIcon from "./delete-icon";
 import Link from "next/link";
+import { CartItemWithProduct } from "@/lib/types/cart";
 
 type Props = {
   cartItem: CartItemWithProduct;

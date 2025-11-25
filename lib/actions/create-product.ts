@@ -5,7 +5,6 @@ import { getCurrentUser } from "../dal/current-user";
 import { createProduct } from "../dal/product";
 import { getStore } from "../dal/store";
 import { createProductServerSchema } from "../schema/product";
-import { ProductStatus } from "@prisma/client";
 import slugify from "slugify";
 
 export async function createProductAction(rawData: unknown) {
@@ -52,11 +51,12 @@ export async function createProductAction(rawData: unknown) {
     const { id } = await createProduct({
       ...rest,
       productImages: mappedProductImages,
-      status: ProductStatus.active,
+      status: "active" as const,
       storeId: store.id,
       categorySlug: slugify(categoryName, { lower: true }),
       totalRating: 0,
       totalSales: 0,
+      totalReviews: 0,
     });
 
     productId = id;

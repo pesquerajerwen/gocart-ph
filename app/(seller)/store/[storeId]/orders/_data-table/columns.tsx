@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { StoreOrder } from "@/lib/types/store";
-import { OrderStatus } from "@prisma/client";
+import { OrderStatus } from "@/generated/prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import { StaticImageData } from "next/image";

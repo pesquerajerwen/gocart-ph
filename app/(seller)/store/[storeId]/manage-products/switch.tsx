@@ -3,7 +3,7 @@
 import { Switch } from "@/components/ui/switch";
 import { updateProductStatusAction } from "@/lib/actions/update-product";
 import { ProductWithImages } from "@/lib/types/product";
-import { ProductStatus } from "@prisma/client";
+import { ProductStatus } from "@/generated/prisma/client";
 import { useRouter } from "next/navigation";
 import { useOptimistic, useTransition } from "react";
 import { toast } from "sonner";

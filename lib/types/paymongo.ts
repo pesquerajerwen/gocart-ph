@@ -1,4 +1,4 @@
-import { OrderItem, Product } from "@prisma/client";
+import { OrderItem, Product } from "@/generated/prisma/client";
 import { ProductWithImages } from "./product";
 
 export type LineItem = {

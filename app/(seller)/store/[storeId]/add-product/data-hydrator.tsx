@@ -2,7 +2,7 @@
 
 import { ReactNode, useEffect } from "react";
 import { useCategoryStore } from "@/lib/zustand/categories-store";
-import { Category } from "@prisma/client";
+import { Category } from "@/generated/prisma/client";
 
 type Props = {
   categories: Category[];

@@ -1,6 +1,6 @@
 "use server";
 
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@/generated/prisma/client";
 import { PlaceOrderActionParams } from "../types/order";
 import { getCurrentUser } from "../dal/user";
 import { redirectToLogin } from "@/utils/redirect";

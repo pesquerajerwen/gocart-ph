@@ -4,7 +4,7 @@ import CategoryFilter from "./category-filter";
 import ClearAllButton from "./clear-all-button";
 import PriceRangeFilter from "./price-range-filter";
 import RatingsFilter from "./ratings-filter";
-import { Category } from "@prisma/client";
+import { Category } from "@/generated/prisma/client";
 
 type Props = {
   categories: Category[];

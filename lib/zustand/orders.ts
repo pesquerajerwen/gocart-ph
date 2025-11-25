@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { createSelectors } from "./selector";
-import { OrderItem } from "@prisma/client";
+import { OrderItem } from "@/generated/prisma/client";
 
 interface OrdersState {
   selectedOrder: OrderItem | null;
