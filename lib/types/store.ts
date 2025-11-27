@@ -49,3 +49,30 @@ export type StoreOrders = {
   }>[];
   pagination: Pagination;
 };
+
+export type StoreReview = Prisma.ReviewGetPayload<{
+  include: {
+    user: {
+      select: {
+        firstName: true;
+        lastName: true;
+        avatarUrl: true;
+        email: true;
+      };
+    };
+    images: true;
+    product: {
+      select: {
+        name: true;
+        category: {
+          select: { name: true };
+        };
+      };
+    };
+  };
+}>;
+
+export type StoreReviews = {
+  data: StoreReview[];
+  pagination: Pagination;
+};

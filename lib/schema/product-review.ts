@@ -30,6 +30,12 @@ export const getProductReviewsSchema = z.object({
   page: z.coerce.number().nonnegative().default(1),
 });
 
+export const getStoreReviewsSchema = z.object({
+  storeId: z.string().nonempty("Store ID is required"),
+  size: z.coerce.number().nonnegative().default(10),
+  page: z.coerce.number().nonnegative().default(1),
+});
+
 export type CreateProductReviewFormValues = z.infer<
   typeof createProductReviewClientSchema
 >;
@@ -37,3 +43,4 @@ export type CreateProductReviewServerParams = z.infer<
   typeof createProductReviewServerSchema
 >;
 export type GetProductReviewsParams = z.infer<typeof getProductReviewsSchema>;
+export type GetStoreReviewsParams = z.infer<typeof getStoreReviewsSchema>;

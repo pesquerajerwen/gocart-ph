@@ -1,7 +1,5 @@
 import ProductCard from "@/components/product-card";
-import { Button } from "@/components/ui/button";
 import { getProductsWithRating } from "@/lib/dal/product";
-import { SearchX } from "lucide-react";
 import Link from "next/link";
 import { Fragment } from "react";
 import getSearchPayload from "../search-params";

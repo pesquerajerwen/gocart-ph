@@ -28,7 +28,7 @@ import { LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { ordersKeys } from "@/lib/queryKeys";
+import { ordersKeys, storeReviewKeys } from "@/lib/queryKeys";
 
 export default function RateProductDialog() {
   const queryClient = useQueryClient();
@@ -80,6 +80,7 @@ export default function RateProductDialog() {
     reset();
 
     queryClient.invalidateQueries({ queryKey: ordersKeys.all });
+    queryClient.invalidateQueries({ queryKey: storeReviewKeys.all });
   };
 
   return (
