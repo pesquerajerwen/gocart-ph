@@ -61,7 +61,7 @@ export default function ProductForm() {
     <FormProvider {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 max-w-lg mt-10"
+        className="space-y-6 max-w-lg mt-6"
       >
         <ProductImages />
 

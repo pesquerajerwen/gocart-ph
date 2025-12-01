@@ -30,7 +30,7 @@ export default function DataTable({ products, pagination }: Props) {
   });
 
   return (
-    <div className="mt-10">
+    <div className="mt-6">
       <div className="border rounded-sm">
         <Table className="w-full table-fixed">
           <DataTableHeader table={table} />

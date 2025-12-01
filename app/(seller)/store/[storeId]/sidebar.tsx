@@ -4,6 +4,7 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
+  SidebarRail,
 } from "@/components/ui/sidebar";
 import { cn } from "@/utils/tailwind";
 import SideBarMenuItem from "./sidebar-menu-item";
@@ -45,7 +46,7 @@ export function AppSidebar({ storeId }: Props) {
 
   return (
     <Sidebar
-      collapsible="none"
+      collapsible="offcanvas"
       className={cn(
         "sticky top-[65px] h-[calc(100vh-65px)] border-r bg-white max-sm:w-16"
       )}

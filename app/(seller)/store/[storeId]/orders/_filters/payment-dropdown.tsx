@@ -56,7 +56,7 @@ export function PaymentDropdown() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          className="flex items-center gap-2 p-0 border-dashed"
+          className="flex items-center gap-2 p-0 border-dashed "
           onClick={() => setOpen((prev) => !prev)}
         >
           <PlusCircle className="h-4 w-4" />

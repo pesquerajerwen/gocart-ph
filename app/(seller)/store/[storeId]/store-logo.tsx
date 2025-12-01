@@ -13,7 +13,7 @@ export default async function StoreLogo({ storeId }: Props) {
   if (!store) return redirect("/not-found");
 
   return (
-    <SidebarHeader className="data-[state=collapsed]:hidden max-sm:hidden">
+    <SidebarHeader className="data-[state=collapsed]:hidden">
       <div className="flex flex-col justify-center items-center gap-3 my-4">
         <Image
           src={store.avatarUrl}

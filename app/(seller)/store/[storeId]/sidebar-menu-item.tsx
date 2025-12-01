@@ -22,7 +22,7 @@ export default function SideBarMenuItem(item: SidebarItem) {
         <Link href={item.url} className="pl-6 flex justify-between gap-3">
           <div className="flex items-center gap-2 text-slate-500">
             <Icon className="size-5" />
-            <span className="max-sm:hidden">{item.title}</span>
+            <span>{item.title}</span>
           </div>
           {pathname === item.url && (
             <span className="h-full w-1 rounded-tl-md rounded-bl-md bg-green-600" />
