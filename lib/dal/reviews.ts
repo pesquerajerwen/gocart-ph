@@ -17,6 +17,7 @@ export async function getProductReviews({
       skip,
       take: size,
       where: { productId },
+      orderBy: { createdAt: "desc" },
       include: {
         user: {
           select: {
@@ -55,6 +56,7 @@ export async function getStoreReviews({
       skip,
       take: size,
       where: { product: { storeId } },
+      orderBy: { createdAt: "desc" },
       include: {
         user: {
           select: {

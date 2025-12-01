@@ -31,7 +31,7 @@ export function InfiniteScrollLoader({
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
         >
-          🎉 You’ve reached the end!
+          You’ve reached the end!
         </motion.div>
       )}
     </div>

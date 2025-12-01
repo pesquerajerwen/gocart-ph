@@ -1,4 +1,5 @@
 import StarRating from "@/components/star-rating";
+import { formatCurrency } from "@/lib/helpers";
 import { ProductWithImages } from "@/lib/types/product";
 import { Tag } from "lucide-react";
 import { Fragment } from "react";
@@ -27,11 +28,11 @@ export default function ProductSpecs({ product }: Props) {
       {/* Price & Discount */}
       <div className="flex items-start gap-3 mt-5">
         <span className="text-2xl text-green-600 font-bold">
-          P{product.offerPrice.toFixed(2)}
+          {formatCurrency(product.offerPrice, "PHP", "en-PH")}
         </span>
         {product.actualPrice && (
           <span className="text-xl text-slate-500 font-bold line-through">
-            P{product.actualPrice.toFixed(2)}
+            {formatCurrency(product.actualPrice, "PHP", "en-PH")}
           </span>
         )}
       </div>

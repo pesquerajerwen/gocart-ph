@@ -8,10 +8,16 @@ export async function GET(
 ) {
   try {
     const { id } = await context.params;
+    const { searchParams } = new URL(request.url);
+
+    const page = searchParams.get("page");
+    const size = searchParams.get("size");
 
     const { data, error } = getStoreReviewsSchema.safeParse({
       ...request,
       storeId: id,
+      page,
+      size,
     });
 
     if (error) {

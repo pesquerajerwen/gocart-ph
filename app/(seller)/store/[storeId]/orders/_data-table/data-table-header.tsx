@@ -65,8 +65,8 @@ export default function DataTableHeader({ table }: Props) {
                       disableSorting
                         ? "cursor-default"
                         : "cursor-pointer hover:text-slate-800",
-                      [4, 5, 6, 7].includes(index) && "justify-center",
-                      index === 3 && "justify-end"
+                      [3, 5, 6, 7, 8].includes(index) && "justify-center",
+                      index === 4 && "justify-end"
                     )}
                   >
                     {flexRender(

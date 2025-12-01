@@ -19,7 +19,7 @@ export type Order = {
 export const columns: ColumnDef<StoreOrder>[] = [
   {
     accessorKey: "orderId",
-    header: "ORDER ID",
+    header: "Order ID",
     cell: ({ row }) => <p className="text-green-600 px-2">{row.original.id}</p>,
   },
   {
@@ -33,10 +33,19 @@ export const columns: ColumnDef<StoreOrder>[] = [
     cell: ({ row }) => row.original.order.address.fullName,
   },
   {
+    accessorKey: "quantity",
+    header: "QTY",
+    cell: ({ row }) => (
+      <p className="uppercase text-center">{row.original.quantity}</p>
+    ),
+  },
+  {
     accessorKey: "subtotal",
     header: "Total",
     cell: ({ row }) => (
-      <p className="text-right">P {Number(row.original.subtotal).toFixed(2)}</p>
+      <p className="text-right">
+        P {(Number(row.original.subtotal) * row.original.quantity).toFixed(2)}
+      </p>
     ),
   },
   {

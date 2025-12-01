@@ -51,6 +51,11 @@ export const getStoreProductsSchema = z.object({
   storeId: z.string().default("").catch(""),
 });
 
+export const getStoreDashboard = z.object({
+  storeId: z.string().nonempty("Store ID is required"),
+});
+
 export type CreateStoreServerValues = z.infer<typeof createStoreServerSchema>;
 
 export type GetStoreProductsParams = z.infer<typeof getStoreProductsSchema>;
+export type GetStoreDashboardParams = z.infer<typeof getStoreDashboard>;

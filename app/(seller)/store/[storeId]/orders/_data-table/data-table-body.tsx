@@ -29,7 +29,7 @@ export default function DataTableBody({ table }: Props) {
               key={cell.id}
               className={cn(
                 "text-slate-600 h-12",
-                [3, 4, 6].includes(index) && "hidden sm:table-cell"
+                [2, 3, 4, 6].includes(index) && "hidden sm:table-cell"
               )}
             >
               {flexRender(cell.column.columnDef.cell, cell.getContext())}
