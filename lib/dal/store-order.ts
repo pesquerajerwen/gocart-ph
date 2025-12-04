@@ -151,9 +151,16 @@ function buildOrderItemWhere({
 
   if (search) {
     and.push({
-      order: {
-        address: { fullName: { contains: search, mode: "insensitive" } },
-      },
+      OR: [
+        {
+          order: {
+            address: { fullName: { contains: search, mode: "insensitive" } },
+          },
+        },
+        {
+          productName: { contains: search, mode: "insensitive" },
+        },
+      ],
     });
   }
 

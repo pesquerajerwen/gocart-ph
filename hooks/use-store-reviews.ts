@@ -28,7 +28,7 @@ export function useInfiniteStoreReviews(id: string) {
 
       const params = new URLSearchParams({
         page: String(page),
-        size: "1",
+        size: "10",
       });
 
       const response = await fetch(`/api/store/${id}/reviews?${params}`);

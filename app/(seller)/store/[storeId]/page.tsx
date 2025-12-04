@@ -6,7 +6,7 @@ export default async function StorePage({
 }: {
   params: { storeId: string };
 }) {
-  const { storeId } = params;
+  const { storeId } = await params;
 
   return (
     <div className="max-w-4xl">
