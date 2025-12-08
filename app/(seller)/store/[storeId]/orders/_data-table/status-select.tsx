@@ -32,9 +32,9 @@ export default function StatusSelect({ orderItemId, status }: Props) {
   }
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-end">
       <Select defaultValue={status} onValueChange={handleOnChange}>
-        <SelectTrigger className="w-auto border-0 shadow-none border-input focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 data-[state=open]:shadow-none">
+        <SelectTrigger className="w-auto border-0 shadow-none border-input focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 data-[state=open]:shadow-none px-0">
           <SelectValue placeholder="Select status" />
         </SelectTrigger>
         <SelectContent>

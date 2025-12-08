@@ -11,6 +11,8 @@ export default function StoreOrdersPagination({ totalPage }: Props) {
   const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
   const [size, setSize] = useQueryState("size", parseAsInteger.withDefault(10));
 
+  if (!totalPage) return null;
+
   async function onChangeRowsPerPage(value: string) {
     await Promise.all([setPage(1), setSize(Number(value))]);
   }

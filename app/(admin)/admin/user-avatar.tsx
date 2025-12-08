@@ -1,28 +1,28 @@
+import { assets } from "@/assets/assets";
 import { SidebarHeader } from "@/components/ui/sidebar";
-import { getStore } from "@/lib/dal/store";
+import { getCurrentUser } from "@/lib/dal/user";
+import { capitalize } from "lodash";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
-type Props = {
-  storeId: string;
-};
+export default async function UserAvatar() {
+  const user = await getCurrentUser();
 
-export default async function StoreLogo({ storeId }: Props) {
-  const store = await getStore({ storeId });
-
-  if (!store) return redirect("/not-found");
+  if (!user) redirect("/");
 
   return (
     <SidebarHeader className="data-[state=collapsed]:hidden">
       <div className="flex flex-col justify-center items-center gap-3 my-4">
         <Image
-          src={store.avatarUrl}
-          alt="store_logo"
+          src={user.avatarUrl || assets.image_not_available}
+          alt="user_avatar"
           className="shadow-md rounded-full border border-slate-100"
           width={64}
           height={64}
         />
-        <p>{store.name}</p>
+        <p>
+          {capitalize(user.firstName || "")} {capitalize(user.lastName || "")}
+        </p>
       </div>
     </SidebarHeader>
   );

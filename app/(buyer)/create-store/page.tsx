@@ -1,6 +1,15 @@
+import { getCurrentUser } from "@/lib/dal/user";
 import CreateStoreForm from "./form";
+import { getStore } from "@/lib/dal/store";
+import { redirect } from "next/navigation";
 
-export default function CreateStore() {
+export default async function CreateStorePage() {
+  const user = await getCurrentUser();
+
+  const store = await getStore({ userId: user?.id });
+
+  if (!!store) return redirect("/store/" + store.id);
+
   return (
     <main className="px-6 max-w-7xl mx-auto my-10 space-y-5">
       <div className="max-w-lg">

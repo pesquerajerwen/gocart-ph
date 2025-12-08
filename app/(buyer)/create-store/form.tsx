@@ -18,6 +18,7 @@ import { redirect } from "next/navigation";
 import EmailField from "./email-field";
 import { LoaderCircle } from "lucide-react";
 import { createClient } from "@/utils/supabase-client";
+import _ from "lodash";
 
 export default function CreateStoreForm() {
   const supabase = createClient();
@@ -44,7 +45,7 @@ export default function CreateStoreForm() {
     } = await supabase.auth.getUser();
 
     const { success, error, storeId } = await createStoreAction({
-      ...data,
+      ..._.omit(data, ["image"]),
       userId: user?.id,
       avatarUrl: data.imageUrl,
     });

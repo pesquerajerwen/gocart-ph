@@ -28,6 +28,8 @@ export default function TablePagination({ pagination }: Props) {
   const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
   const [size, setSize] = useQueryState("size", parseAsInteger.withDefault(5));
 
+  if (!pagination.totalPage) return null;
+
   return (
     <div className="flex max-sm:flex-col items-center justify-end mt-6 gap-6">
       <div className="flex items-center">

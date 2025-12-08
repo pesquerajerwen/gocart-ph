@@ -58,7 +58,7 @@ export default function Orders() {
   const pagination = data?.pagination || { totalPage: 0 };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 w-full">
       <h1 className="text-2xl text-slate-500">
         Store <span className="text-slate-800">Orders</span>
       </h1>
