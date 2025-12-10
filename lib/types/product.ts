@@ -23,6 +23,12 @@ export type ProductWithImages = Omit<
 > &
   ProductPrices;
 
+export type ProductWithImagesAndStore = ProductWithImages & {
+  store: Prisma.StoreGetPayload<{
+    select: { id: true; slug: true; name: true; avatarUrl: true };
+  }>;
+};
+
 export type ProductWithPrimaryImage = ProductPrices &
   Omit<Product, "actualPrice" | "offerPrice"> & {
     primaryImageUrl: string;

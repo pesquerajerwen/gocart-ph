@@ -1,27 +1,21 @@
 import { Store } from "@/generated/prisma/client";
 import { prisma } from "../db/client";
+import slugify from "slugify";
 
 type GetStoreProps = {
   storeId?: string;
   userId?: string;
+  slug?: string;
 };
 
-export async function getStore({ storeId, userId }: GetStoreProps) {
-  if (storeId) {
-    return prisma.store.findFirst({
-      where: {
-        id: storeId,
-      },
-    });
-  }
-
-  if (userId) {
-    return prisma.store.findFirst({
-      where: {
-        userId: userId,
-      },
-    });
-  }
+export async function getStore({ storeId, userId, slug }: GetStoreProps) {
+  return prisma.store.findFirst({
+    where: {
+      ...(storeId && { id: storeId }),
+      ...(userId && { userId }),
+      ...(slug && { slug }),
+    },
+  });
 }
 
 export async function createStore(
@@ -45,6 +39,7 @@ export async function createStore(
     data: {
       ...data,
       status: "pending",
+      slug: slugify(data.name),
     },
   });
 }

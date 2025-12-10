@@ -11,8 +11,6 @@ type Props = {
 export default function ProductSpecs({ product }: Props) {
   const reviewCount = Math.floor(product.totalRating / product.totalReviews);
 
-  console.log(product);
-
   return (
     <Fragment>
       <h1 className="text-3xl font-bold text-slate-900">{product.name}</h1>

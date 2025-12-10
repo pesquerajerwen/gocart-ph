@@ -49,6 +49,7 @@ export const getStoreProductsSchema = z.object({
     .catch(1),
   search: z.string().optional(),
   storeId: z.string().default("").catch(""),
+  slug: z.string().default("").catch(""),
 });
 
 export const getStoreDashboard = z.object({

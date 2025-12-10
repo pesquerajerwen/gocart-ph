@@ -11,12 +11,13 @@ export async function getStoreProducts(props: GetStoreProductsParams) {
 
   if (error) throw new Error(error.message);
 
-  const { page, size, search, sortKey, sortOrder, storeId } = data;
+  const { page, size, search, sortKey, sortOrder, storeId, slug } = data;
 
   const skip = (page - 1) * size;
 
   const where = {
-    storeId,
+    ...(storeId && { storeId }),
+    ...(slug && { store: { slug } }),
     ...(search && {
       name: {
         contains: search,
@@ -43,6 +44,7 @@ export async function getStoreProducts(props: GetStoreProductsParams) {
 
   const safeProducts = products.map((p) => ({
     ...p,
+    primaryImageUrl: p.productImages[0].url,
     actualPrice: p.actualPrice.toNumber(),
     offerPrice: p.offerPrice.toNumber(),
   }));

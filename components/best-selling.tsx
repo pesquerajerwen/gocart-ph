@@ -32,7 +32,9 @@ export default async function LatestProducts() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-12 w-full">
         {products.map((product) => (
           <div key={product.id} className="col-span-1">
-            <ProductCard product={product} />
+            <Link href={`/product/${product.id}`}>
+              <ProductCard product={product} />
+            </Link>
           </div>
         ))}
       </div>

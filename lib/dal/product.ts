@@ -110,6 +110,9 @@ export async function getProduct({ id }: GetProductParams) {
         select: { id: true, url: true, isPrimary: true },
         orderBy: { isPrimary: "desc" },
       },
+      store: {
+        select: { id: true, slug: true, name: true, avatarUrl: true },
+      },
     },
   });
 

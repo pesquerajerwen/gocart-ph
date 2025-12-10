@@ -1,9 +1,10 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ProductWithImagesAndStore } from "@/lib/types/product";
+import ProductDescription from "./product-description";
 import ProductReviews from "./product-reviews";
-import { ProductWithImages } from "@/lib/types/product";
 
 type Props = {
-  product: ProductWithImages;
+  product: ProductWithImagesAndStore;
 };
 
 export default function ProductTabs({ product }: Props) {
@@ -15,7 +16,7 @@ export default function ProductTabs({ product }: Props) {
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
         </TabsList>
         <TabsContent value="description" className="py-3">
-          <p className="text-sm text-slate-600">{product.description}</p>
+          <ProductDescription product={product} />
         </TabsContent>
         <TabsContent value="reviews" className="py-3">
           <ProductReviews productId={product.id} />
