@@ -12,6 +12,8 @@ import React, { Suspense } from "react";
 import Loading from "./loading";
 import { AppSidebar } from "./sidebar";
 import { CustomSidebarTrigger } from "./sidebar-trigger";
+import { getStoreStatus } from "@/lib/dal/store";
+import StorePendingPage from "./pending";
 
 export const dynamic = "force-dynamic";
 
@@ -36,9 +38,35 @@ async function LayoutWrapper({
   children: React.ReactNode;
   params: Promise<{ storeId: string }>;
 }>) {
-  const user = await getCurrentUser();
-
   const { storeId } = await params;
+
+  const [user, store] = await Promise.all([
+    getCurrentUser(),
+    getStoreStatus({ storeId }),
+  ]);
+
+  function renderPending() {
+    return (
+      <div className="w-full">
+        <StorePendingPage />
+      </div>
+    );
+  }
+
+  function renderContent() {
+    return (
+      <SidebarProvider className="min-h-0 flex flex-1">
+        <AppSidebar storeId={storeId} />
+
+        <main className="flex flex-col flex-1 overflow-y-auto space-y-3 py-3 sm:py-6">
+          <div className="px-3 sm:hidden">
+            <CustomSidebarTrigger />
+          </div>
+          <div className="flex flex-1 px-6 sm:px-12">{children}</div>
+        </main>
+      </SidebarProvider>
+    );
+  }
 
   return (
     <React.Fragment>
@@ -54,16 +82,7 @@ async function LayoutWrapper({
           </div>
         </header>
         <div className="flex flex-1 ">
-          <SidebarProvider className="min-h-0 flex flex-1">
-            <AppSidebar storeId={storeId} />
-
-            <main className="flex flex-col flex-1 overflow-y-auto space-y-3 py-3 sm:py-6">
-              <div className="px-3 sm:hidden">
-                <CustomSidebarTrigger />
-              </div>
-              <div className="flex flex-1 px-6 sm:px-12">{children}</div>
-            </main>
-          </SidebarProvider>
+          {store?.status === "pending" ? renderPending() : renderContent()}
         </div>
       </div>
     </React.Fragment>

@@ -1,3 +1,4 @@
+import { StoreStatus } from "@/generated/prisma/enums";
 import { z } from "zod";
 
 const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3 MB
@@ -52,11 +53,32 @@ export const getStoreProductsSchema = z.object({
   slug: z.string().default("").catch(""),
 });
 
+export const getStoresSchema = z.object({
+  size: z.coerce
+    .number()
+    .min(1, { message: "Size must be 1 or greater" })
+    .default(10)
+    .catch(10),
+  page: z.coerce
+    .number()
+    .min(1, { message: "Page must be 1 or greater" })
+    .default(1)
+    .catch(1),
+  status: z.array(z.enum(StoreStatus)).optional(),
+});
+
 export const getStoreDashboard = z.object({
   storeId: z.string().nonempty("Store ID is required"),
+});
+
+export const updateStoreStatusSchema = z.object({
+  id: z.string(),
+  status: z.enum(StoreStatus),
 });
 
 export type CreateStoreServerValues = z.infer<typeof createStoreServerSchema>;
 
 export type GetStoreProductsParams = z.infer<typeof getStoreProductsSchema>;
+export type GetStoresParams = z.infer<typeof getStoresSchema>;
 export type GetStoreDashboardParams = z.infer<typeof getStoreDashboard>;
+export type UpdateStoreStatusParams = z.infer<typeof updateStoreStatusSchema>;

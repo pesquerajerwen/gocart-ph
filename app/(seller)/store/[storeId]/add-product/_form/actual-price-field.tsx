@@ -9,7 +9,9 @@ import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
 
 export default function ActualPriceField() {
-  const { control } = useFormContext();
+  const { control, trigger } = useFormContext();
+
+  function handleChange() {}
 
   return (
     <FormField

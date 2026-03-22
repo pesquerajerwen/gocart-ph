@@ -37,6 +37,7 @@ enum StoreStatus {
   pending
   verified
   deactivated
+  rejected
 }
 
 model User {

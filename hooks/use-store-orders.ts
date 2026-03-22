@@ -15,7 +15,7 @@ export function useStoreOrders(params: GetStoreOrdersParams) {
         page: rest.page.toString(),
       });
 
-      const res = await fetch(`/api/store/${storeId}/orders?${searchParams}`);
+      const res = await fetch(`/api/stores/${storeId}/orders?${searchParams}`);
 
       if (!res.ok) {
         throw new Error("Failed to fetch store orders");

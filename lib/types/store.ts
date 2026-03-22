@@ -1,4 +1,4 @@
-import { Prisma } from "@/generated/prisma/client";
+import { Prisma, Store } from "@/generated/prisma/client";
 import { Pagination } from "./global";
 
 export type StoreOrder = Prisma.OrderItemGetPayload<{
@@ -74,5 +74,14 @@ export type StoreReview = Prisma.ReviewGetPayload<{
 
 export type StoreReviews = {
   data: StoreReview[];
+  pagination: Pagination;
+};
+
+export type StoreWithUser = Prisma.StoreGetPayload<{
+  include: { user: true };
+}> & {};
+
+export type PendingStores = {
+  data: StoreWithUser[];
   pagination: Pagination;
 };

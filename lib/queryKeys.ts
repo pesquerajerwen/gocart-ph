@@ -41,3 +41,7 @@ export const storeReviewKeys = {
   details: () => [...storeReviewKeys.all, "detail"] as const,
   detail: (id: string) => [...storeReviewKeys.details(), id] as const,
 };
+
+export const pendingStoreKeys = {
+  all: ["pendingStores"] as const,
+};

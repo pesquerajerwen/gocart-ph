@@ -1,23 +1,24 @@
-import StoreCard from "@/components/store-card";
-import { Button } from "@/components/ui/button";
+"use client";
+
+import { useInfinitePendingStores } from "@/hooks/use-infinite-pending-stores";
+import EmptyState from "./empty";
+import StoreList from "./store-list";
 
 export default function ApproveStore() {
+  const { data, isLoading } = useInfinitePendingStores();
+
+  if (!isLoading && (!data || data?.pages?.[0].data.length === 0)) {
+    return <EmptyState />;
+  }
+
   return (
-    <div>
+    <div className="w-full">
       <h1 className="text-2xl text-slate-500">
         Approve <span className="text-slate-800">Stores</span>
       </h1>
-      <section className="mt-8 space-y-6">
-        {new Array(5).fill(null).map((i, index) => (
-          <StoreCard key={index}>
-            <StoreCard.Action>
-              <Button className="w-20">Approve</Button>
-              <Button className="w-20" variant="secondary">
-                Reject
-              </Button>
-            </StoreCard.Action>
-          </StoreCard>
-        ))}
+
+      <section className="mt-8">
+        <StoreList />
       </section>
     </div>
   );

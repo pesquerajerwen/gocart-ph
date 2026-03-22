@@ -6,7 +6,7 @@ export function useStoreReviews(id: string) {
   return useQuery<StoreReviews>({
     queryKey: storeReviewKeys.list({ id }),
     queryFn: async () => {
-      const res = await fetch(`/api/store/${id}/reviews`);
+      const res = await fetch(`/api/stores/${id}/reviews`);
 
       if (!res.ok) {
         throw new Error("Failed to fetch store reviews");
@@ -31,7 +31,7 @@ export function useInfiniteStoreReviews(id: string) {
         size: "10",
       });
 
-      const response = await fetch(`/api/store/${id}/reviews?${params}`);
+      const response = await fetch(`/api/stores/${id}/reviews?${params}`);
 
       if (!response.ok) {
         throw new Error("Failed to fetch store reviews");

@@ -6,7 +6,7 @@ export function useStoreProducts(id: string) {
   return useQuery<StoreProducts>({
     queryKey: storeProductKeys.all,
     queryFn: async () => {
-      const res = await fetch(`/api/store/${id}/products`);
+      const res = await fetch(`/api/stores/${id}/products`);
 
       if (!res.ok) {
         throw new Error("Failed to fetch store products");

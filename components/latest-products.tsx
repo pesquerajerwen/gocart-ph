@@ -4,7 +4,7 @@ import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 
 export default async function LatestProducts() {
-  const { data: products } = await getProductsWithRating({
+  const { data: products, pagination } = await getProductsWithRating({
     sortKey: "createdAt",
     sortOrder: "desc",
     size: 4,
@@ -19,7 +19,9 @@ export default async function LatestProducts() {
           </h2>
         </Link>
         <div className="flex items-center gap-2 text-sm">
-          <p>Showing 4 of 12 products</p>
+          <p>
+            Showing {products.length} of {pagination.totalCount} products
+          </p>
 
           <p className="flex items-center gap-1 text-green-500 cursor-pointer">
             View more

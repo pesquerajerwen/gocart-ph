@@ -1,14 +1,47 @@
-import { assets } from "@/assets/assets";
 import { MapPin, Phone, Mail } from "lucide-react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import React from "react";
 import { Card, CardContent } from "./ui/card";
 
-type StoreCardProps = {
+export type StoreCardProps = {
   children?: React.ReactNode;
+
+  // Store info
+  logo: StaticImageData | string;
+  name: string;
+  username: string;
+  statusLabel: string;
+  statusColorClass?: string; // e.g. "bg-green-100 text-green-700"
+  description: string;
+
+  // Contact info
+  address: string;
+  phone: string;
+  email: string;
+
+  // Applicant info
+  appliedDate: string;
+  applicantName: string;
+  applicantEmail: string;
+  applicantAvatar: StaticImageData | string;
 };
 
-export default function StoreCard({ children }: StoreCardProps) {
+export default function StoreCard({
+  children,
+  logo,
+  name,
+  username,
+  statusLabel,
+  statusColorClass = "bg-green-100 text-green-700",
+  description,
+  address,
+  phone,
+  email,
+  appliedDate,
+  applicantName,
+  applicantEmail,
+  applicantAvatar,
+}: StoreCardProps) {
   let actionSlot: React.ReactNode = null;
 
   React.Children.forEach(children, (child: any) => {
@@ -22,48 +55,48 @@ export default function StoreCard({ children }: StoreCardProps) {
         {/* Header Section */}
         <section className="space-y-1">
           <div className="size-24 relative rounded-full overflow-hidden shadow">
-            <Image src={assets.gs_logo} alt={"store_logo"} fill />
+            <Image src={logo} alt={`${name} logo`} fill />
           </div>
-          <div className="flex items-center gap-3">
-            <p className="font-bold text-lg">GreatStack</p>
-            <p className="text-slate-500 text-sm">@greatstack</p>
-            <div className="rounded-full bg-green-100 text-green-700 px-4 py-1 text-xs font-bold items-center flex">
-              Approved
+
+          <div className="flex items-center gap-3 flex-wrap">
+            <p className="font-bold text-lg">{name}</p>
+            <p className="text-slate-500 text-sm">@{username}</p>
+            <div
+              className={`rounded-full px-4 py-1 text-xs font-bold flex items-center ${statusColorClass}`}
+            >
+              {statusLabel}
             </div>
           </div>
 
-          <p className="text-sm text-slate-600">
-            GreatStack is the education marketplace where you can buy goodies
-            related to coding and tech
-          </p>
+          <p className="text-sm text-slate-600">{description}</p>
         </section>
 
         {/* Info Section */}
         <section className="space-y-1">
           <p className="text-slate-600 text-sm gap-2 flex items-center">
-            <MapPin className="size-4 text-slate-600 " /> 794 Francisco, 94102
+            <MapPin className="size-4" /> {address}
           </p>
           <p className="text-slate-600 text-sm gap-2 flex items-center">
-            <Phone className="size-4 text-slate-600 " /> +1-212-456-7890
+            <Phone className="size-4" /> {phone}
           </p>
           <p className="text-slate-600 text-sm gap-2 flex items-center">
-            <Mail className="size-4 text-slate-600 " /> greatstack@example.com
+            <Mail className="size-4" /> {email}
           </p>
         </section>
 
         {/* Footer + Action Slot */}
-        <section className="space-y-1 flex justify-between items-end">
+        <section className="flex justify-between items-end gap-4">
           <section className="space-y-1">
-            <p className="text-sm text-slate-600">Applied on 8/22/2025 by</p>
+            <p className="text-sm text-slate-600">
+              Applied on {appliedDate} by
+            </p>
             <div className="flex gap-2">
               <div className="size-10 relative rounded-full overflow-hidden">
-                <Image src={assets.user_icon} alt={"store_logo"} fill />
+                <Image src={applicantAvatar} alt={applicantName} fill />
               </div>
               <div>
-                <p className="text-sm">GreatStack</p>
-                <p className="text-slate-400 text-sm">
-                  user.greatstack@gmail.com
-                </p>
+                <p className="text-sm">{applicantName}</p>
+                <p className="text-slate-400 text-sm">{applicantEmail}</p>
               </div>
             </div>
           </section>
