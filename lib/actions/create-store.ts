@@ -1,5 +1,6 @@
 "use server";
 
+import slugify from "slugify";
 import { createStore } from "../dal/store";
 import { getUserBySupabaseId } from "../dal/user";
 import { createStoreServerSchema } from "../schema/store";
@@ -33,6 +34,7 @@ export async function createStoreAction(rawData: unknown) {
     const { id } = await createStore({
       ...parsed.data,
       userId: user.id,
+      slug: slugify(parsed.data.name, { lower: true, strict: true }),
     });
 
     storeId = id;

@@ -88,7 +88,6 @@ export async function createStore(
     data: {
       ...data,
       status: "pending",
-      slug: slugify(data.name),
     },
   });
 }
@@ -100,5 +99,6 @@ export async function updateStoreStatus({
   return prisma.store.update({
     where: { id },
     data: { status },
+    include: { user: true },
   });
 }

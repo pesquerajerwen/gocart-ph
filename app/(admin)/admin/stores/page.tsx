@@ -32,7 +32,7 @@ export default async function StoresPage() {
             description={store.description}
             address={store.address}
             phone={store.contact}
-            email={store.user?.email || ""}
+            email={store.email || ""}
             appliedDate={dayjs(store.createdAt).format("MMMM D, YYYY")}
             applicantName={store.user.firstName + " " + store.user.lastName}
             applicantEmail={store.user?.email || ""}

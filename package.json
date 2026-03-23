@@ -10,8 +10,8 @@
     "start": "next start",
     "db:seed": "tsx prisma/seed.ts"
   },
-  
   "dependencies": {
+    "@getbrevo/brevo": "^5.0.1",
     "@harlandgomez/addresspinas": "^2.1.4",
     "@hookform/resolvers": "^5.2.2",
     "@prisma/adapter-pg": "^7.0.0",

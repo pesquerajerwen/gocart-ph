@@ -1,5 +1,7 @@
 "use server";
 
+import { storeRejectedTemplate } from "@/email-templates/store-rejected";
+import { sendEmail } from "../brevo";
 import { updateStoreStatus } from "../dal/store";
 import { updateStoreStatusSchema } from "../schema/store";
 
@@ -16,7 +18,24 @@ export async function rejectStoreAction(rawData: unknown) {
   }
 
   try {
-    await updateStoreStatus({ id: parsed.data.id, status: "rejected" });
+    const store = await updateStoreStatus({
+      id: parsed.data.id,
+      status: "rejected",
+    });
+
+    const requests = [store.email, store.user.email].map((email) =>
+      sendEmail({
+        to: email,
+        subject: "Your GoCart Store Application Has Been Reviewed",
+        htmlContent: storeRejectedTemplate({
+          storeOwnerName: store.user.firstName || `${store.name} owner`,
+          storeName: store.name,
+          rejectionReason: "The store does not meet our quality standards.",
+        }),
+      }),
+    );
+
+    await Promise.all(requests);
   } catch (error) {
     return {
       success: false,

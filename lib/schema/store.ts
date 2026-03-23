@@ -49,8 +49,8 @@ export const getStoreProductsSchema = z.object({
     .default(1)
     .catch(1),
   search: z.string().optional(),
-  storeId: z.string().default("").catch(""),
-  slug: z.string().default("").catch(""),
+  storeId: z.string().optional(),
+  slug: z.string().optional(),
 });
 
 export const getStoresSchema = z.object({
