@@ -14,7 +14,7 @@ export default function GoogleSignin() {
       provider: "google",
       options: {
         redirectTo: `${
-          window.location.origin
+          process.env.NEXT_PUBLIC_SITE_URL
         }/google/confirm?next=${encodeURIComponent(next)}`,
         queryParams: {
           access: "offline",
