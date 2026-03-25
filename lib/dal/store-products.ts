@@ -1,8 +1,11 @@
 import { prisma } from "../db/client";
 import {
+  DeactivateStoreProductsParams,
+  deactivateStoreProductsSchema,
   GetStoreProductsParams,
   getStoreProductsSchema,
 } from "../schema/store";
+import { DBClient } from "../types/prisma";
 
 export async function getStoreProducts(props: GetStoreProductsParams) {
   const parseGetProductPayload = getStoreProductsSchema.safeParse(props);
@@ -58,4 +61,20 @@ export async function getStoreProducts(props: GetStoreProductsParams) {
       totalPage: Math.ceil(count / size),
     },
   };
+}
+
+export async function deactivateStoreProducts(
+  props: DeactivateStoreProductsParams,
+  db: DBClient = prisma,
+) {
+  const parsed = deactivateStoreProductsSchema.safeParse(props);
+
+  const { data, error } = parsed;
+
+  if (error) throw new Error(error.message);
+
+  return await db.product.updateMany({
+    where: { storeId: data.storeId },
+    data: { status: "deactivated" },
+  });
 }

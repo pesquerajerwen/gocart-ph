@@ -1,4 +1,5 @@
 import { getStore } from "@/lib/dal/store";
+import { getRole } from "@/lib/dal/user";
 import Link from "next/link";
 
 type Props = {
@@ -6,7 +7,10 @@ type Props = {
 };
 
 export default async function NavLinks({ userId }: Props) {
-  const store = userId ? await getStore({ userId }) : undefined;
+  const [store, role] = await Promise.all([
+    userId ? getStore({ userId }) : Promise.resolve(undefined),
+    userId ? getRole({ userId }) : Promise.resolve(undefined),
+  ]);
 
   return (
     <div className="hidden sm:flex flex-row gap-6">
@@ -20,9 +24,11 @@ export default async function NavLinks({ userId }: Props) {
           Seller
         </Link>
       )}
-      <Link href={"/admin"} className="border-b-2 border-green-600">
-        Admin
-      </Link>
+      {role?.name === "admin" && (
+        <Link href={"/admin"} className="border-b-2 border-green-600">
+          Admin
+        </Link>
+      )}
     </div>
   );
 }

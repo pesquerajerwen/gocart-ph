@@ -35,7 +35,7 @@ export async function rejectStoreAction(rawData: unknown) {
       }),
     );
 
-    await Promise.all(requests);
+    Promise.all(requests);
   } catch (error) {
     return {
       success: false,

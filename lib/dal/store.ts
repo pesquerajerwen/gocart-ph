@@ -1,7 +1,7 @@
-import { Store } from "@/generated/prisma/client";
+import { Prisma, PrismaClient, Store } from "@/generated/prisma/client";
 import { prisma } from "../db/client";
-import slugify from "slugify";
 import { GetStoresParams, UpdateStoreStatusParams } from "../schema/store";
+import { DBClient } from "../types/prisma";
 
 type GetStoreProps = {
   storeId?: string;
@@ -92,11 +92,11 @@ export async function createStore(
   });
 }
 
-export async function updateStoreStatus({
-  id,
-  status,
-}: UpdateStoreStatusParams) {
-  return prisma.store.update({
+export async function updateStoreStatus(
+  { id, status }: UpdateStoreStatusParams,
+  db: DBClient = prisma,
+) {
+  return db.store.update({
     where: { id },
     data: { status },
     include: { user: true },

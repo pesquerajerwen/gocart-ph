@@ -1,6 +1,7 @@
 import { createClient } from "@/utils/supabase-server";
 import { prisma } from "../db/client";
 import { faker } from "@faker-js/faker";
+import { GetRoleParams } from "../schema/user";
 
 export type CreateUserProp = {
   email: string;
@@ -80,6 +81,16 @@ export async function upsertUser(data: CreateUserProp) {
       avatarUrl: data.avatar_url,
       supabaseId: data.supabaseId,
       roleId: role.id,
+    },
+  });
+}
+
+export async function getRole({ userId }: GetRoleParams) {
+  return prisma.role.findFirst({
+    where: {
+      users: {
+        some: { id: userId },
+      },
     },
   });
 }

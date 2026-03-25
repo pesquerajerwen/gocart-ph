@@ -14,6 +14,7 @@ import { AppSidebar } from "./sidebar";
 import { CustomSidebarTrigger } from "./sidebar-trigger";
 import { getStoreStatus } from "@/lib/dal/store";
 import StorePendingPage from "./pending";
+import StoreDeactivatedPage from "./deactivated";
 
 export const dynamic = "force-dynamic";
 
@@ -53,6 +54,14 @@ async function LayoutWrapper({
     );
   }
 
+  function renderDeactivated() {
+    return (
+      <div className="w-full">
+        <StoreDeactivatedPage />
+      </div>
+    );
+  }
+
   function renderContent() {
     return (
       <SidebarProvider className="min-h-0 flex flex-1">
@@ -82,7 +91,9 @@ async function LayoutWrapper({
           </div>
         </header>
         <div className="flex flex-1 ">
-          {store?.status === "pending" ? renderPending() : renderContent()}
+          {store?.status === "pending" && renderPending()}
+          {store?.status === "deactivated" && renderDeactivated()}
+          {store?.status === "verified" && renderContent()}
         </div>
       </div>
     </React.Fragment>

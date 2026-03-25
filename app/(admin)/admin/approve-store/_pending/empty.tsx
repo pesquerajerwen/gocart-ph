@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export default function EmptyState() {
   return (
-    <div className="w-full flex items-center justify-center">
+    <div className="md:max-w-2xl flex items-center justify-center border rounded-lg py-16 shadow">
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}

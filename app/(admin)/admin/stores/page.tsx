@@ -1,19 +1,18 @@
-import StoreCard from "@/components/store-card";
-import { getStores } from "@/lib/dal/store";
-import dayjs from "dayjs";
-import { capitalize } from "lodash";
-import StoreCardAction from "./card-action";
-import Empty from "./empty";
+"use client";
 
-export default async function StoresPage() {
-  const stores = await getStores({
-    page: 1,
-    size: 10,
-    status: ["verified", "deactivated"],
+import { useInfiniteStores } from "@/hooks/use-infinite-stores";
+import EmptyState from "./empty";
+import StoreList from "./store-list";
+
+export const LIVE_STORE_STATUS = ["verified", "deactivated"];
+
+export default function StoresPage() {
+  const { data, isLoading } = useInfiniteStores({
+    status: LIVE_STORE_STATUS.join(","),
   });
 
-  if (!stores.data || stores.data.length === 0) {
-    return <Empty />;
+  if (!isLoading && (!data || data?.pages?.[0].data.length === 0)) {
+    return <EmptyState />;
   }
 
   return (
@@ -21,28 +20,9 @@ export default async function StoresPage() {
       <h1 className="text-2xl text-slate-500">
         Live <span className="text-slate-800">Stores</span>
       </h1>
-      <section className="mt-8 space-y-6">
-        {stores.data.map((store, index) => (
-          <StoreCard
-            key={index}
-            logo={store.avatarUrl}
-            name={store.name}
-            username={store.name.replace(/\s+/g, "").toLowerCase()}
-            statusLabel={capitalize(store.status)}
-            description={store.description}
-            address={store.address}
-            phone={store.contact}
-            email={store.email || ""}
-            appliedDate={dayjs(store.createdAt).format("MMMM D, YYYY")}
-            applicantName={store.user.firstName + " " + store.user.lastName}
-            applicantEmail={store.user?.email || ""}
-            applicantAvatar={store.user?.avatarUrl || ""}
-          >
-            <StoreCard.Action>
-              <StoreCardAction storeId={store.id} />
-            </StoreCard.Action>
-          </StoreCard>
-        ))}
+
+      <section className="mt-8">
+        <StoreList />
       </section>
     </div>
   );

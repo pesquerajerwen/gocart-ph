@@ -1,39 +1,88 @@
 "use client";
 
 import { Switch } from "@/components/ui/switch";
+import { StoreStatus } from "@/generated/prisma/enums";
 import { activateStoreAction } from "@/lib/actions/activate-store";
 import { deactivateStoreAction } from "@/lib/actions/deactivate-store";
-import React, { useTransition } from "react";
+import { storeKeys } from "@/lib/queryKeys";
+import { Stores } from "@/lib/types/store";
+import { InfiniteData, useQueryClient } from "@tanstack/react-query";
+import React, { useOptimistic, useTransition } from "react";
 import { toast } from "sonner";
+import { LIVE_STORE_STATUS } from "./page";
 
 type Props = {
   storeId: string;
+  status: StoreStatus;
 };
 
-export default function StoreCardAction({ storeId }: Props) {
+type Error = { message: string };
+
+export default function StoreCardAction({ storeId, status }: Props) {
+  const queryClient = useQueryClient();
+
   const [isPending, startTransition] = useTransition();
+
+  const [optimisticChecked, setOptimisticChecked] = useOptimistic(
+    status === "verified",
+    (_, newValue: boolean) => newValue,
+  );
 
   function onCheckedChange(checked: boolean) {
     startTransition(async () => {
-      if (checked) {
-        const { error } = await deactivateStoreAction({ id: storeId });
+      setOptimisticChecked(checked);
 
-        if (error) {
-          toast.error(error.message);
+      try {
+        if (checked) {
+          const { error } = await activateStoreAction({ id: storeId });
+          if (error) throw error;
+
+          await updateCache("verified");
+        } else {
+          const { error } = await deactivateStoreAction({ id: storeId });
+          if (error) throw error;
+
+          await updateCache("deactivated");
         }
-      } else {
-        const { error } = await activateStoreAction({ id: storeId });
-        if (error) {
-          toast.error(error.message);
-        }
+      } catch (error: unknown) {
+        setOptimisticChecked(!checked);
+        toast.error((error as Error).message || "Something went wrong");
       }
     });
   }
 
+  async function updateCache(status: StoreStatus) {
+    const queryKey = storeKeys.byStatus(LIVE_STORE_STATUS.join(","));
+
+    await queryClient.cancelQueries({ queryKey });
+
+    const previousData = queryClient.getQueryData(queryKey);
+
+    queryClient.setQueryData(
+      queryKey,
+      (oldData: InfiniteData<Stores, unknown>) => {
+        if (!oldData) return oldData;
+
+        return {
+          ...oldData,
+          pages: oldData.pages.map((page: any) => ({
+            ...page,
+            data: page.data.map((store: any) =>
+              store.id === storeId ? { ...store, status } : store,
+            ),
+          })),
+        };
+      },
+    );
+
+    return { previousData };
+  }
+
   return (
-    <React.Fragment>
-      <p className="text-slate-400 text-sm">Active</p>{" "}
-      <Switch onCheckedChange={onCheckedChange} />
-    </React.Fragment>
+    <Switch
+      checked={optimisticChecked}
+      onCheckedChange={onCheckedChange}
+      disabled={isPending}
+    />
   );
 }

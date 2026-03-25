@@ -14,5 +14,10 @@ export const createUserSchema = z.object({
   email: z.email("Invalid email address"),
 });
 
+export const getRoleSchema = z.object({
+  userId: z.string(),
+});
+
+export type GetRoleParams = z.infer<typeof getRoleSchema>;
 export type SignupSchema = z.infer<typeof signupSchema>;
 export type CreateUserSchema = z.infer<typeof createUserSchema>;

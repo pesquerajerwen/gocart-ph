@@ -1,6 +1,8 @@
 "use server";
 
 import { updateStoreStatus } from "../dal/store";
+import { deactivateStoreProducts } from "../dal/store-products";
+import { prisma } from "../db/client";
 import { updateStoreStatusSchema } from "../schema/store";
 
 export async function deactivateStoreAction(rawData: unknown) {
@@ -16,7 +18,14 @@ export async function deactivateStoreAction(rawData: unknown) {
   }
 
   try {
-    await updateStoreStatus({ id: parsed.data.id, status: "deactivated" });
+    await prisma.$transaction(async (tx) => {
+      await updateStoreStatus(
+        { id: parsed.data.id, status: "deactivated" },
+        tx,
+      );
+
+      await deactivateStoreProducts({ storeId: parsed.data.id }, tx);
+    });
   } catch (error) {
     return {
       success: false,

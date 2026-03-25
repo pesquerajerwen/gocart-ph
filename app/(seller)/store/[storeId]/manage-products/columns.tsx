@@ -7,6 +7,7 @@ import { ProductWithImages } from "@/lib/types/product";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import StatusSwitch from "./switch";
+import { formatCurrency } from "@/lib/helpers";
 
 export const columns: ColumnDef<ProductWithImages>[] = [
   {
@@ -45,13 +46,29 @@ export const columns: ColumnDef<ProductWithImages>[] = [
     accessorKey: "actualPrice",
     header: "MRP",
     size: 10,
-    cell: ({ row }) => <span>${row.original.actualPrice.toFixed(2)}</span>,
+    cell: ({ row }) => (
+      <span>
+        {formatCurrency({
+          amount: row.original.actualPrice,
+          currency: "PHP",
+          withDecimals: true,
+        })}
+      </span>
+    ),
   },
   {
     accessorKey: "offerPrice",
     header: "Price",
     size: 10,
-    cell: ({ row }) => <span>${row.original.offerPrice.toFixed(2)}</span>,
+    cell: ({ row }) => (
+      <span>
+        {formatCurrency({
+          amount: row.original.offerPrice,
+          currency: "PHP",
+          withDecimals: true,
+        })}
+      </span>
+    ),
   },
   {
     accessorKey: "actions",

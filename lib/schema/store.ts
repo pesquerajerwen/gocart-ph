@@ -76,9 +76,16 @@ export const updateStoreStatusSchema = z.object({
   status: z.enum(StoreStatus),
 });
 
+export const deactivateStoreProductsSchema = z.object({
+  storeId: z.string(),
+});
+
 export type CreateStoreServerValues = z.infer<typeof createStoreServerSchema>;
 
 export type GetStoreProductsParams = z.infer<typeof getStoreProductsSchema>;
 export type GetStoresParams = z.infer<typeof getStoresSchema>;
 export type GetStoreDashboardParams = z.infer<typeof getStoreDashboard>;
 export type UpdateStoreStatusParams = z.infer<typeof updateStoreStatusSchema>;
+export type DeactivateStoreProductsParams = z.infer<
+  typeof deactivateStoreProductsSchema
+>;

@@ -14,7 +14,7 @@ function ProductCard({ product, imageClass }: Props) {
     <div className="flex flex-col gap-2 group cursor-pointer">
       <div
         className={cn(
-          "bg-slate-100 p-4 rounded-sm flex justify-center items-center"
+          "bg-slate-100 p-4 rounded-sm flex justify-center items-center",
         )}
       >
         <div className={cn("relative size-32 max-h-40", imageClass)}>
@@ -31,7 +31,11 @@ function ProductCard({ product, imageClass }: Props) {
         <div className="flex justify-between text-sm gap-6">
           <p className="line-clamp-2">{product.name}</p>
           <p className="whitespace-nowrap">
-            {formatCurrency(product.offerPrice, "PHP")}
+            {formatCurrency({
+              amount: product.offerPrice,
+              currency: "PHP",
+              withDecimals: false,
+            })}
           </p>
         </div>
         <StarRating

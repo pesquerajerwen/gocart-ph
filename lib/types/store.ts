@@ -81,7 +81,7 @@ export type StoreWithUser = Prisma.StoreGetPayload<{
   include: { user: true };
 }> & {};
 
-export type PendingStores = {
+export type Stores = {
   data: StoreWithUser[];
   pagination: Pagination;
 };

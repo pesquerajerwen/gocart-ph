@@ -1,15 +1,15 @@
-import { assets } from "@/assets/assets";
-import { Clock, Store } from "lucide-react";
 import Image from "next/image";
+import { Ban, Store } from "lucide-react";
+import { assets } from "@/assets/assets";
 
-export default function StorePendingPage() {
+export default function StoreDeactivatedPage() {
   return (
     <div className="relative flex flex-col min-h-[80vh] items-center justify-center px-6 overflow-hidden bg-background">
       {/* Background Image */}
       <div className="flex items-center justify-center pointer-events-none">
         <Image
-          src={assets.pending_store}
-          alt="Pending store background"
+          src={assets.deactivated_store}
+          alt="Deactivated store background"
           width={1200}
           height={1200}
           className="opacity-30 object-contain"
@@ -20,17 +20,19 @@ export default function StorePendingPage() {
       {/* Content */}
       <div className="absolute bottom-16 max-w-md text-center space-y-6">
         <div className="space-y-2">
-          <h1 className="text-2xl font-semibold">Your store is under review</h1>
+          <h1 className="text-2xl font-semibold">
+            Your store has been deactivated
+          </h1>
           <p className="text-sm text-muted-foreground">
-            Thanks for setting up your store. Our team is currently reviewing
-            your application. You’ll be able to access and manage your store
-            once it has been approved.
+            Your store is currently not accessible and you can no longer manage
+            products, orders, or other store settings. This action was taken by
+            the admin.
           </p>
         </div>
 
         <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
           <Store className="size-4" />
-          <span>Approval usually takes a short time</span>
+          <span>If you believe this is a mistake, please contact support</span>
         </div>
       </div>
     </div>

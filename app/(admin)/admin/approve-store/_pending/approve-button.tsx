@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { approveStoreAction } from "@/lib/actions/approve-store";
-import { pendingStoreKeys } from "@/lib/queryKeys";
+import { storeKeys } from "@/lib/queryKeys";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTransition } from "react";
 import { toast } from "sonner";
@@ -24,7 +24,9 @@ export default function ApproveButton({ storeId }: Props) {
 
       toast.success("Store approved successfully");
 
-      queryClient.invalidateQueries({ queryKey: pendingStoreKeys.all });
+      queryClient.invalidateQueries({
+        queryKey: storeKeys.byStatus("pending"),
+      });
     });
   }
 

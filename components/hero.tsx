@@ -17,7 +17,7 @@ const Hero = () => {
                 NEWS
               </span>{" "}
               Free Shipping on Orders Above{" "}
-              {formatCurrency(100, "PHP", "en-PH")}
+              {formatCurrency({ amount: 50, currency: "PHP", locale: "en-PH" })}
               <ChevronRightIcon
                 className="group-hover:ml-2 transition-all"
                 size={16}
@@ -28,7 +28,13 @@ const Hero = () => {
             </h2>
             <div className="text-slate-800 text-sm font-medium mt-4 sm:mt-8">
               <p>Starts from</p>
-              <p className="text-3xl">{formatCurrency(44, "PHP", "en-PH")}</p>
+              <p className="text-3xl">
+                {formatCurrency({
+                  amount: 44,
+                  currency: "PHP",
+                  locale: "en-PH",
+                })}
+              </p>
             </div>
             <button className="bg-slate-800 text-white text-sm py-2.5 px-7 sm:py-5 sm:px-12 mt-4 sm:mt-10 rounded-md hover:bg-slate-900 hover:scale-103 active:scale-95 transition">
               LEARN MORE

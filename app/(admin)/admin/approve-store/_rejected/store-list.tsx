@@ -2,19 +2,17 @@
 
 import { InfiniteScrollLoader } from "@/components/infinite-scroll-loader";
 import StoreCard from "@/components/store-card";
-import { useInfinitePendingStores } from "@/hooks/use-infinite-pending-stores";
+import { StoreStatus } from "@/generated/prisma/enums";
+import { useInfiniteStores } from "@/hooks/use-infinite-stores";
 import useIntersectionObserver from "@/hooks/use-intersection-observer";
 import dayjs from "dayjs";
-import { capitalize } from "lodash";
 import React from "react";
-import ApproveButton from "./approve-button";
 import EmptyState from "./empty";
-import RejectButton from "./reject-button";
-import StoreCardSkeleton from "./skeleton";
+import StoreCardSkeleton from "../skeleton";
 
-export default function StoreList() {
+export default function RejectedStoreList() {
   const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
-    useInfinitePendingStores();
+    useInfiniteStores({ status: StoreStatus.rejected });
 
   const { ref } = useIntersectionObserver({
     onIntersect: () => fetchNextPage(),
@@ -37,10 +35,11 @@ export default function StoreList() {
           {page.data.map((store) => (
             <StoreCard
               key={store.id}
+              variant="declined"
               logo={store.avatarUrl}
               name={store.name}
               username={store.name.replace(/\s+/g, "").toLowerCase()}
-              statusLabel={capitalize(store.status)}
+              status={store.status}
               description={store.description}
               address={store.address}
               phone={store.contact}
@@ -49,12 +48,7 @@ export default function StoreList() {
               applicantName={store.user.firstName + " " + store.user.lastName}
               applicantEmail={store.user?.email || ""}
               applicantAvatar={store.user?.avatarUrl || ""}
-            >
-              <StoreCard.Action>
-                <ApproveButton storeId={store.id} />
-                <RejectButton storeId={store.id} />
-              </StoreCard.Action>
-            </StoreCard>
+            />
           ))}
         </React.Fragment>
       ))}

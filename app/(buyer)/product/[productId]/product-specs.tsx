@@ -29,11 +29,19 @@ export default function ProductSpecs({ product }: Props) {
       {/* Price & Discount */}
       <div className="flex items-start gap-3 mt-5">
         <span className="text-2xl text-green-600 font-bold">
-          {formatCurrency(product.offerPrice, "PHP", "en-PH")}
+          {formatCurrency({
+            amount: product.offerPrice,
+            currency: "PHP",
+            locale: "en-PH",
+          })}
         </span>
         {product.actualPrice && (
           <span className="text-xl text-slate-500 font-bold line-through">
-            {formatCurrency(product.actualPrice, "PHP", "en-PH")}
+            {formatCurrency({
+              amount: product.actualPrice,
+              currency: "PHP",
+              locale: "en-PH",
+            })}
           </span>
         )}
       </div>
@@ -45,7 +53,7 @@ export default function ProductSpecs({ product }: Props) {
           Save{" "}
           {Math.round(
             ((product.actualPrice - product.offerPrice) / product.actualPrice) *
-              100
+              100,
           )}
           % right now
         </div>

@@ -21,6 +21,8 @@ import document_search from "./document-search.png";
 import image_not_available from "./image_not_available.png";
 import stumbled_robot from "./stumbled-robot.png";
 import empty_cart from "./empty-cart.png";
+import deactivated_store from "./deactivated-store.png";
+import pending_store from "./pending-store.png";
 
 export const assets = {
   upload_area,
@@ -46,4 +48,6 @@ export const assets = {
   image_not_available,
   stumbled_robot,
   empty_cart,
+  deactivated_store,
+  pending_store,
 };

@@ -29,11 +29,11 @@ export default async function Dashboard({ storeId }: { storeId: string }) {
 
   function renderValue(dashboardItem: string) {
     if (dashboardItem === "Total Earnings") {
-      return formatCurrency(
-        Number(totalEarnings._sum.subtotal) || 0,
-        "PHP",
-        "en-PH"
-      );
+      return formatCurrency({
+        amount: Number(totalEarnings._sum.subtotal) || 0,
+        currency: "PHP",
+        locale: "en-PH",
+      });
     }
     if (dashboardItem === "Total Products") {
       return totalProducts;

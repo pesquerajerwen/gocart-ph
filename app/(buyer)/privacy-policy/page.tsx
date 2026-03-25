@@ -72,7 +72,7 @@ export default function PrivacyPolicyPage() {
             href="mailto:support@example.com"
             className="text-blue-600 underline"
           >
-            gocart-ph@gmail.com
+            gocart-ph@online.com
           </Link>
           .
         </p>
